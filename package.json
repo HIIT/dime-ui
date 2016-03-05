@@ -12,14 +12,12 @@
     "type": "git",
     "url": "git+https://github.com/HIIT/dime-ui.git"
   },
-  "author": "Hung-Han Chen <chenhungh@gmail.com> (http://chenhunghan.github.io)",
+  "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/HIIT/dime-ui/issues"
   },
   "homepage": "https://github.com/HIIT/dime-ui#readme",
-  "author": "",
-  "license": "ISC",
   "devDependencies": {
     "babel-core": "^6.2.1",
     "babel-loader": "^6.2.0",
@@ -36,6 +34,7 @@
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-redux": "^4.0.0",
+    "react-router": "^2.0.0",
     "redux": "^3.0.4",
     "redux-promise": "^0.5.1"
   }
