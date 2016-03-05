@@ -1,8 +1,8 @@
 import axios from 'axios'
 
-const username = 'username'
-const password = 'password'
-const RESTServerAddress = 'localhost:8080'
+const username = 'chh'
+const password = '12345'
+const RESTServerAddress = 'localhost:3000'
 
 export const EVENT_SEARCH = 'EVENT_SEARCH'
 export const FETCH_EVENTS = 'FETCH_EVENTS'
