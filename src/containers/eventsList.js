@@ -1,14 +1,14 @@
 import React from 'react';
 import { Component } from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators} from 'redux'
+//import { bindActionCreators } from 'redux'
 import moment from 'moment'
 
 import { fetchEvents } from '../actions/index.js'
 
 class EventsList extends Component {
-    constructor(props){
-        super(props)
+    componentWillMount() {
+        this.props.fetchEvents()
     }
     render() {
         return (
@@ -38,13 +38,15 @@ class EventsList extends Component {
             </div>
         )
     }
-    componentDidMount() {
-        this.props.dispatch(fetchEvents())
-    }
+
 }
 
 function mapStateToProps(state) {
     return { events: state.events }
 }
 
-export default connect(mapStateToProps)(EventsList)
+//function mapDispatchToProps(dispatch) {
+//    return bindActionCreators({fetchEvents}, dispatch )
+//}
+//export default connect(mapStateToProps, mapDispatchToProps)(EventsList)
+export default connect(mapStateToProps, { fetchEvents })(EventsList)
