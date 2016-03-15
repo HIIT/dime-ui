@@ -3,6 +3,10 @@ import { connect } from 'react-redux'
 import { bindActionCreators} from 'redux'
 import { eventSearch } from '../actions/index.js'
 
+const searchBar = {
+    marginTop: '250px'
+};
+
 class SearchBar extends Component {
 
     constructor(props) {
@@ -24,20 +28,24 @@ class SearchBar extends Component {
 
     render() {
         return (
-            <form onSubmit={this.onFormSubmit} className="input-group">
-                <input
-                    placeholder="Search Events"
-                    className="form-control"
-                    value={this.state.keyword}
-                    onChange={this.onInputChange}
-                />
-                <span className="input-group-btn">
-                    <button type="submit"
-                            className="btn btn-secondary">
-                        Search
-                    </button>
-                </span>
-            </form>
+            <div className="row" >
+                <div className="col-xs-4 col-xs-offset-4" style={searchBar}>
+                    <form onSubmit={this.onFormSubmit} className="input-group">
+                        <input
+                            placeholder="Search Events"
+                            className="form-control"
+                            value={this.state.keyword}
+                            onChange={this.onInputChange}
+                        />
+                        <span className="input-group-btn">
+                            <button type="submit"
+                                    className="btn btn-secondary">
+                                Search
+                            </button>
+                        </span>
+                    </form>
+                </div>
+            </div>
         )
     }
 }

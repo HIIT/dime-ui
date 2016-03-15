@@ -7,6 +7,9 @@ import { push } from 'react-router-redux'
 import SearchBar from '../containers/searchBar'
 import EventsList from '../containers/eventsList'
 
+const hrStyle = {
+    opacity: 0
+}
 class eventsPage extends Component {
     componentWillMount(){
         const username = localStorage.getItem('username')
@@ -19,7 +22,7 @@ class eventsPage extends Component {
         return (
             <div>
                 <SearchBar />
-                <hr />
+                <hr style={hrStyle}/>
                 <EventsList />
             </div>
         );
