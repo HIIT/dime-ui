@@ -18,7 +18,7 @@ class NavBar extends Component {
             <header className="navbar navbar-fixed-top navbar-dark bg-inverse" role="banner">
                 <nav className="nav navbar-nav">
                     <a className="navbar-brand" href="#">DiMe dashboard</a>
-                    <ul className="nav navbar-nav">
+                    <ul className="nav navbar-nav clearfix">
                         <li className={`nav-item ${isAuthenticated ? '' : 'invisible'}`}>
                             <Link to="/events" className="nav-link" activeClassName="active">Events</Link>
                         </li>
