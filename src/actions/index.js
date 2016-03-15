@@ -23,7 +23,7 @@ export function eventSearch (keyword) {
 export function fetchEvents () {
     const username = localStorage.getItem('username')
     const password = localStorage.getItem('password')
-    const url = `http://${dimeServerAddress}/api/data/events`
+    const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true`
     const request = axios.get(url, {
         auth: {
             username: username,
