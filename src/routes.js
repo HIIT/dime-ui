@@ -8,7 +8,7 @@ import LogInForm from './containers/logInForm'
 
 export default (
     <Route path="/" component={App}>
-        <IndexRoute component={LogInForm} />
+        <IndexRoute component={EventsPage} />
         <Route path="events" component={EventsPage}/>
         <Route path="documents" component={DocumentsPage}/>
         <Route path="login" component={LogInForm}/>

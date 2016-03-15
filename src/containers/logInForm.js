@@ -1,17 +1,21 @@
 import React from 'react';
-import { Component, PropTypes } from 'react'
+import { Component } from 'react'
 import { reduxForm } from 'redux-form'
 import { push } from 'react-router-redux'
 
 import { logIn } from '../actions/index'
 
 export default class LogInForm extends Component {
-    //static contextTypes = {
-    //    router: PropTypes.object
-    //}
+    componentWillMount(){
+        const username = localStorage.getItem('username')
+        const password = localStorage.getItem('password')
+        if (username != null && password != null) {
+            this.props.push('/')
+        }
+    }
     onSubmit(formProps) {
         this.props.logIn(formProps)
-        this.props.push('/events')
+        this.props.push('/')
     }
     render() {
         let { fields: {username, password, port, remember}, handleSubmit} = this.props
@@ -41,19 +45,6 @@ export default class LogInForm extends Component {
                         />
                         <small className="text-help">
                             {password.touched ? password.error: ''}
-                        </small>
-                    </div>
-                </div>
-                <div className={`form-group row ${port.touched && port.invalid ? 'has-danger' : ''}`}>
-                    <label className="col-sm-2 form-control-label">DiMe Port</label>
-                    <div className="col-sm-3">
-                        <input type="number"
-                               className="form-control"
-                               placeholder="Optional, Default=8080"
-                               {...port}
-                        />
-                        <small className="text-help">
-                            {port.touched ? port.error: ''}
                         </small>
                     </div>
                 </div>
@@ -87,23 +78,19 @@ function validate(values) {
     if (!values.password) {
         errors.password = 'Enter password'
     }
-    if (!values.port) {
-        errors.port = 'Enter an valid port number'
-    }
     return errors
 }
 //connect: first argument is mapStateToProps, 2nd is mapDispatch
 //reduxForm 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatch
 export default reduxForm({
     form: 'LogInForm',
-    fields: ['username', 'password', 'port', 'remember'],
+    fields: ['username', 'password', 'remember'],
     validate
 },
 state => ({
     initialValues: {
-        //username: 'chh',
-        //password: 12345,
-        port: 8080,
+        username: 'chh',
+        password: 12345,
         remember: true
     }
 }), { logIn, push })(LogInForm)
