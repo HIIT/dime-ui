@@ -7,7 +7,6 @@ export default function auth(state = {
 }, action) {
     switch (action.type) {
         case LOG_IN:
-            //console.log(action.payload.data)
             if (typeof action.payload.data !== 'undefined') {
                 return Object.assign({}, state, {
                     isAuthenticated: true,

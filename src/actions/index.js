@@ -7,7 +7,7 @@ const dimeServerAddress = 'localhost:3000'
 export function eventSearch (keyword) {
     const username = localStorage.getItem('username')
     const password = localStorage.getItem('password')
-    const url = `http://${username}:${password}@${dimeServerAddress}/api/eventsearch?query=${keyword}`
+    const url = `http://${dimeServerAddress}/api/eventsearch?query=${keyword}`
     const request = axios.get(url, {
         auth: {
             username: username,
@@ -23,7 +23,7 @@ export function eventSearch (keyword) {
 export function fetchEvents () {
     const username = localStorage.getItem('username')
     const password = localStorage.getItem('password')
-    const url = `http://${username}:${password}@${dimeServerAddress}/api/data/events`
+    const url = `http://${dimeServerAddress}/api/data/events`
     const request = axios.get(url, {
         auth: {
             username: username,
@@ -42,7 +42,7 @@ export const LOG_OUT = 'LOG_OUT'
 export function logIn(props) {
     const username = localStorage.setItem('username',props.username)
     const password = localStorage.setItem('password',props.password)
-    const url = `http://${username}:${password}@${dimeServerAddress}/api/data/event/1`
+    const url = `http://${dimeServerAddress}/api/data/event/1`
     const request = axios.get(url, {
         auth: {
             username: username,
