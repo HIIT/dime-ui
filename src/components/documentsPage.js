@@ -18,9 +18,8 @@ class documentsPage extends Component {
     render() {
         return (
             <div>
-                <SearchBar />
-                <hr />
                 <EventsList />
+                <SearchBar />
             </div>
         );
     }

@@ -3,57 +3,84 @@ import { Component } from 'react'
 import { connect } from 'react-redux'
 //import { bindActionCreators } from 'redux'
 import moment from 'moment'
+import Transition from 'react-motion-ui-pack'
 
-import { fetchEvents } from '../actions/index.js'
+import Tags from '../containers/tags'
+import ConfirmedTags from '../containers/confirmedTags'
+import { fetchEvents } from '../actions/index'
+import { purify } from '../services/purifyText'
 
 const overflowHiddenBox = {
     width: '100%',
-    height: '730px',
+    height: '100vh',
     overflow: 'hidden',
-    marginTop: '-270px'
+    position: 'absolute',
+    top: '0px',
+    left: '0vw'
 };
 
 const overflowHiddenContent = {
     width: '103%',
     overflowX: 'hidden',
     overflowY:'auto',
-    height: '730px'
-
+    height: '100vh'
 }
 
 const eventCard = {
-    cursor: 'pointer'
+    cursor: 'pointer',
+    wordWrap: 'break-word',
 }
-const tagStyle = {
-    marginLeft: '2px',
-    marginBottom: '2px'
+
+const eventCardPlainText = {
+    fontSize: '9px',
+    color: 'rgba(0,0,0,0.2)'
+}
+
+const eventCardPlainTextSpan = {
+}
+
+const eventCardHeader = {
+    padding: '5px 10px 5px 10px'
+}
+
+const eventCardHeaderTitle = {
+    fontSize: '12px'
+}
+
+const eventCardHeaderSpan = {
+    fontSize: '9px'
+}
+
+const eventCardHeaderUrl = {
+    fontSize: '9px',
 }
 
 class EventsList extends Component {
     componentWillMount() {
         this.props.fetchEvents()
     }
-    tagsRender(event) {
+    eventCardRender(event, index) {
         return (
-            event.targettedResource.tags.map( (tag)=> {
-                return (
-                    <span key={tag.time}
-                          className="label label-info pull-xs-right"
-                          style={tagStyle}
-                    >
-                    {tag.text}
-                </span>
-                )
-            })
-        )
-    }
-    eventCardRender(event) {
-        return (
-            <div className="card" style={eventCard}>
-                <div className="card-header clearfix">
-                    <b>UsageEvent: </b>
-                    <span>{event.actor}</span>
-                    <a className="pull-xs-right" href={`event?id=${event.id}`}>
+            <Transition
+                component="false"
+                appear={{
+                    height: 0,
+                    opacity: 0
+                 }}
+                enter={{
+                    height: 'auto',
+                    opacity: 1,
+                  }}
+                leave={{
+                    height: 0,
+                    opacity: 0
+                 }}
+            >
+            <div className="card" style={eventCard} key={index}>
+                <div className="card-header clearfix" style={eventCardHeader}>
+                    <span style={eventCardHeaderSpan}>From: </span>
+                    <b style={eventCardHeaderTitle}>{event.actor}</b>
+                    <a className="pull-xs-right" href={`event?id=${event.id}`} style={eventCardHeaderUrl}>
                         {`${moment(event.timeCreated).format('MMMM Do YYYY, HH:mm:ss.SSS')}`}
                     </a>
                 </div>
@@ -65,35 +92,42 @@ class EventsList extends Component {
                     <a className="" href={`${event.targettedResource.uri}`}>
                         {event.targettedResource.title}
                     </a>
+                    <p style={eventCardPlainText}>
+                        {purify(event.targettedResource.plainTextContent).map((text, index) => {
+                                return (
+                                    <span style={eventCardPlainTextSpan} key={index}>{text} </span>
+                                )
+                            }
+                        )}
+                    </p>
                 </div>
             </div>
+            </Transition>
         )
     }
     render() {
         return (
             <div style={overflowHiddenBox}>
                 <div style={overflowHiddenContent}>
-                    {this.props.events.map( (event) => {
+                    {this.props.events.map( (event, index) => {
                         return (
-                            <div className="row" key={event.id}>
+                            <div className="row" key={index}>
                                 <div className="col-xs-2 col-xs-offset-1 clearfix">
-                                    {this.tagsRender(event)}
+                                    <Tags eventIndex={index}/>
                                 </div>
                                 <div className="col-xs-6">
-                                    {this.eventCardRender(event)}
+                                    {this.eventCardRender(event, index)}
                                 </div>
                                 <div className="col-xs-2">
-
+                                    <ConfirmedTags eventIndex={index}/>
                                 </div>
                             </div>
                         )
                     })}
                 </div>
             </div>
-
         )
     }
-
 }
 
 function mapStateToProps(state) {

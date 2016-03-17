@@ -21,9 +21,8 @@ class eventsPage extends Component {
     render() {
         return (
             <div>
-                <SearchBar />
-                <hr style={hrStyle}/>
                 <EventsList />
+                <SearchBar />
             </div>
         );
     }
