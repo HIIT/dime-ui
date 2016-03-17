@@ -2,7 +2,7 @@ import axios from 'axios'
 
 export const EVENT_SEARCH = 'EVENT_SEARCH'
 export const FETCH_EVENTS = 'FETCH_EVENTS'
-const dimeServerAddress = 'localhost:3000'
+const dimeServerAddress = 'localhost:8080'
 
 export function eventSearch (keyword) {
     const username = localStorage.getItem('username')
@@ -61,5 +61,22 @@ export function logOut() {
     return {
         type: LOG_OUT,
         payload: ''
+    }
+}
+
+export const TAG_CONFIRM = 'TAG_CONFIRM'
+export const TAG_CONFIRM_CANCEL = 'TAG_CONFIRM_CANCEL'
+
+export function tagConfirm(tag, event) {
+    return {
+        type: TAG_CONFIRM,
+        payload: {tag, event}
+    }
+}
+
+export function tagConfirmCancel(tag, event) {
+    return {
+        type: TAG_CONFIRM_CANCEL,
+        payload: {tag, event}
     }
 }
