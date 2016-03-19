@@ -4,9 +4,10 @@ import { bindActionCreators} from 'redux'
 import { eventSearch } from '../actions/index.js'
 
 const searchBar = {
-    position: 'absolute',
-    top: '30vh',
-    left: '0vw'
+    position: 'fixed',
+    top: '1vh',
+    left: '0vw',
+    zIndex:'1040', //z-index for NavBAr is 1030
 };
 
 const boxShadow = {
@@ -36,8 +37,8 @@ class SearchBar extends Component {
 
     render() {
         return (
-            <div className="row" style={searchBar}>
-                <div className="col-xs-4 col-xs-offset-4">
+            <div className="row">
+                <div className="col-xs-4 col-xs-offset-4" style={searchBar}>
                     <form onSubmit={this.onFormSubmit}
                           className="input-group"
                           style={boxShadow}>
