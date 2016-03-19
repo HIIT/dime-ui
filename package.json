@@ -36,7 +36,8 @@
     "npm-run-all": "^1.5.3",
     "request": "^2.69.0",
     "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.0"
+    "webpack-dev-server": "^1.14.0",
+    "worker-loader": "^0.7.0"
   },
   "dependencies": {
     "axios": "^0.9.1",
