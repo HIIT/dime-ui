@@ -80,3 +80,25 @@ export function tagConfirmCancel(tag, event) {
         payload: {tag, event}
     }
 }
+
+export const MODAL_CLOSE = 'MODAL_CLOSE'
+export const MODAL_OPEN = 'MODAL_OPEN'
+
+export function setModalOpen(index, posY) {
+    return {
+        type: MODAL_OPEN,
+        payload: {
+            eventIndex: index,
+            mousePosY: posY
+        }
+    }
+}
+export function setModalClose(index) {
+    return {
+        type: MODAL_CLOSE,
+        payload: {
+            eventIndex: index,
+            mousePosY: null
+        }
+    }
+}
