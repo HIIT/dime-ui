@@ -8,51 +8,38 @@ import Transition from 'react-motion-ui-pack'
 import Tags from '../containers/tags'
 import ConfirmedTags from '../containers/confirmedTags'
 import { fetchEvents } from '../actions/index'
+import { setModalOpen,  setModalClose } from '../actions/index'
 import { purify } from '../services/purifyText'
 
-const overflowHiddenBox = {
-    width: '100%',
-    height: '100vh',
-    overflow: 'hidden',
-    position: 'absolute',
-    top: '0px',
-    left: '0vw'
-};
-
-const overflowHiddenContent = {
-    width: '103%',
-    overflowX: 'hidden',
-    overflowY:'auto',
-    height: '100vh'
-}
-
-const eventCard = {
+export const eventCard = {
     cursor: 'pointer',
     wordWrap: 'break-word',
 }
-
-const eventCardPlainText = {
+export const eventCardPlainText = {
     fontSize: '9px',
     color: 'rgba(0,0,0,0.2)'
 }
-
-const eventCardPlainTextSpan = {
+export const eventCardPlainTextSpan = {
 }
-
-const eventCardHeader = {
+export const eventCardHeader = {
     padding: '5px 10px 5px 10px'
 }
-
-const eventCardHeaderTitle = {
+export const eventCardHeaderTitle = {
     fontSize: '12px'
 }
-
-const eventCardHeaderSpan = {
+export const eventCardHeaderSpan = {
     fontSize: '9px'
 }
-
-const eventCardHeaderUrl = {
+export const eventCardHeaderUrl = {
     fontSize: '9px',
+}
+export const blur = {
+    WebkitFilter: 'blur(2px)',
+    MozFilter: 'blur(2px)',
+    OFilter: 'blur(2px)',
+    MsFilter: 'blur(2px)',
+    filter: 'blur(2px)',
+    opacity: 0.6
 }
 
 class EventsList extends Component {
@@ -105,37 +92,55 @@ class EventsList extends Component {
             </Transition>
         )
     }
+    handleClickOnEvent(index, mouseEvent) {
+        let posY = mouseEvent.nativeEvent.screenY
+        this.props.setModalOpen(index, posY)
+    }
+    handleClick() {
+        console.log('clikc')
+        this.props.setModalClose(this.props.modal.eventIndex)
+    }
     render() {
         return (
-            <div style={overflowHiddenBox}>
-                <div style={overflowHiddenContent}>
+            <div
+                style={this.props.modal.isOpen ? blur : null}
+                onClick={this.props.modal.isOpen ? this.handleClick : null}
+            >
                     {this.props.events.map( (event, index) => {
                         return (
-                            <div className="row" key={index}>
+                            <div
+                                 className="row"
+                                 key={index}
+                            >
                                 <div className="col-xs-2 col-xs-offset-1 clearfix">
                                     <Tags eventIndex={index}/>
                                 </div>
-                                <div className="col-xs-6">
+                                <div
+                                    className="col-xs-6"
+                                    onClick={(mouseEvent) => this.handleClickOnEvent(index, mouseEvent)}
+                                >
                                     {this.eventCardRender(event, index)}
                                 </div>
-                                <div className="col-xs-2">
+                                <div className="col-xs-2 clearfix">
                                     <ConfirmedTags eventIndex={index}/>
                                 </div>
                             </div>
                         )
                     })}
-                </div>
             </div>
         )
     }
 }
 
 function mapStateToProps(state) {
-    return { events: state.events }
+    return {
+        events: state.events,
+        modal: state.modal
+    }
 }
 
 //function mapDispatchToProps(dispatch) {
 //    return bindActionCreators({fetchEvents}, dispatch )
 //}
 //export default connect(mapStateToProps, mapDispatchToProps)(EventsList)
-export default connect(mapStateToProps, { fetchEvents })(EventsList)
+export default connect(mapStateToProps, { fetchEvents, setModalOpen, setModalClose })(EventsList)
