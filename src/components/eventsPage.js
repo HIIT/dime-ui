@@ -6,10 +6,8 @@ import { push } from 'react-router-redux'
 
 import SearchBar from '../containers/searchBar'
 import EventsList from '../containers/eventsList'
+import EventModal from '../containers/eventModal'
 
-const hrStyle = {
-    opacity: 0
-}
 class eventsPage extends Component {
     componentWillMount(){
         const username = localStorage.getItem('username')
@@ -23,9 +21,14 @@ class eventsPage extends Component {
             <div>
                 <EventsList />
                 <SearchBar />
+                {this.props.modal.isOpen ? <EventModal />: null}
             </div>
         );
     }
 }
 
-export default connect(null, {push})(eventsPage)
+function mapStateToProps(state) {
+    return { modal: state.modal }
+}
+
+export default connect(mapStateToProps, {push})(eventsPage)
