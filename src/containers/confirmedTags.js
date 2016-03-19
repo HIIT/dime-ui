@@ -13,7 +13,7 @@ const tagStyle = {
     cursor: 'pointer'
 }
 
-class Tags extends Component {
+class ConfirmedTags extends Component {
     handleTagClick(tag, event) {
         this.props.tagConfirmCancel(tag,event)
     }
@@ -35,13 +35,13 @@ class Tags extends Component {
                                 opacity: 0
                              }}
                         >
-                        <div key={index}
+                        <span key={index}
                              className="label label-pill label-info pull-xs-left"
                              style={tagStyle}
                              onClick={() => this.handleTagClick(tag,event)}
                         >
                             {tag.text}
-                        </div>
+                        </span>
                         </Transition>
                     )
                 }
@@ -63,4 +63,4 @@ function mapStateToProps(state) {
     return { events: state.events }
 }
 
-export default connect(mapStateToProps, { tagConfirmCancel })(Tags)
+export default connect(mapStateToProps, { tagConfirmCancel })(ConfirmedTags)
