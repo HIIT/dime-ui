@@ -36,6 +36,27 @@ class EventModal extends Component {
     handleSave() {
         this.props.setModalClose(this.props.modal.eventIndex)
     }
+    footerRender() {
+        return (
+            null
+            //<div className="modal-footer">
+            //    <button type="button"
+            //            className="btn btn-secondary"
+            //            data-dismiss="modal"
+            //            onClick={() => this.handleClose()}
+            //    >
+            //        Close
+            //    </button>
+            //    <button type="button"
+            //            className="btn btn-primary"
+            //            onClick={() => this.handleSave()}
+            //    >
+            //        Save
+            //    </button>
+            //</div>
+        )
+    }
+
     render () {
         let viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
         let { modal: { eventIndex}, events } = this.props
@@ -113,22 +134,8 @@ class EventModal extends Component {
                                 <a href={`event?id=${event.id}`} style={eventCardHeaderUrl}>
                                     {`${moment(event.timeCreated).format('MMMM Do YYYY, HH:mm:ss.SSS')}`}
                                 </a>
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <button type="button"
-                                    className="btn btn-secondary"
-                                    data-dismiss="modal"
-                                    onClick={() => this.handleClose()}
-                            >
-                                Close
-                            </button>
-                            <button type="button"
-                                    className="btn btn-primary"
-                                    onClick={() => this.handleSave()}
-                            >
-                                Save
-                            </button>
+
+                            {this.footerRender()}  </div>
                         </div>
                     </div>
                 </div>

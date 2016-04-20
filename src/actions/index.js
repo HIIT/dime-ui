@@ -1,4 +1,5 @@
 import axios from 'axios'
+import moment from 'moment'
 
 export const EVENT_SEARCH = 'EVENT_SEARCH'
 export const FETCH_EVENTS = 'FETCH_EVENTS'
@@ -23,7 +24,8 @@ export function eventSearch (keyword) {
 export function fetchEvents () {
     const username = localStorage.getItem('username')
     const password = localStorage.getItem('password')
-    const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true`
+    //const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true`
+    const url = `http://${dimeServerAddress}/api/eventsearch?query=JSX Harmony`
     const request = axios.get(url, {
         auth: {
             username: username,
@@ -68,16 +70,44 @@ export const TAG_CONFIRM = 'TAG_CONFIRM'
 export const TAG_CONFIRM_CANCEL = 'TAG_CONFIRM_CANCEL'
 
 export function tagConfirm(tag, event) {
+    tag.time = moment().toISOString()
+    tag.auto = false
+    const username = localStorage.getItem('username')
+    const password = localStorage.getItem('password')
+    const url = `http://${dimeServerAddress}/api/data/informationelement/${event.targettedResource.id}/addtags`
+    const config =  {
+        url: url,
+        method: 'post',
+        data: [tag],
+        auth: {
+            username: username,
+            password: password
+        }
+    }
+    const request = axios(config)
     return {
         type: TAG_CONFIRM,
-        payload: {tag, event}
+        payload: request
     }
 }
 
 export function tagConfirmCancel(tag, event) {
+    const username = localStorage.getItem('username')
+    const password = localStorage.getItem('password')
+    const url = `http://${dimeServerAddress}/api/data/informationelement/${event.targettedResource.id}/removetag`
+    const config =  {
+        url: url,
+        method: 'post',
+        data: tag,
+        auth: {
+            username: username,
+            password: password
+        }
+    }
+    const request = axios(config)
     return {
         type: TAG_CONFIRM_CANCEL,
-        payload: {tag, event}
+        payload: request
     }
 }
 

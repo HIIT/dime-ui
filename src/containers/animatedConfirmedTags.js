@@ -75,6 +75,7 @@ class AnimatedTags extends Component {
         )
     }
     tagsRender(event) {
+        //console.log(event.tags)
         return (
             event.targettedResource.tags.map( (tag ,index)=> {
                 if (tag.auto === false ){

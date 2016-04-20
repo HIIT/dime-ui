@@ -7,24 +7,32 @@ export default function(state = [], action) {
             //console.log(JSON.parse(action.payload.data))
             return [...action.payload.data.docs] //always return a new sate is the redux way
         case FETCH_EVENTS:
-            console.log(action.payload.data.slice(0,8))
-            return [...action.payload.data.slice(0,8)]
+            //console.log(action.payload.data.docs.slice(0,20))
+            return [...action.payload.data.docs.slice(0,20)]
         case TAG_CONFIRM:
-            let targetEventIndex = state.indexOf(action.payload.event)
-            let targetTagIndex = action.payload.event.targettedResource.tags.indexOf(action.payload.tag)
-            action.payload.tag.time = moment().toISOString()
-            action.payload.tag.auto = false
-            action.payload.event.targettedResource.tags[targetTagIndex] = action.payload.tag
-            state[targetEventIndex] = action.payload.event
-            return [...state]
+            let newStateWithConfirmTags = state
+            newStateWithConfirmTags.map((event)=> {
+                if (event.targettedResource.id === action.payload.data.id) {
+                    //console.log(event.targettedResource)
+                    //console.log(action.payload.data)
+                    return event.targettedResource = action.payload.data
+                } else return event
+            })
+            //console.log(newStateWithConfirmTags)
+            return [...newStateWithConfirmTags]
         case TAG_CONFIRM_CANCEL:
-            let targetCancelEventIndex = state.indexOf(action.payload.event)
-            let targetCancelTagIndex = action.payload.event.targettedResource.tags.indexOf(action.payload.tag)
-            action.payload.tag.time = moment().toISOString()
-            action.payload.tag.auto = true
-            action.payload.event.targettedResource.tags[targetCancelTagIndex] = action.payload.tag
-            state[targetCancelEventIndex] = action.payload.event
-            return [...state]
+            let newStateWithTagRemoved = state
+            newStateWithTagRemoved.map((event)=> {
+                if (event.targettedResource.id === action.payload.data.id) {
+                    //console.log(event.targettedResource)
+                    //console.log(action.payload.data)
+                    return event.targettedResource = action.payload.data
+                } else return event
+            })
+            //console.log(newStateWithTagRemoved)
+            return [...newStateWithTagRemoved]
+        default:
+            return state
     }
-    return state
+    //return state
 }
