@@ -8,6 +8,10 @@ import SearchBar from '../containers/searchBar'
 import EventsList from '../containers/eventsList'
 import EventModal from '../containers/eventModal'
 
+const eventPageStyle = {
+    marginTop: '60px',
+}
+
 class eventsPage extends Component {
     componentWillMount(){
         const username = localStorage.getItem('username')
@@ -18,7 +22,7 @@ class eventsPage extends Component {
     }
     render() {
         return (
-            <div>
+            <div style={eventPageStyle}>
                 <EventsList />
                 <SearchBar />
                 {this.props.modal.isOpen ? <EventModal />: null}
