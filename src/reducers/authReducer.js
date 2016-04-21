@@ -7,7 +7,7 @@ export default function auth(state = {
 }, action) {
     switch (action.type) {
         case LOG_IN:
-            console.log(action.payload.data)
+            //console.log(action.payload.data)
             return Object.assign({}, state, {
                 isAuthenticated: true,
             })

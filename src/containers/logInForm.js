@@ -2,20 +2,21 @@ import React from 'react';
 import { Component } from 'react'
 import { reduxForm } from 'redux-form'
 import { push } from 'react-router-redux'
+import store from 'store'
 
 import { logIn } from '../actions/index'
 
 export default class LogInForm extends Component {
     componentWillMount(){
-        const username = localStorage.getItem('username')
-        const password = localStorage.getItem('password')
+        const username = store.get('username')
+        const password = store.get('password')
         if (username != null && password != null) {
             this.props.push('/')
         }
     }
     onSubmit(formProps) {
-        localStorage.removeItem('username')
-        localStorage.removeItem('password')
+        store.remove('username')
+        store.remove('password')
         this.props.logIn(formProps)
         this.props.push('/')
     }

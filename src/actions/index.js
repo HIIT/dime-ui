@@ -1,13 +1,13 @@
 import axios from 'axios'
 import moment from 'moment'
-
+import store from 'store'
 export const EVENT_SEARCH = 'EVENT_SEARCH'
 export const FETCH_EVENTS = 'FETCH_EVENTS'
 const dimeServerAddress = 'localhost:8080'
 
 export function eventSearch (keyword) {
-    const username = localStorage.getItem('username')
-    const password = localStorage.getItem('password')
+    const username = store.get('username')
+    const password = store.get('password')
     const url = `http://${dimeServerAddress}/api/eventsearch?query=${keyword}`
     const request = axios.get(url, {
         auth: {
@@ -22,8 +22,8 @@ export function eventSearch (keyword) {
 }
 
 export function fetchEvents () {
-    const username = localStorage.getItem('username')
-    const password = localStorage.getItem('password')
+    const username = store.get('username')
+    const password = store.get('password')
     //const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true`
     const url = `http://${dimeServerAddress}/api/eventsearch?query=hiit`
     const request = axios.get(url, {
@@ -42,8 +42,8 @@ export const LOG_IN = 'LOG_IN'
 export const LOG_OUT = 'LOG_OUT'
 
 export function logIn(props) {
-    const username = localStorage.setItem('username',props.username)
-    const password = localStorage.setItem('password',props.password)
+    const username = store.set('username',props.username)
+    const password = store.set('password',props.password)
     //const url = `http://${dimeServerAddress}/api/data/event/1`
     //const request = axios.get(url, {
     //    auth: {
@@ -58,8 +58,8 @@ export function logIn(props) {
 }
 
 export function logOut() {
-    localStorage.removeItem('username')
-    localStorage.removeItem('password')
+    store.remove('username')
+    store.remove('password')
     return {
         type: LOG_OUT,
         payload: 'logout'
@@ -72,8 +72,8 @@ export const TAG_CONFIRM_CANCEL = 'TAG_CONFIRM_CANCEL'
 export function tagConfirm(tag, event) {
     tag.time = moment().toISOString()
     tag.auto = false
-    const username = localStorage.getItem('username')
-    const password = localStorage.getItem('password')
+    const username = store.get('username')
+    const password = store.get('password')
     const url = `http://${dimeServerAddress}/api/data/informationelement/${event.targettedResource.id}/addtags`
     const config =  {
         url: url,
@@ -92,8 +92,8 @@ export function tagConfirm(tag, event) {
 }
 
 export function tagConfirmCancel(tag, event) {
-    const username = localStorage.getItem('username')
-    const password = localStorage.getItem('password')
+    const username = store.get('username')
+    const password = store.get('password')
     const url = `http://${dimeServerAddress}/api/data/informationelement/${event.targettedResource.id}/removetag`
     const config =  {
         url: url,
