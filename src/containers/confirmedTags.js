@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react'
-import dragula from 'react-dragula'
+//import dragula from 'react-dragula'
 import ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import Transition from 'react-motion-ui-pack'
@@ -53,10 +53,10 @@ class ConfirmedTags extends Component {
             <div className='container'>{this.tagsRender(this.props.events[this.props.eventIndex])}</div>
         )
     }
-    componentDidMount() {
-        var container = ReactDOM.findDOMNode(this);
-        dragula([container]);
-    }
+    //componentDidMount() {
+    //    var container = ReactDOM.findDOMNode(this);
+    //    dragula([container]);
+    //}
 }
 
 function mapStateToProps(state) {
