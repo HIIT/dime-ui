@@ -9,8 +9,8 @@ import moment from 'moment'
 import { setModalClose } from '../actions/index.js'
 import { eventCardHeaderSpan, eventCardHeaderTitle, eventCardHeaderUrl, eventCardPlainText, eventCardPlainTextSpan} from './eventsList'
 import { purify } from '../services/purifyText'
-import AnimatedTags from '../containers/AnimatedTags'
-import AnimatedConfirmedTags from '../containers/AnimatedConfirmedTags'
+import AnimatedTags from '../containers/animatedTags'
+import AnimatedConfirmedTags from '../containers/animatedConfirmedTags'
 
 const modalStyle = {
     top: '8vh',
