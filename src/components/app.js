@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import NavBar from '../components/navBar'
 
 var contentBodyStyle = {
+    marginTop: '80px',
 };
 
 export default class App extends Component {
