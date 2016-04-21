@@ -25,7 +25,7 @@ export function fetchEvents () {
     const username = localStorage.getItem('username')
     const password = localStorage.getItem('password')
     //const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true`
-    const url = `http://${dimeServerAddress}/api/eventsearch?query=JSX Harmony`
+    const url = `http://${dimeServerAddress}/api/eventsearch?query=hiit`
     const request = axios.get(url, {
         auth: {
             username: username,
@@ -44,16 +44,16 @@ export const LOG_OUT = 'LOG_OUT'
 export function logIn(props) {
     const username = localStorage.setItem('username',props.username)
     const password = localStorage.setItem('password',props.password)
-    const url = `http://${dimeServerAddress}/api/data/event/1`
-    const request = axios.get(url, {
-        auth: {
-            username: username,
-            password: password
-        }
-    })
+    //const url = `http://${dimeServerAddress}/api/data/event/1`
+    //const request = axios.get(url, {
+    //    auth: {
+    //        username: username,
+    //        password: password
+    //    }
+    //})
     return {
         type: LOG_IN,
-        payload: request
+        payload: 'login'
     }
 }
 
@@ -62,7 +62,7 @@ export function logOut() {
     localStorage.removeItem('password')
     return {
         type: LOG_OUT,
-        payload: ''
+        payload: 'logout'
     }
 }
 

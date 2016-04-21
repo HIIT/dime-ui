@@ -14,6 +14,8 @@ export default class LogInForm extends Component {
         }
     }
     onSubmit(formProps) {
+        localStorage.removeItem('username')
+        localStorage.removeItem('password')
         this.props.logIn(formProps)
         this.props.push('/')
     }

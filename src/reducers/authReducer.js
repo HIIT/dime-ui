@@ -7,15 +7,17 @@ export default function auth(state = {
 }, action) {
     switch (action.type) {
         case LOG_IN:
-            if (typeof action.payload.data !== 'undefined') {
-                return Object.assign({}, state, {
-                    isAuthenticated: true,
-                })
-            } else {
-                return Object.assign({}, state, {
-                    isAuthenticated: false,
-                })
-            }
+            console.log(action.payload.data)
+            return Object.assign({}, state, {
+                isAuthenticated: true,
+            })
+            //if (typeof action.payload.data !== 'undefined') {
+            //
+            //} else {
+            //    return Object.assign({}, state, {
+            //        isAuthenticated: false,
+            //    })
+            //}
         case LOG_OUT:
             return Object.assign({}, state, {
                 isAuthenticated: false,

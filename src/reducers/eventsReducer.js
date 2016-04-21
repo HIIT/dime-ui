@@ -8,6 +8,7 @@ export default function(state = [], action) {
             return [...action.payload.data.docs] //always return a new sate is the redux way
         case FETCH_EVENTS:
             //console.log(action.payload.data.docs.slice(0,20))
+            console.log(action.payload.data)
             return [...action.payload.data.docs.slice(0,20)]
         case TAG_CONFIRM:
             let newStateWithConfirmTags = state
