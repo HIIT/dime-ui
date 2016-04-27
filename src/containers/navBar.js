@@ -49,6 +49,9 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({ logOut, push }, dispatch)
 }
 function mapStateToProps(state) {
-    return {};
+    const { isAuthenticated } = state.auth
+    return {
+        isAuthenticated,
+    };
 }
 export default connect(mapStateToProps, mapDispatchToProps)(NavBar)

@@ -8,8 +8,6 @@ import SearchBar from '../containers/searchBar'
 import EventsList from '../containers/eventsList'
 import EventModal from '../containers/eventModal'
 
-
-
 class eventsPage extends Component {
     componentWillMount(){
         const username = localStorage.getItem('username')
