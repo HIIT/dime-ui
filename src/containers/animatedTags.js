@@ -10,7 +10,8 @@ const tagWrapper = {
 
 }
 class AnimatedTags extends Component {
-    handleTagClick(tag, event) {
+    handleTagClick(mouseEvent, tag, event) {
+        mouseEvent.stopPropagation()
         this.props.tagConfirm(tag,event)
     }
     willLeave() {
@@ -64,7 +65,7 @@ class AnimatedTags extends Component {
                             <div
                                 className="label label-pill label-info pull-xs-right"
                                 style={style}
-                                onClick={() => this.handleTagClick(tag,event)}
+                                onClick={(mouseEvent) => this.handleTagClick(mouseEvent, tag,event)}
                             >
                                 {tag.text}
                             </div>
