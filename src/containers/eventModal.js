@@ -18,7 +18,8 @@ const modalStyle = {
 }
 
 const modalWrapper = {
-    background: 'transparent'
+    background: 'transparent',
+    zIndex: 1040,
 };
 
 const TagsColSpace = {
@@ -30,7 +31,7 @@ const TagsCol = {
 }
 
 class EventModal extends Component {
-    handleClose() {
+    handleClose(event) {
         this.props.setModalClose(this.props.modal.eventIndex)
     }
     handleSave() {
@@ -81,6 +82,7 @@ class EventModal extends Component {
                 className="modal-backdrop"
                 style={modalWrapper}
                 key={eventIndex}
+                onClick={(event) => this.handleClose(event)}
             >
             <div className="modal"
                  style={modalStyle}
@@ -92,7 +94,7 @@ class EventModal extends Component {
                                     className="close"
                                     data-dismiss="modal"
                                     aria-label="Close"
-                                    onClick={() => this.handleClose()}
+                                    onClick={(event) => this.handleClose(event)}
                             >
                                 <span aria-hidden="true">&times;</span>
                             </button>
