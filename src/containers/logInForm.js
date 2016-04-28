@@ -92,8 +92,8 @@ export default reduxForm({
 },
 state => ({
     initialValues: {
-        username: 'chh',
-        password: 12345,
+        username: 'testuser',
+        password: "testuser123",
         remember: true
     }
 }), { logIn, push })(LogInForm)

@@ -7,7 +7,7 @@ import http from 'http'
 import basicAuth from 'basic-auth'
 var app = express();
 
-app.use(bodyParser.json()); // for parsing application/json
+//app.use(bodyParser.json()); // for parsing application/json
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "Origin, Accept, Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
@@ -18,7 +18,7 @@ app.use(function(req, res, next) {
 app.get('*', function(req, res) {
     transferRequestToDime(req).then(
         (val) => {
-            res.json(val)
+            res.send(val)
         }
     )
 });
