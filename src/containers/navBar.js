@@ -20,23 +20,32 @@ class NavBar extends Component {
                 <nav className="nav navbar-nav">
                     <IndexLink to="/" className="navbar-brand" activeClassName="active">DiMe dashboard</IndexLink>
                     <ul className="nav navbar-nav clearfix">
-                        <li className={`nav-item ${isAuthenticated ? '' : 'invisible'}`}>
-                            <NavLink to="/events" className="nav-link">Events</NavLink>
-                        </li>
-                        <li className={`nav-item ${isAuthenticated ? '' : 'invisible'}`}>
-                            <NavLink to="/documents" className="nav-link">Documents</NavLink>
-                        </li>
-                        {!isAuthenticated &&
-                        <li className="nav-item pull-xs-right">
-                            <NavLink to="/login" className="nav-link">Log In</NavLink>
-                        </li>
+                        {isAuthenticated &&
+                            <li className='nav-item'>
+                                <NavLink to="/events">Events</NavLink>
+                            </li>
                         }
                         {isAuthenticated &&
-                        <li className="nav-item pull-xs-right">
-                            <button onClick={this.onClickLogOut.bind(this)} className="btn btn-primary">
-                                Logout
-                            </button>
+                            <li className='nav-item'>
+                                <NavLink to="/documents">Documents</NavLink>
+                            </li>
+                        }
+                        {isAuthenticated &&
+                        <li className='nav-item'>
+                            <NavLink to="/dashboard">DashBoard</NavLink>
                         </li>
+                        }
+                        {!isAuthenticated &&
+                            <li className="nav-item pull-xs-right">
+                                <NavLink to="/login">Log In</NavLink>
+                            </li>
+                        }
+                        {isAuthenticated &&
+                            <li className="nav-item pull-xs-right">
+                                <button onClick={this.onClickLogOut.bind(this)} className="btn btn-primary">
+                                    Logout
+                                </button>
+                            </li>
                         }
                     </ul>
                 </nav>
