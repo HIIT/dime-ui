@@ -11,7 +11,7 @@
 2. ``npm install`` to fetch all the necessary npm packages
 4. ``npm start`` and open <http://localhost:3001> in your browsers.
 5. edit js files in the ``./src``, webpack-dev-server will monitor the editing and recompile src.
-6. you have to enable dime-server's CORS to consume it's API from webpack dev server at 3001, instruction on how to enable CORS could be found [here](https://github.com/HIIT/dime-server/wiki/Configuration#cors-support). 
+6. your local dime-server must run at port 127.0.0.1:8080, if not, find ``let url = `http://${username}:${password}@127.0.0.1:8080${req.originalUrl}`` in ``./CORSenabler.js`` and modify ``127.0.0.1:8080`` to your port number/address.
 
 ### For Production
 

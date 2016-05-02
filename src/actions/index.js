@@ -4,7 +4,7 @@ import store from 'store'
 
 export const EVENT_SEARCH = 'EVENT_SEARCH'
 export const FETCH_EVENTS = 'FETCH_EVENTS'
-const dimeServerAddress = 'localhost:8080'
+const dimeServerAddress = 'localhost:3000'
 
 export function eventSearch (keyword) {
     const username = store.get('username')
