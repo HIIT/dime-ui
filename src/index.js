@@ -4,8 +4,7 @@ import { Provider } from 'react-redux'
 import { createStore, applyMiddleware } from 'redux'
 import ReduxPromise from 'redux-promise'
 import { Router, browserHistory} from 'react-router'
-import { syncHistoryWithStore } from 'react-router-redux'
-import { routerMiddleware } from 'react-router-redux'
+import { syncHistoryWithStore, routerMiddleware} from 'react-router-redux'
 
 import reducers from './reducers'
 import routes from './routes'
@@ -17,6 +16,7 @@ const store = createStoreWithMiddleware(
     applyMiddleware(middleware)
 )
 const history = syncHistoryWithStore(browserHistory, store)
+//history.listen(location => console.log(location))
 
 ReactDOM.render(
   <Provider store={store}>
