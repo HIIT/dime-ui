@@ -44,7 +44,7 @@ class EntityCard extends Component {
     }
     entityCardRender(entity, index) {
         let informationElement = entity.targettedResource? entity.targettedResource: entity
-        console.log(entity)
+        //console.log(entity)
         return (
             //<Transition
             //    component="false"
