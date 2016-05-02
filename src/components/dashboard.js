@@ -1,17 +1,14 @@
 import React from 'react';
 import { Component } from 'react'
 
-import EventsTimeline from '../containers/eventsTimeline'
-import TagsTimeline from '../containers/tagsTimeline'
 //import NavLink from '../components/NavLink'
+import FrequentTagsList from '../containers/frequentTagsList'
 
 export default class DashBoard extends Component {
     render() {
         return (
             <div>
-                <TagsTimeline />
-                <hr />
-                <EventsTimeline />
+                <FrequentTagsList />
             </div>
         );
     }
