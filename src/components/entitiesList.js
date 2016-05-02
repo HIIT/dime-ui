@@ -72,7 +72,9 @@ class EntitiesList extends Component {
                     <ReactList
                         itemRenderer={this.renderEntities.bind(this)}
                         length={this.props.entities.length}
-                        type='variable'
+                        pageSize={6}
+                        threshold={350}
+                        useTranslate3d={true}
                     />
                 </div>
             </div>

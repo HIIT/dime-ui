@@ -30,8 +30,21 @@ export const entityCardHeaderUrl = {
 }
 
 class EntityCard extends Component {
+    renderPlainTextContent(informationElement) {
+        return (
+            <p style={entityCardPlainText}>
+                {purify(informationElement.plainTextContent).map((text, index) => {
+                        return (
+                            <span style={entityCardPlainTextSpan} key={index}>{text} </span>
+                        )
+                    }
+                )}
+            </p>
+        )
+    }
     entityCardRender(entity, index) {
         let informationElement = entity.targettedResource? entity.targettedResource: entity
+        console.log(entity)
         return (
             //<Transition
             //    component="false"
@@ -50,28 +63,32 @@ class EntityCard extends Component {
             //>
             <div className="card" style={entityCard} key={index}>
                 <div className="card-header clearfix" style={entityCardHeader}>
-                    <span style={entityCardHeaderSpan}>From: </span>
-                    <b style={entityCardHeaderTitle}>{entity.actor}</b>
-                    <a className="pull-xs-right" href={`entity?id=${entity.id}`} style={entityCardHeaderUrl}>
-                        {`${moment(entity.timeCreated).format('MMMM Do YYYY, HH:mm:ss.SSS')}`}
-                    </a>
+                    {entity.actor?
+                        <span className="pull-xs-left" style={entityCardHeaderSpan}>
+                            From: <b style={entityCardHeaderTitle}>{entity.actor}</b>
+                        </span>
+                    : null}
+                    <span className="pull-xs-right" style={entityCardHeaderUrl}>
+                        {`${moment(entity.timeCreated).format('MMMM Do YYYY, HH:mm:ss')}`}
+                    </span>
                 </div>
-                <div className="card-block">
-                    <b>
-                        {informationElement.type.substring(informationElement.type.indexOf('#')+1, informationElement.type.length)}
-                    </b>
-                    <span> </span>
-                    <a className="" href={`${informationElement.uri}`}>
+                <div className="card-block clearfix">
+                    <a className="" href={`${informationElement.uri}`} style={{color:'rgba(0,0,0,.9)'}}>
                         {informationElement.title}
                     </a>
-                    <p style={entityCardPlainText}>
-                        {purify(informationElement.plainTextContent).map((text, index) => {
-                                return (
-                                    <span style={entityCardPlainTextSpan} key={index}>{text} </span>
-                                )
-                            }
-                        )}
-                    </p>
+                    <h5 className="pull-xs-right">
+                        <a href={`${informationElement.type}`}>
+                        <span className="label label-default"
+                              style={{backgroundColor: 'rgba(0,0,0,0.2)',
+                                      color:'rgba(255,255,255,1)',
+                                      fontWeight: 200,
+                                      }}>
+                             {informationElement.type.substring(informationElement.type.indexOf('#')+1, informationElement.type.length)}
+                        </span>
+                        </a>
+                    </h5>
+
+
                 </div>
             </div>
             //</Transition>
