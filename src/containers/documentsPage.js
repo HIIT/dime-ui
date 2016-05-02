@@ -5,7 +5,8 @@ import { bindActionCreators} from 'redux'
 import { push } from 'react-router-redux'
 
 import SearchBar from '../containers/searchBar'
-import EventsList from '../containers/eventsList'
+import DocumentsList from '../containers/documentsList'
+import DocumentsModal from '../containers/documentsModal'
 
 class documentsPage extends Component {
     componentWillMount(){
@@ -18,11 +19,18 @@ class documentsPage extends Component {
     render() {
         return (
             <div>
-                <EventsList />
-                <SearchBar />
+                <div>
+                    <DocumentsList />
+                    <SearchBar />
+                    {this.props.modal.isOpen ? <DocumentsModal />: null}
+                </div>
             </div>
         );
     }
 }
 
-export default connect(null, {push})(documentsPage)
+function mapStateToProps(state) {
+    return { modal: state.modal }
+}
+
+export default connect(mapStateToProps, {push})(documentsPage)

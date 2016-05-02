@@ -6,7 +6,7 @@ import { push } from 'react-router-redux'
 
 import SearchBar from '../containers/searchBar'
 import EventsList from '../containers/eventsList'
-import EventModal from '../containers/eventModal'
+import EventsModal from '../containers/eventsModal'
 
 class eventsPage extends Component {
     componentWillMount(){
@@ -21,7 +21,7 @@ class eventsPage extends Component {
             <div>
                 <EventsList />
                 <SearchBar />
-                {this.props.modal.isOpen ? <EventModal />: null}
+                {this.props.modal.isOpen ? <EventsModal />: null}
             </div>
         );
     }
