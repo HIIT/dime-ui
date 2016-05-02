@@ -1,4 +1,5 @@
 import _ from 'underscore'
+import Lazy from 'lazy.js'
 
 import { FETCH_TAGS } from "../actions/index"
 
@@ -41,18 +42,18 @@ export default function(state = [], action) {
             //})
             //console.log(getFrequentWords(tags))
 
-            let tags = _.compact(_.compact(_.flatten(action.payload.data.map((event)=> {
-                if (event.targettedResource.tags.length > 0) {
-                    //console.log(event.targettedResource.tags)
-                    return event.targettedResource.tags
-                }
-            }))).map((tag)=>{
-                if (tag.time) {
-                    return tag
-                }
-            }))
+            let tags = Lazy(action.payload.data).map((event)=> {return event.targettedResource.tags}).flatten().compact().toArray()
+            //let tags = _.compact(_.compact(_.flatten(action.payload.data.map((event)=> {
+            //    if (event.targettedResource.tags.length > 0) {
+            //        //console.log(event.targettedResource.tags)
+            //        return event.targettedResource.tags
+            //    }
+            //}))).map((tag)=>{
+            //    if (tag.time) {
+            //        return tag
+            //    }
+            //}))
             //console.log(tags)
-
             return _.sample(tags,200)
         default:
             return state
