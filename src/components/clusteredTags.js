@@ -1,7 +1,6 @@
 import React from 'react';
 import { Component } from 'react'
 import ReactDOM from 'react-dom'
-import { connect } from 'react-redux'
 import { TransitionMotion, spring } from 'react-motion'
 import Dimensions from 'react-dimensions'
 import TSNE from 'tsne-js';
@@ -43,7 +42,7 @@ const tagDateStyle = {
 class ClusteredTags extends Component {
     constructor (props) {
         super(props)
-        let entity = props.entity
+        let entity = props.entity? props.entity: null
         let tags = props.tags
         this.state = {
             entity: entity,
@@ -97,7 +96,6 @@ class ClusteredTags extends Component {
         })
     }
     tagEndStyle() {
-        let tags = this.state.entity.targettedResource.tags
         return {
             width: 0,
             height: 0,
