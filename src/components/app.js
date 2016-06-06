@@ -17,8 +17,8 @@ export default class App extends Component {
         return (
           <div>
             <NavBar ref="navBar"/>
-            <div className="container"
-                 style={{marginTop: this.state.navHeight}}
+            <div
+                 style={{marginTop: this.state.navHeight + 20}}
             >
                     {this.props.children}
             </div>
