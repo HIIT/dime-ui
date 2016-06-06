@@ -210,13 +210,12 @@ export function fetchTags () {
     }
 }
 
-export const GET_FREQUENT_TAGS = 'GET_FREQUENT_TAGS'
+export const GET_ALL_TIME_FREQUENT_TAGS = 'GET_ALL_TIME_FREQUENT_TAGS'
 
-export function getFrequentTags () {
+export function getAllTimeFrequentTags () {
     const username = store.get('username')
     const password = store.get('password')
     const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true`
-    //const url = `http://${dimeServerAddress}/api/eventsearch?query=hiit`
     const request = axios.get(url, {
         auth: {
             username: username,
@@ -224,7 +223,115 @@ export function getFrequentTags () {
         }
     })
     return {
-        type: GET_FREQUENT_TAGS,
+        type: GET_ALL_TIME_FREQUENT_TAGS,
+        payload: request
+    }
+}
+
+export const GET_CLUSTER_LAYER_0 = 'GET_CLUSTER_LAYER_0'
+
+export function getClusterLayer0() {
+    const username = store.get('username')
+    const password = store.get('password')
+    const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true`
+    const request = axios.get(url, {
+        auth: {
+            username: username,
+            password: password
+        }
+    })
+    return {
+        type: GET_CLUSTER_LAYER_0,
+        payload: request
+    }
+}
+
+export const GET_CLUSTER_TAG_LAYER = 'GET_CLUSTER_TAG_LAYER'
+
+export function getClusterTagLayer() {
+    const username = store.get('username')
+    const password = store.get('password')
+    const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true`
+    const request = axios.get(url, {
+        auth: {
+            username: username,
+            password: password
+        }
+    })
+    return {
+        type: GET_CLUSTER_LAYER_0,
+        payload: request
+    }
+}
+
+export const GET_PRE_MONTH_FREQUENT_TAGS = 'GET_PRE_MONTH_FREQUENT_TAGS'
+
+export function getPreviousMonthFrequentTags() {
+    const username = store.get('username')
+    const password = store.get('password')
+    const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true&after=${moment().subtract(1, 'months')}`
+    const request = axios.get(url, {
+        auth: {
+            username: username,
+            password: password
+        }
+    })
+    return {
+        type: GET_PRE_MONTH_FREQUENT_TAGS,
+        payload: request
+    }
+}
+
+export const GET_PRE_WEEK_FREQUENT_TAGS = 'GET_PRE_WEEK_FREQUENT_TAGS'
+
+export function getPreviousWeekFrequentTags() {
+    const username = store.get('username')
+    const password = store.get('password')
+    const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true&after=${moment().subtract(7, 'days')}`
+    const request = axios.get(url, {
+        auth: {
+            username: username,
+            password: password
+        }
+    })
+    return {
+        type: GET_PRE_WEEK_FREQUENT_TAGS,
+        payload: request
+    }
+}
+
+export const GET_PRE_24_FREQUENT_TAGS = 'GET_PRE_24_FREQUENT_TAGS'
+
+export function getPreviousTwentyFourFrequentTags() {
+    const username = store.get('username')
+    const password = store.get('password')
+    const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true&after=${moment().subtract(24, 'hours')}`
+    const request = axios.get(url, {
+        auth: {
+            username: username,
+            password: password
+        }
+    })
+    return {
+        type: GET_PRE_24_FREQUENT_TAGS,
+        payload: request
+    }
+}
+
+export const GET_PRE_1_FREQUENT_TAGS = 'GET_PRE_1_FREQUENT_TAGS'
+
+export function getPreviousOneHoursFrequentTags() {
+    const username = store.get('username')
+    const password = store.get('password')
+    const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true&after=${moment().subtract(1, 'hours')}`
+    const request = axios.get(url, {
+        auth: {
+            username: username,
+            password: password
+        }
+    })
+    return {
+        type: GET_PRE_1_FREQUENT_TAGS,
         payload: request
     }
 }
