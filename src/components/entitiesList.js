@@ -47,11 +47,11 @@ class EntitiesList extends Component {
                 className="row"
                 key={key}
             >
-                <div className="col-xs-2 col-xs-offset-1">
+                <div className="col-xs-1 col-xs-offset-1 col-sm-2 col-sm-offset-1">
                     <ListedUnconfirmedTags entity={entity} tags={autoTags}/>
                     <ListedConfirmedTags entity={entity} tags={manualTags}/>
                 </div>
-                <EntityCard className="col-xs-6" entity={entity} entityIndex={entityIndex} />
+                <EntityCard className="col-xs-8 col-sm-6" entity={entity} entityIndex={entityIndex} />
             </div>
         )
     }
@@ -64,9 +64,9 @@ class EntitiesList extends Component {
             >
                 <div
                     style={{
-                            paddingTop: '5px',
                             maxHeight: viewHeight
                             }}
+                    className="container"
 
                 >
                     <ReactList
