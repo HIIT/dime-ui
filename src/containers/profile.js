@@ -4,7 +4,6 @@ import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import getLevenClustersCoordinations  from '../services/getLevenClustersCoordinations'
 
-import ClusteringNav from '../containers/ClusteringNav'
 import { getClusterLayer0 } from '../actions/index'
 
 class Profile extends Component {
