@@ -7,7 +7,12 @@ import DocumentsReducer from './documentsReducer'
 import auth from './authReducer'
 import ModalReducer from './modalReducer'
 import tagsReducer from './tagsReducer'
-import frequentTagsReducer from './frequentTagsReducer'
+import frequentTagsAllTimeReducer from './frequentTagsAllTimeReducer'
+import frequentTagsPreMonthReducer from './frequentTagsPreMonthReducer'
+import frequentTagsPreWeekReducer from './frequentTagsPreWeekReducer'
+import frequentTagsPreTwentyFourReducer from './frequentTagsPreTwentyFourReducer'
+import frequentTagsPreOneReducer from './frequentTagsPreOneReducer'
+import clusterNav from './clusterNav'
 
 const rootReducer = combineReducers({
   auth: auth,
@@ -15,9 +20,14 @@ const rootReducer = combineReducers({
   documents: DocumentsReducer,
   modal: ModalReducer,
   tags: tagsReducer,
-  frequentTags: frequentTagsReducer,
+  frequentTagsAllTime: frequentTagsAllTimeReducer,
+  frequentTagsPreMonth: frequentTagsPreMonthReducer,
+  frequentTagsPreWeek: frequentTagsPreWeekReducer,
+  frequentTagsPreTwentyFour: frequentTagsPreTwentyFourReducer,
+  frequentTagsPreOne: frequentTagsPreOneReducer,
   routing: routerReducer,
-  form: formReducer
+  form: formReducer,
+  clusterNav: clusterNav,
 });
 
 export default rootReducer;
