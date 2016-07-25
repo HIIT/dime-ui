@@ -6,7 +6,7 @@ import { push } from 'react-router-redux'
 import { IndexLink } from 'react-router'
 
 import { logOut } from '../actions'
-import NavLink from '../components/NavLink'
+import NavLink from '../components/navLink'
 
 class NavBar extends Component {
     onClickLogOut() {

@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "npm-run-all --parallel cors dev",
+    "start": "npm run dev",
     "build": "webpack --config webpack.config.prod.js",
-    "dev": "webpack-dev-server --port 3001",
+    "dev": "webpack-dev-server --no-info",
     "cors": "nodemon CORSenabler.js --quiet --exec babel-node --presets es2015-node5,stage-0"
   },
   "repository": {
