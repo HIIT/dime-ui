@@ -50,7 +50,7 @@ class SearchBar extends Component {
                         />
                         <span className="input-group-btn">
                             <button type="submit"
-                                    className="btn btn-secondary">
+                                    className="btn btn-secondary hidden-sm-down">
                                 Search
                             </button>
                         </span>
