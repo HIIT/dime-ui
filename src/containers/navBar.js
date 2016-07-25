@@ -16,7 +16,7 @@ class NavBar extends Component {
     render() {
         const { isAuthenticated } = this.props
         return (
-            <header className="navbar navbar-fixed-top navbar-dark bg-inverse" role="banner">
+            <header className="navbar navbar-fixed-top navbar-dark bg-inverse hidden-sm-down" role="banner">
                 <nav className="nav navbar-nav">
                     <IndexLink to="/" className="navbar-brand" activeClassName="active">DiMe dashboard</IndexLink>
                     <ul className="nav navbar-nav clearfix">
