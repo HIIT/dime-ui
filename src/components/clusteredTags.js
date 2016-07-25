@@ -3,11 +3,9 @@ import { Component } from 'react'
 import ReactDOM from 'react-dom'
 import { TransitionMotion, spring } from 'react-motion'
 import Dimensions from 'react-dimensions'
-import TSNE from 'tsne-js';
-import leven from 'leven'
 import moment from 'moment'
 
-import { tagConfirm } from '../actions/index.js'
+import getLevenClustersCoordinations  from '../services/getLevenClustersCoordinations'
 
 const autoTagTextStyle = {
     display: 'block',
@@ -40,21 +38,21 @@ const tagDateStyle = {
 }
 
 class ClusteredTags extends Component {
-    constructor (props) {
-        super(props)
-        let entity = props.entity? props.entity: null
-        let tags = props.tags
-        this.state = {
-            entity: entity,
-            tags: tags,
-            tagCoordination: this.getTagCoordination(tags)
-        };
-    }
+    //constructor (props) {
+    //    super(props)
+    //}
+    //componentWillReceiveProps() {
+    //    console.log(this.props.tags)
+    //    this.setState({
+    //        tagsCoordination: this.getTagCoordination(this.props.tags)
+    //    })
+    //
+    //}
     handleTagClick(mouseEvent, tag, entity) {
         mouseEvent.stopPropagation()
-        if (this.isAutoTag(tag)) {
+        if (this.isAutoTag(tag) &&  this.props.tagConfirm) {
             this.props.tagConfirm(tag,entity)
-        } else {
+        } else if (this.props.tagConfirmCancel) {
             this.props.tagConfirmCancel(tag,entity)
         }
     }
@@ -67,7 +65,7 @@ class ClusteredTags extends Component {
                     width: 0,
                     height: 0,
                     opacity: 0,
-                    top: this.props.maxHeight/2,
+                    top: (this.props.maxHeight? this.props.maxHeight/2: this.props.containerHeight/2),
                     left: this.props.containerWidth/2
                 }
             }
@@ -77,7 +75,7 @@ class ClusteredTags extends Component {
         return tags.map((tag,index) => {
             let textLength = tag.text.length
             let tagsWindowWidth = this.props.containerWidth
-            let tagsWindowHeight = this.props.maxHeight
+            let tagsWindowHeight = (this.props.maxHeight? this.props.maxHeight/2: this.props.containerHeight/2)
             let shiftTop = 0.05 //percentage
             let shiftLeft = 0.2 //percentage
             let tagX = tagCoordination[index][0]*(tagsWindowWidth-tagsWindowWidth*shiftTop)
@@ -100,36 +98,9 @@ class ClusteredTags extends Component {
             width: 0,
             height: 0,
             opacity: spring(0),
-            top: this.props.maxHeight/2,
+            top: (this.props.maxHeight? this.props.maxHeight/2: this.props.containerHeight/2),
             left: this.props.containerWidth/2
         }
-    }
-    getTagCoordination(tags) {
-        let tagTextsLevenized = tags.map((tag) => {return tag.text}).map((sourceText, index, textArray)=> {
-            return textArray.map((targetText) => {
-                return leven(sourceText, targetText)
-            })
-        })
-        let model = new TSNE({
-            dim: 2,
-            perplexity: 5,
-            earlyExaggeration: 1.0,
-            learningRate: 100,
-            nIter: 400,
-            metric: 'euclidean'
-        })
-        model.init({
-            data: tagTextsLevenized,
-            type: 'dense'
-        })
-        model.run()
-        let TagCoordination = model.getOutputScaled().map((coordinationArray)=> {
-            return coordinationArray.map((coordination) => {
-                return (coordination + 1)/2
-            })
-        });
-        return TagCoordination
-
     }
     isAutoTag(tag) {
         if (tag.auto === false) {
@@ -139,35 +110,55 @@ class ClusteredTags extends Component {
         }
     }
     tagWithTransitionRender(tag, index, entity, tagStartStyle, tagStyle, tagEndStyle) {
+        let style = {}
+        style.cursor = 'pointer'
+        style.backgroundColor = 'rgba(40, 80, 100, 0.05)'
+        style.paddingBottom = '2%'
+        style.paddingTop = '1%'
+        style.marginLeft = '5px'
+        style.marginBottom = '5px'
         return (
-            <TransitionMotion
-                defaultStyles={tagStartStyle}
-                styles={tagStyle}
-                willLeave={tagEndStyle}
-                key={index}
-            >
-                { (interpolatingStyles) => {
-                    let style = interpolatingStyles[index].style
-                    style.cursor = 'pointer'
-                    style.position = 'absolute'
-                    style.backgroundColor = 'rgba(40, 80, 100, 0.05)'
-                    style.paddingBottom = '2%'
-                    style.paddingTop = '1%'
-                    return (
-                        <div
-                            className="label"
-                            style={style}
-                            onClick={(mouseEvent) => this.handleTagClick(mouseEvent, tag, entity)}
-                        >
-                            <span style={this.isAutoTag(tag) ? autoTagTextStyle: confirmedTagTextStyle}>{tag.text}</span>
-                            <span className='label label-pill label-default' style={actorTextStyle}>{tag.actor}</span>
-                            <span style={tagDateStyle}>{`${moment(tag.time).format('DD.MM HH:mm')}`}</span>
-                        </div>
-                    )
-                }
-                }
-            </TransitionMotion>
+                <div
+                    className="label"
+                    style={style}
+                    onClick={(mouseEvent) => this.handleTagClick(mouseEvent, tag, entity)}
+                    key={index}
+                >
+                    <span style={this.isAutoTag(tag) ? autoTagTextStyle: confirmedTagTextStyle}>{tag.text}</span>
+                    <span className='label label-pill label-default' style={actorTextStyle}>{tag.actor}</span>
+                    <span style={tagDateStyle}>{`${moment(tag.time).format('DD.MM HH:mm')}`}</span>
+                </div>
+
         )
+        //return (
+        //    <TransitionMotion
+        //        defaultStyles={tagStartStyle}
+        //        styles={tagStyle}
+        //        willLeave={this.tagEndStyle}
+        //        key={index}
+        //    >
+        //        { (interpolatingStyles) => {
+        //            let style = interpolatingStyles[index].style
+        //            style.cursor = 'pointer'
+        //            style.position = 'absolute'
+        //            style.backgroundColor = 'rgba(40, 80, 100, 0.05)'
+        //            style.paddingBottom = '2%'
+        //            style.paddingTop = '1%'
+        //            return (
+        //                <div
+        //                    className="label"
+        //                    style={style}
+        //                    onClick={(mouseEvent) => this.handleTagClick(mouseEvent, tag, entity)}
+        //                >
+        //                    <span style={this.isAutoTag(tag) ? autoTagTextStyle: confirmedTagTextStyle}>{tag.text}</span>
+        //                    <span className='label label-pill label-default' style={actorTextStyle}>{tag.actor}</span>
+        //                    <span style={tagDateStyle}>{`${moment(tag.time).format('DD.MM HH:mm')}`}</span>
+        //                </div>
+        //            )
+        //        }
+        //        }
+        //    </TransitionMotion>
+        //)
     }
     tagsRender(entity, tags, tagCoordination) {
         let tagStartStyle = this.tagStartStyle(tags, tagCoordination)
@@ -180,22 +171,30 @@ class ClusteredTags extends Component {
     }
     tagWrapperStyle(tags) {
         let {containerWidth} = this.props
-        if (tags) {
+        if (tags.length > 0) {
             return {
                 width: containerWidth + 'px',
                 height: this.props.maxHeight + 'px'
+            }
+        } else {
+            return {
+                width: containerWidth + 'px',
+                height: '0px'
             }
         }
 
     }
     render () {
-        let { entity, tags, tagCoordination} = this.state
+        let entity = this.props.entity? this.props.entity: null
+        let tags = this.props.tags
+        let tagsCoordination = getLevenClustersCoordinations(this.props.tags)
         return (
             <div className="clear-fix" style={this.tagWrapperStyle(tags)}>
-                {this.tagsRender(entity, tags, tagCoordination)}
+                {this.tagsRender(entity, tags, tagsCoordination)}
             </div>
         )
     }
 }
 
 export default Dimensions()(ClusteredTags)
+
