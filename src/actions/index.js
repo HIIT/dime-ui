@@ -4,11 +4,11 @@ import store from 'store'
 
 export const EVENT_SEARCH = 'EVENT_SEARCH'
 export const FETCH_EVENTS = 'FETCH_EVENTS'
-const dimeServerAddress = 'localhost:3000'
-
+const dimeServerAddress = 'fichh.us.to:8889'
+const username = 'testuser'
+const password = 'testuser123'
+    
 export function eventSearch (keyword) {
-    const username = store.get('username')
-    const password = store.get('password')
     const url = `http://${dimeServerAddress}/api/eventsearch?query=${keyword}`
     const request = axios.get(url, {
         auth: {
@@ -23,8 +23,6 @@ export function eventSearch (keyword) {
 }
 
 export function fetchEvents () {
-    const username = store.get('username')
-    const password = store.get('password')
     //const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true`
     const url = `http://${dimeServerAddress}/api/data/events`
     const request = axios.get(url, {
@@ -41,8 +39,6 @@ export function fetchEvents () {
 
 export const FETCH_DOCUMENTS = 'FETCH_DOCUMENTS'
 export function fetchDocuments () {
-    const username = store.get('username')
-    const password = store.get('password')
     const url = `http://${dimeServerAddress}/api/data/informationelements`
     const request = axios.get(url, {
         auth: {
@@ -60,8 +56,6 @@ export const LOG_IN = 'LOG_IN'
 export const LOG_OUT = 'LOG_OUT'
 
 export function logIn(props) {
-    const username = store.set('username',props.username)
-    const password = store.set('password',props.password)
     //const url = `http://${dimeServerAddress}/api/data/event/1`
     //const request = axios.get(url, {
     //    auth: {
@@ -76,8 +70,6 @@ export function logIn(props) {
 }
 
 export function logOut() {
-    store.remove('username')
-    store.remove('password')
     return {
         type: LOG_OUT,
         payload: 'logout'
@@ -92,9 +84,6 @@ export function tagConfirm(tag, entity) {
     tag.actor = 'dime-ui'
     tag.time = moment().toISOString()
     let informationElement = entity.targettedResource? entity.targettedResource: entity
-
-    const username = store.get('username')
-    const password = store.get('password')
     const url = `http://${dimeServerAddress}/api/data/informationelement/${informationElement.id}/addtag`
     const config =  {
         url: url,
@@ -194,8 +183,6 @@ export function setModalClose(index) {
 export const FETCH_TAGS = 'FETCH_TAGS'
 
 export function fetchTags () {
-    const username = store.get('username')
-    const password = store.get('password')
     const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true`
     //const url = `http://${dimeServerAddress}/api/eventsearch?query=hiit`
     const request = axios.get(url, {
@@ -213,8 +200,6 @@ export function fetchTags () {
 export const GET_ALL_TIME_FREQUENT_TAGS = 'GET_ALL_TIME_FREQUENT_TAGS'
 
 export function getAllTimeFrequentTags () {
-    const username = store.get('username')
-    const password = store.get('password')
     const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true`
     const request = axios.get(url, {
         auth: {
@@ -231,8 +216,6 @@ export function getAllTimeFrequentTags () {
 export const GET_CLUSTER_LAYER_0 = 'GET_CLUSTER_LAYER_0'
 
 export function getClusterLayer0() {
-    const username = store.get('username')
-    const password = store.get('password')
     const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true`
     const request = axios.get(url, {
         auth: {
@@ -249,8 +232,6 @@ export function getClusterLayer0() {
 export const GET_CLUSTER_TAG_LAYER = 'GET_CLUSTER_TAG_LAYER'
 
 export function getClusterTagLayer() {
-    const username = store.get('username')
-    const password = store.get('password')
     const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true`
     const request = axios.get(url, {
         auth: {
@@ -267,8 +248,6 @@ export function getClusterTagLayer() {
 export const GET_PRE_MONTH_FREQUENT_TAGS = 'GET_PRE_MONTH_FREQUENT_TAGS'
 
 export function getPreviousMonthFrequentTags() {
-    const username = store.get('username')
-    const password = store.get('password')
     const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true&after=${moment().subtract(1, 'months')}`
     const request = axios.get(url, {
         auth: {
@@ -285,8 +264,6 @@ export function getPreviousMonthFrequentTags() {
 export const GET_PRE_WEEK_FREQUENT_TAGS = 'GET_PRE_WEEK_FREQUENT_TAGS'
 
 export function getPreviousWeekFrequentTags() {
-    const username = store.get('username')
-    const password = store.get('password')
     const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true&after=${moment().subtract(7, 'days')}`
     const request = axios.get(url, {
         auth: {
@@ -303,8 +280,6 @@ export function getPreviousWeekFrequentTags() {
 export const GET_PRE_24_FREQUENT_TAGS = 'GET_PRE_24_FREQUENT_TAGS'
 
 export function getPreviousTwentyFourFrequentTags() {
-    const username = store.get('username')
-    const password = store.get('password')
     const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true&after=${moment().subtract(24, 'hours')}`
     const request = axios.get(url, {
         auth: {
@@ -321,8 +296,6 @@ export function getPreviousTwentyFourFrequentTags() {
 export const GET_PRE_1_FREQUENT_TAGS = 'GET_PRE_1_FREQUENT_TAGS'
 
 export function getPreviousOneHoursFrequentTags() {
-    const username = store.get('username')
-    const password = store.get('password')
     const url = `http://${dimeServerAddress}/api/data/events?includePlainTextContent=true&after=${moment().subtract(1, 'hours')}`
     const request = axios.get(url, {
         auth: {
