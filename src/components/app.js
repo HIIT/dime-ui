@@ -4,8 +4,6 @@ import ReactDOM from 'react-dom'
 
 import NavBar from '../containers/navBar'
 
-
-
 export default class App extends Component {
     constructor(props) {
         super(props)
