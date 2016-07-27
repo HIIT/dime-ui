@@ -55,7 +55,7 @@ export function fetchDocuments () {
 export const LOG_IN = 'LOG_IN'
 export const LOG_OUT = 'LOG_OUT'
 
-export function logIn(props) {
+export function logIn(auth) {
     //const url = `http://${dimeServerAddress}/api/data/event/1`
     //const request = axios.get(url, {
     //    auth: {
@@ -65,14 +65,14 @@ export function logIn(props) {
     //})
     return {
         type: LOG_IN,
-        payload: 'login'
+        payload: auth
     }
 }
 
-export function logOut() {
+export function logOut(auth) {
     return {
         type: LOG_OUT,
-        payload: 'logout'
+        payload: auth
     }
 }
 
