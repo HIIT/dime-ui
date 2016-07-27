@@ -1,9 +1,8 @@
-
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators} from 'redux'
-import { push } from 'react-router-redux'
 import { IndexLink } from 'react-router'
+import { browserHistory } from 'react-router'
 
 import { logOut } from '../actions'
 import NavLink from '../components/navLink'
@@ -11,14 +10,14 @@ import NavLink from '../components/navLink'
 class NavBar extends Component {
     onClickLogOut() {
         this.props.logOut()
-        this.props.push('/login')
+        browserHistory.push('/login')
     }
     render() {
         const { isAuthenticated } = this.props
         return (
             <header className="navbar navbar-fixed-top navbar-dark bg-inverse hidden-sm-down" role="banner">
                 <nav className="nav navbar-nav">
-                    <IndexLink to="/" className="navbar-brand" activeClassName="active">DiMe dashboard</IndexLink>
+                    <IndexLink to="/" className="navbar-brand" activeClassName="active">DiMe</IndexLink>
                     <ul className="nav navbar-nav clearfix">
                         {isAuthenticated &&
                             <li className='nav-item'>
@@ -56,7 +55,7 @@ class NavBar extends Component {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ logOut, push }, dispatch)
+    return bindActionCreators({ logOut }, dispatch)
 }
 function mapStateToProps(state) {
     const { isAuthenticated } = state.auth

@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux';
-import { routerReducer } from 'react-router-redux'
 import { reducer as formReducer } from 'redux-form'
 
 import EventsReducer from './eventsReducer'
@@ -25,7 +24,6 @@ const rootReducer = combineReducers({
   frequentTagsPreWeek: frequentTagsPreWeekReducer,
   frequentTagsPreTwentyFour: frequentTagsPreTwentyFourReducer,
   frequentTagsPreOne: frequentTagsPreOneReducer,
-  routing: routerReducer,
   form: formReducer,
   clusterNav: clusterNav,
 });

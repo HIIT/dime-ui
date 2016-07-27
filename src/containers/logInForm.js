@@ -1,24 +1,23 @@
 import React from 'react';
 import { Component } from 'react'
 import { reduxForm } from 'redux-form'
-import { push } from 'react-router-redux'
-import store from 'store'
+import { browserHistory } from 'react-router'
 
 import { logIn } from '../actions/index'
 
 export default class LogInForm extends Component {
     componentWillMount(){
-        const username = store.get('username')
-        const password = store.get('password')
-        if (username != null && password != null) {
-            this.props.push('/')
-        }
+        //const username = store.get('username')
+        //const password = store.get('password')
+        //if (username != null && password != null) {
+        //    this.props.push('/')
+        //}
     }
     onSubmit(formProps) {
-        store.remove('username')
-        store.remove('password')
+        //store.remove('username')
+        //store.remove('password')
         this.props.logIn(formProps)
-        this.props.push('/')
+        browserHistory.push('/events')
     }
     render() {
         let { fields: {username, password, port, remember}, handleSubmit} = this.props
@@ -84,7 +83,7 @@ function validate(values) {
     return errors
 }
 //connect: first argument is mapStateToProps, 2nd is mapDispatch
-//reduxForm 1st is form config, 2nd is mapStateToProps, 3rd is mapDispatch
+//for reduxForm, 1st argument is the form config, 2nd is mapStateToProps, 3rd is mapDispatch
 export default reduxForm({
     form: 'LogInForm',
     fields: ['username', 'password', 'remember'],
@@ -96,4 +95,4 @@ state => ({
         password: "testuser123",
         remember: true
     }
-}), { logIn, push })(LogInForm)
+}), { logIn })(LogInForm)
