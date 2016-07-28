@@ -1,47 +1,26 @@
-import React from 'react';
-import ReactDOM from 'react-dom'
-import { Component } from 'react'
-import { connect } from 'react-redux'
+import { React, Component } from 'react'
 import moment from 'moment'
-import Transition from 'react-motion-ui-pack'
-import Lazy from  'lazy.js'
 import ReactList from 'react-list'
+import styles from './styles.css';
 
-import ListedUnconfirmedTags from '../containers/listedUnconfirmedTags'
-import ListedConfirmedTags from '../containers/listedConfirmedTags'
-import { fetchEvents } from '../actions/index'
-import { setModalClose } from '../actions/index'
-import EntityCard from '../containers/entityCard'
+import ListedUnconfirmedTags from '../containers/ListedUnconfirmedTags'
+import ListedConfirmedTags from '../containers/ListedConfirmedTags'
+import { setModalClose, fetchData } from './actions'
+import EntityCard from '../containers/EntityCard'
 
-export const blur = {
-    WebkitFilter: 'blur(2px)',
-    MozFilter: 'blur(2px)',
-    OFilter: 'blur(2px)',
-    MsFilter: 'blur(2px)',
-    filter: 'blur(2px)',
-    opacity: 0.6,
-}
-
+const viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
 class EntitiesList extends Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            entitiesListContainerWidth: 0
-        };
-    }
     componentWillMount() {
-        if (this.props.fetchEvents) { this.props.fetchEvents() }
-        if (this.props.fetchDocuments) { this.props.fetchDocuments() }
+    	this.props.fetchData(this.props.entitiesType)
     }
-    handleClick() {
+    handleModalBackgroundClick() {
         this.props.setModalClose(this.props.modal.entityIndex)
     }
     renderEntities(entityIndex, key) {
         let entity = this.props.entities[entityIndex]
         let informationElement = entity.targettedResource? entity.targettedResource: entity
-        let manualTags = Lazy(informationElement.tags).filter((tag)=> { return ((typeof tag.auto != "undefined") && tag.auto === false)}).toArray()
-        //let autoTags = Lazy(informationElement.tags).filter((tag) => {return tag.auto}).toArray()
-        let autoTags = Lazy(informationElement.tags).filter((tag) =>  { return ((typeof tag.auto === "undefined") || tag.auto === true)}).toArray()
+        let manualTags = informationElement.tags.filter((tag)=> { return ((typeof tag.auto !== "undefined") && tag.auto === false)})
+        let autoTags = informationElement.tags.filter((tag) =>  { return ((typeof tag.auto === "undefined") || tag.auto === true)})
         return (
             <div
                 className="row"
@@ -56,18 +35,16 @@ class EntitiesList extends Component {
         )
     }
     render() {
-        let viewHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0)
         return (
             <div
                 style={this.props.modal.isOpen ? blur : null}
-                onClick={this.props.modal.isOpen ? this.handleClick : null}
+                onClick={this.props.modal.isOpen ? this.handleModalBackgroundClick : null}
             >
                 <div
                     style={{
                             maxHeight: viewHeight
                             }}
                     className="container"
-
                 >
                     <ReactList
                         itemRenderer={this.renderEntities.bind(this)}

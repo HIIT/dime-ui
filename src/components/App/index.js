@@ -1,8 +1,8 @@
 import React from 'react';
-import { Component } from 'react'
-import ReactDOM from 'react-dom'
+import { Component } from 'react';
+import ReactDOM from 'react-dom';
 
-import NavBar from '../containers/navBar'
+import NavBar from '../containers/NavBar';
 
 export default class App extends Component {
     constructor(props) {
