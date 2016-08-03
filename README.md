@@ -3,8 +3,6 @@
 * [ReactJS](https://facebook.github.io/react/) + [Redux](https://github.com/reactjs/redux)
 * The project is written in [ES6/JSX](https://babeljs.io/docs/learn-es2015/) Harmony, the next generation JavaScript and compile into ES5(current version of javascript)with the help of [babel](https://babeljs.io) and [Webpack](https://webpack.github.io/)
 
-![screencast](http://hiit.github.io/dime-ui/screencast.gif)
-
 ### For Development
 
 1. install node.js <https://nodejs.org/en/>
