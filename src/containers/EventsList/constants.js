@@ -1,3 +1,3 @@
-export const LOAD_EVENTS = 'app/LOAD_EVENTS'
-export const LOAD_EVENTS_SUCCESS = 'app/LOAD_EVENTS_SUCCESS'
-export const LOAD_EVENTS_ERROR = 'app/LOAD_EVENTS_ERROR'
+export const LOAD_EVENTS = 'eventsList/LOAD_EVENTS'
+export const LOAD_EVENTS_SUCCESS = 'eventsList/LOAD_EVENTS_SUCCESS'
+export const LOAD_EVENTS_ERROR = 'eventsList/LOAD_EVENTS_ERROR'
