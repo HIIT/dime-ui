@@ -1,22 +1,9 @@
-import React from 'react';
-import { Component } from 'react'
-import ReactDOM from 'react-dom'
+import { React, Component } from 'react'
 import Transition from 'react-motion-ui-pack'
 import moment from 'moment'
-
-import { entityCardHeaderSpan, entityCardHeaderTitle, entityCardHeaderUrl, entityCardPlainText, entityCardPlainTextSpan} from '../components/entityCard'
+import styles from 'styles.css' 
 import { purify } from '../services/purifyText'
 import ClusteredTags from '../containers/clusteredTags'
-
-const modalStyle = {
-    top: '8vh',
-    display: 'block'
-}
-
-const modalWrapper = {
-    background: 'transparent',
-    zIndex: 1040,
-};
 
 class EntityModal extends Component {
     handleClose(mouseEvent) {
@@ -44,13 +31,12 @@ class EntityModal extends Component {
                              }}
             >
                 <div
-                    className="modal-backdrop"
-                    style={modalWrapper}
-                    key={entityIndex}
+                    className={"modal-backdrop " + styles.modalWrapper}
+                    key={}
                     onClick={(mouseEvent) => this.handleClose(mouseEvent)}
                 >
-                    <div className="modal"
-                         style={modalStyle}
+                    <div 
+                    	className={"modal " + styles.modalStyle}
                     >
                         <div className="modal-dialog" role="document">
                             <div className="modal-content">
@@ -67,7 +53,10 @@ class EntityModal extends Component {
                                     <div className="container-fluid">
                                         <div className="row">
                                             <div className="col-xs-12">
-                                                <ClusteredTags entity={entity} tags={informationElement.tags} maxHeight='250'/>
+                                                <ClusteredTags entity={entity} 
+                                                			   tags={informationElement.tags} 
+                                                			   maxHeight='250'
+                                                />
                                             </div>
                                         </div>
                                     </div>
@@ -80,18 +69,18 @@ class EntityModal extends Component {
                                     <a className="" href={`${informationElement.uri}`}>
                                         {informationElement.title}
                                     </a>
-                                    <p style={entityCardPlainText}>
+                                    <p className={styles.entityCardPlainText}>
                                         {purify(informationElement.plainTextContent).map((text, index) => {
                                                 return (
-                                                    <span style={entityCardPlainTextSpan} key={index}>{text} </span>
+                                                    <span className={styles.entityCardPlainTextSpan} key={index}>{text} </span>
                                                 )
                                             }
                                         )}
                                     </p>
-                                    <span style={entityCardHeaderSpan}>From: </span>
-                                    <b style={entityCardHeaderTitle}>{entity.actor}</b>
+                                    <span className={styles.entityCardHeaderSpan}>From: </span>
+                                    <b className={styles.entityCardHeaderTitle}>{entity.actor}</b>
                                     <div>
-                                        <a href={`entity?id=${entity.id}`} style={entityCardHeaderUrl}>
+                                        <a href={`entity?id=${entity.id}`} className={styles.entityCardHeaderUrl}>
                                             {`${moment(entity.timeCreated).format('MMMM Do YYYY, HH:mm:ss.SSS')}`}
                                         </a>
                                     </div>
