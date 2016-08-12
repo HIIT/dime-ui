@@ -16,13 +16,19 @@ class EntityCard extends Component {
     }
     render() {
     	const { entity } = this.props
-    	const informationElement = entity.targettedResource? entity.targettedResource: entity
         return (
               <div className={"card " + styles.entityCard} >
-                <div className={"card-header clearfix " + styles.entityCardHeader}>
+                {this.renderEntityCardHeader(entity).bind(this)}
+                {this.renderEntityCardBody(entity).bind(this)}
+              </div>
+        )
+    }
+    renderEntityCardHeader(entity) {
+    	return (
+    		<div className={"card-header clearfix " + styles.entityCardHeader}>
                 
                     {entity.actor?
-                        {renderEntityActor(entity.actor)}
+                        {this.renderEntityActor(entity.actor)}
                     : null}
                     
                     <span className={"pull-xs-right " + styles.entityCardDelete}
@@ -32,42 +38,59 @@ class EntityCard extends Component {
                     </span>
                     
                     {entity.timeCreated?
-                        {renderEntityTimeCreated(entity.timeCreated)}
+                        {this.renderEntityTimeCreated(entity.timeCreated)}
                     : null}
                     
-                </div>
-                
-                <div className={"card-block clearfix " + styles.entityCardBody}
+        	</div>
+    	)
+    }
+    renderEntityCardBody(entity) {
+    	const informationElement = entity.targettedResource? entity.targettedResource: entity
+    	return (
+    		<div className={"card-block clearfix " + styles.entityCardBody}
                      onClick={(mouseEvent) => this.handleClickOnEntity(entity.id, mouseEvent)}
                 >
-                    <a 
-                    	className={styles.infoEleTitle} 
-                    	href={`${informationElement.uri}`} 
-                    	>
-                        {informationElement.title}
-                    </a>
-                    
-                    {informationElement.plainTextContent?
-                        {renderInformationElementPlainTextContent(informationElement.plainTextContent)}
+                    {informationElement.title?
+                        {this.renderInfoEleTitle(informationElement.title, informationElement.uri)}
                     : null}
                     
-                    <h5 className="pull-xs-right">
-                        <a href={`${informationElement.type}`}>
-                        <span className={"label label-default " + styles.infoEleLabel}>
-                             {informationElement.type.substring(informationElement.type.indexOf('#')+1, informationElement.type.length)}
+                    {informationElement.plainTextContent?
+                        {this.renderInfoElePlainTextContent(informationElement.plainTextContent)}
+                    : null}
+                    
+                    {informationElement.type?
+                        {this.renderInfoEleTitle(informationElement.type)}
+                    : null}
+              </div>
+    	)
+    }
+    renderInfoEleTitle(title, uri) {
+    	return (
+    		<a 
+        		className={styles.infoEleTitle} 
+                href={`${uri}`} 
+            >
+            	{title}
+            </a>
+    	)
+    }
+    renderInfoEleType(type) {
+    	return (
+    		<h5 className="pull-xs-right">
+            	<a href={`${type}`}>
+                	<span className={"label label-default " + styles.infoEleLabel}>
+                             {type.substring(type.indexOf('#')+1, type.length)}
                         </span>
-                        </a>
-                    </h5>
-                </div>
-            </div>
-        )
+                 </a>
+            </h5>
+    	)  
     }
     renderEntityActor(actor) {
     	return (
     		<span className={"pull-xs-left " + styles.entityCardHeaderSpan}>
             	From: 
             	<b className={styles.entityCardHeaderTitle}>
-            		{entity.actor}
+            		{actor}
             	</b>
             </span>
     	)
@@ -77,7 +100,7 @@ class EntityCard extends Component {
             {`${moment(timeCreated).format('MMMM Do YYYY, HH:mm:ss')}`}
         </span>
     }
-    renderInformationElementPlainTextContent(plainTextContent) {
+    renderInfoElePlainTextContent(plainTextContent) {
         return (
             <p className={styles.entityCardPlainText} >
                 {plainTextContent}
