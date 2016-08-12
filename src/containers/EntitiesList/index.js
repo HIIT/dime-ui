@@ -12,34 +12,41 @@ class EntitiesList extends Component {
     componentWillMount() {
     	this.props.initEntitiesList()
     }
-    renderEntities(entityIndex) {
-        let entity = this.props.entities[entityIndex]
-        let informationElement = entity.targettedResource? entity.targettedResource: entity
-        let manualTags = informationElement.tags.filter((tag)=> { return ((typeof tag.auto !== "undefined") && tag.auto === false)})
-        let autoTags = informationElement.tags.filter((tag) =>  { return ((typeof tag.auto === "undefined") || tag.auto === true)})
+    renderEntity(entityIndex) {
+        const entity = this.props.entities[entityIndex] //TODO:react-list should pass entity itslef as arugment, check doc.
+        const informationElement = entity.targettedResource? entity.targettedResource: entity
+        const manualTags = informationElement.tags.filter((tag)=> { return ((typeof tag.auto !== "undefined") && tag.auto === false)})
+        const autoTags = informationElement.tags.filter((tag) =>  { return ((typeof tag.auto === "undefined") || tag.auto === true)})
         return (
             <div
                 className="row"
-                key={}
+                key={entity.id}
             >
                 <div className="col-xs-1 col-xs-offset-1 col-sm-2 col-sm-offset-1">
-                    <ListedUnconfirmedTags entity={entity} tags={autoTags}/>
-                    <ListedConfirmedTags entity={entity} tags={manualTags}/>
+                    <ListedUnconfirmedTags 
+                    	entity={entity} 
+                    	tags={autoTags}
+                    />
+                    <ListedConfirmedTags 
+                    	entity={entity} 
+                    	tags={manualTags}
+                    />
                 </div>
-                <EntityCard className="col-xs-8 col-sm-6" entity={entity} entityIndex={entityIndex} />
+                <EntityCard 
+                	className="col-xs-8 col-sm-6" 
+                	entity={entity} 
+                	entityIndex={entityIndex} 
+                />
             </div>
         )
     }
     render() {
         return (
                 <div
-                    style={{
-                            maxHeight: viewHeight
-                            }}
                     className="container"
                 >
                     <ReactList
-                        itemRenderer={this.renderEntities.bind(this)}
+                        itemRenderer={this.renderEntity.bind(this)}
                         length={this.props.entities.length}
                         pageSize={6}
                         threshold={350}
