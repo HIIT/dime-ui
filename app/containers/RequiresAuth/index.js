@@ -14,7 +14,6 @@ export default function requiresAuth(Component) {
   class AuthenticatedComponent extends React.Component {
     static propTypes = {
       auth: PropTypes.object,
-      dispatch: PropTypes.func.isRequired,
     };
     componentDidMount() {
       this.checkAndRedirect().bind(this);
