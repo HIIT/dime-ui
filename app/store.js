@@ -2,11 +2,15 @@
  * Create the store with asynchronously loaded reducers
  */
 
-import { createStore, applyMiddleware, compose } from 'redux';
+import createLoggerMiddleware from 'redux-logger';
+import createSagaMiddleware from 'redux-saga';
+import throttle from 'lodash/throttle';
 import { fromJS } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
-import createSagaMiddleware from 'redux-saga';
+import { createStore, applyMiddleware, compose } from 'redux';
+
 import createReducer from './reducers';
+import { loadState, saveState } from './localStorage';
 
 const sagaMiddleware = createSagaMiddleware();
 const devtools = window.devToolsExtension || (() => noop => noop);
@@ -20,19 +24,31 @@ export default function configureStore(initialState = {}, history) {
     routerMiddleware(history),
   ];
 
+  if (process.env.NODE_ENV !== 'production') {
+    middlewares.push(createLoggerMiddleware());
+  }
+
   const enhancers = [
     applyMiddleware(...middlewares),
     devtools(),
   ];
 
+  const persistedState = loadState();
   const store = createStore(
     createReducer(),
-    fromJS(initialState),
+    fromJS(persistedState),
     compose(...enhancers)
   );
 
   // Create hook for async sagas
   store.runSaga = sagaMiddleware.run;
+
+  // Save Auth State in LocalStorage
+  store.subscribe(throttle(() => {
+    saveState({
+      auth: store.getState().auth,
+    });
+  }, 1000));
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
   /* istanbul ignore next */
