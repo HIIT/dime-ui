@@ -5,15 +5,12 @@
  */
 
 import React from 'react';
-import { connect } from 'react-redux';
-import selectTagsList from './selectors';
 
 export class TagsList extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     entityID: React.PropTypes.number,
     tags: React.PropTypes.array,
     className: React.PropTypes.string,
-    style: React.PropTypes.object,
     clickOnTag: React.PropTypes.func,
   }
   handleTagClick(tag, entityID, mouseEvent) {
@@ -21,14 +18,13 @@ export class TagsList extends React.Component { // eslint-disable-line react/pre
     this.props.clickOnTag(tag, entityID);
   }
   render() {
-    const { tags, entityID } = this.props;
+    const { tags, entityID, className } = this.props;
     const tagNodes = tags.map(function tagNodeRender(tag) {
       return (
         <span
           key={tag.id}
-          className={`${this.props.className}`}
-          style={this.props.style}
           onClick={(mouseEvent) => this.handleTagClick(tag, entityID, mouseEvent)}
+          className={className}
         >
           {tag.text}
         </span>
@@ -42,12 +38,4 @@ export class TagsList extends React.Component { // eslint-disable-line react/pre
   }
 }
 
-const mapStateToProps = selectTagsList();
-
-function mapDispatchToProps(dispatch) {
-  return {
-    dispatch,
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(TagsList);
+export default TagsList;
