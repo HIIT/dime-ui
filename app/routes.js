@@ -50,6 +50,14 @@ export default function createRoutes(store) {
           .catch(errorLoading);
       },
     }, {
+      path: '/login',
+      name: 'logInPage',
+      getComponent(location, cb) {
+        System.import('containers/LogInPage')
+          .then(loadModule(cb))
+          .catch(errorLoading);
+      },
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {
