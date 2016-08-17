@@ -1,0 +1,7 @@
+.confirmedTagsList { /* stylelint-ignore */
+  cursor: pointer;
+  background-color: rgba(92, 184, 92, 0.85);
+  font-weight: 400;
+  margin-right: 3px;
+  margin-bottom: 3px;
+}
