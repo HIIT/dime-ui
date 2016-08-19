@@ -16,7 +16,7 @@ export class EventsList extends React.Component { // eslint-disable-line react/p
     events: React.PropTypes.array,
     loadEvents: React.PropTypes.func,
   }
-  componentWillMount() {
+  componentDidlMount() {
     this.props.loadEvents();
   }
   render() {
