@@ -16,10 +16,10 @@
    };
  }
 
- export function eventsLoaded(respond) {
+ export function eventsLoaded(events) {
    return {
      type: LOAD_EVENTS_SUCCESS,
-     respond,
+     events,
    };
  }
 
