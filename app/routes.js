@@ -33,29 +33,26 @@ export default function createRoutes(store) {
 
         importModules.catch(errorLoading);
       },
-    }, {
+    },
+    {
       path: '/events',
       name: 'eventsPage',
-      getComponent(location, cb) {
-        System.import('containers/EventsPage')
-          .then(loadModule(cb))
-          .catch(errorLoading);
-      },
-    }, {
-      path: '/documents',
-      name: 'documentsPage',
-      getComponent(location, cb) {
-        System.import('containers/DocumentsPage')
-          .then(loadModule(cb))
-          .catch(errorLoading);
-      },
-    }, {
-      path: '/login',
-      name: 'logInPage',
-      getComponent(location, cb) {
-        System.import('containers/LogInPage')
-          .then(loadModule(cb))
-          .catch(errorLoading);
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          System.import('containers/EventsPage/reducer'),
+          System.import('containers/EventsPage/sagas'),
+          System.import('containers/EventsPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('eventsPage', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
       },
     }, {
       path: '*',
