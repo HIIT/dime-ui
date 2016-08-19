@@ -1,11 +1,10 @@
 /**
  * Create the store with asynchronously loaded reducers
  */
-
-import createLoggerMiddleware from 'redux-logger';
+import createLogger from 'redux-logger';
 import createSagaMiddleware from 'redux-saga';
 import throttle from 'lodash/throttle';
-import { fromJS } from 'immutable';
+import { fromJS, Iterable } from 'immutable';
 import { routerMiddleware } from 'react-router-redux';
 import { createStore, applyMiddleware, compose } from 'redux';
 
@@ -25,7 +24,14 @@ export default function configureStore(initialState = {}, history) {
   ];
 
   if (process.env.NODE_ENV !== 'production') {
-    middlewares.push(createLoggerMiddleware());
+    const stateTransformer = (state) => {
+      if (Iterable.isIterable(state)) return state.toJS();
+      return state;
+    };
+    const logger = createLogger({
+      stateTransformer,
+    });
+    middlewares.push(logger);
   }
 
   const enhancers = [
