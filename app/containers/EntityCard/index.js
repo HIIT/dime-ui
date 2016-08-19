@@ -6,14 +6,13 @@
 
 import React from 'react';
 import moment from 'moment'; // TODO: es6 import moment?
-import MdDelete from 'react-icons/lib/md/delete';
 import styles from './styles.css';
 
 export class EntityCard extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     clickOnEntity: React.PropTypes.func,
     deleteEntity: React.PropTypes.func,
-    entity: React.ProprTypes.object,
+    entity: React.PropTypes.object,
   }
   handleClickOnEntity = (entity, mouseEvent) => {
     mouseEvent.preventDefault();
@@ -35,7 +34,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
           className={deletEntityStyle}
           onClick={(mouseEvent) => this.handleClickOnDelete(entity, mouseEvent)}
         >
-          <MdDelete />
+          x
         </span>
         {entity.timeCreated ?
             this.renderEntityTimeCreated(entity.timeCreated)
