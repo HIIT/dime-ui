@@ -9,17 +9,20 @@ const selectEventsListDomain = () => state => state.get('eventsList');
  * Other specific selectors
  */
 
+const selectEventsListData = () => createSelector(
+  selectEventsListDomain(),
+  (eventsListState) => eventsListState.get('data').toJS()
+);
+
+const selectAuth = () => (state) => state.get('auth').toJS();
 
 /**
  * Default selector used by EventsList
  */
 
-const selectEventsList = () => createSelector(
-  selectEventsListDomain(),
-  (substate) => substate.toJS()
-);
-
-export default selectEventsList;
+export default selectEventsListDomain;
 export {
   selectEventsListDomain,
+  selectEventsListData,
+  selectAuth,
 };
