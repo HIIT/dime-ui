@@ -1,9 +1,0 @@
-.unconfirmedTagsList { /* stylelint-ignore */
-  background-color: rgba(255,255,255,1);
-  border: 1px solid rgba(0, 0, 0, .2);
-  color: rgba(0, 0, 0, .5);
-  font-weight: 200;
-  cursor: pointer;
-  margin-right: 3px;
-  margin-bottom: 3px;
-}
