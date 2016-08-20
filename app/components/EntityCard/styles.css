@@ -1,44 +1,41 @@
-.entityCard {
-  word-wrap: 'break-word';
+.cardWrapper {
+  margin-top: 15px;
+  word-wrap: break-word;
 }
 
-.entityCardBody {
-  cursor: 'pointer';
-}
-.entityCardPlainText {
-  font-size: '9px';
-  color: 'rgba(0,0,0,0.2)';
-}
-.entityCardPlainTextSpan {
-}
-.entityCardHeader {
-  padding: '5px 10px 5px 10px';
-}
-.entityCardHeaderTitle {
-  font-size: '12px';
-}
-.entityCardHeaderSpan {
-  font-size: '9px';
-}
-.entityCardHeaderUrl {
-  font-size: '9px';
+.cardHeaderInfoWrapper {
+  overflow: hidden;
+  margin-top: 5px;
+  font-size: 10px;
+  color: rgba(0,0,0,0.18);
 }
 
-.entityCardDelete {
-  cursor: 'pointer';
-  display: 'inline-block';
-  margin-left: '5px';
-  margin-top: '-5px';
-  font-size: '16px';
-  color: 'rgba(0,0,0,.2)'
+.entityType{
+  display: inline-block;
+  padding: 0 4px 0 5px;
+  font-size: 12px;
+  text-decoration: none;
+  color: rgba(0,0,0,0.5);
 }
 
-.infoEleTitle {
-	color:'rgba(0,0,0,.9)';
+.entityActor{
+  display: inline-block;
+  padding: 0 3px 0 4px;
+  font-size: 12px;
+  color: rgba(0,0,0,0.5);
 }
 
-.infoEleLabel {
-	background-color: 'rgba(0,0,0,0.2)';
-  color:'rgba(255,255,255,1)';
-  font-weight: 200;
+.entityTime {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 8px;
+  font-weight: 300;
+  color: rgba(0,0,0,0.5);
+}
+
+.cardHeaderDeleteWrapper {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
 }

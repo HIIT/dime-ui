@@ -6,6 +6,7 @@
 
 import React from 'react';
 import ReactList from 'react-list';
+import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import TagsList from 'components/TagsList';
 import EntityCard from 'components/EntityCard';
 import styles from './styles.css';
@@ -26,11 +27,10 @@ export class EntitiesList extends React.Component { // eslint-disable-line react
     const notAutoTags = entity.tags.filter((tag) => !tag.auto);
     const autoTags = entity.tags.filter((tag) => tag.auto);
     return (
-      <div
-        className="row"
+      <Row
         key={entity.id}
       >
-        <div className="col-xs-1 col-xs-offset-1 col-sm-2 col-sm-offset-1">
+        <Col xsOffset={1} xs={1} smOffset={1} sm={2} >
           <TagsList
             entityID={entity.id}
             tags={autoTags}
@@ -43,29 +43,28 @@ export class EntitiesList extends React.Component { // eslint-disable-line react
             clickOnTag={this.props.clickOnEntityTag}
             className={`label-sucess ${styles.notAutoTag}`}
           />
-        </div>
-        <EntityCard
-          className="col-xs-8 col-sm-6"
-          entity={entity}
-          clickOnEntityCard={this.props.clickOnEntityCard}
-          clickOnEntityDelete={this.props.clickOnEntityDelete}
-        />
-      </div>
+        </Col>
+        <Col xs={8} sm={6} >
+          <EntityCard
+            entity={entity}
+            clickOnEntityCard={this.props.clickOnEntityCard}
+            clickOnEntityDelete={this.props.clickOnEntityDelete}
+          />
+        </Col>
+      </Row>
     );
   }
   render() {
     return (
-      <div
-        className="container"
-      >
+      <Grid>
         <ReactList
           itemRenderer={this.renderEntity}
           length={this.props.entities.length}
           pageSize={6}
-          threshold={350}
+          threshold={400}
           useTranslate3d // TODO:check browsers support for Translate3d
         />
-      </div>
+      </Grid>
     );
   }
 }
