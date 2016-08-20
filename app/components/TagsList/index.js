@@ -1,17 +1,19 @@
-/*
- *
- * TagsList
- *
- */
+/**
+*
+* TagsList
+*
+*/
 
 import React from 'react';
 
-export class TagsList extends React.Component { // eslint-disable-line react/prefer-stateless-function
+import styles from './styles.css';
+
+class TagsList extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     entityID: React.PropTypes.number,
     tags: React.PropTypes.array,
-    className: React.PropTypes.string,
     clickOnTag: React.PropTypes.func,
+    className: React.PropTypes.string,
   }
   handleTagClick(tag, entityID, mouseEvent) {
     mouseEvent.preventDefault();
@@ -22,16 +24,16 @@ export class TagsList extends React.Component { // eslint-disable-line react/pre
     const tagNodes = tags.map(function tagNodeRender(tag) {
       return (
         <span
-          key={tag.id}
+          key={tag.id} // TODO: in current dime API, tag does not have id, find alternative for keys
           onClick={(mouseEvent) => this.handleTagClick(tag, entityID, mouseEvent)}
-          className={className}
+          className={`label label-pill pull-xs-right ${className}`}
         >
           {tag.text}
         </span>
       );
     });
     return (
-      <div className="clearfix">
+      <div className={styles.tagsList}>
         {tagNodes}
       </div>
     );
