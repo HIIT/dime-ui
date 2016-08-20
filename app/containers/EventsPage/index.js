@@ -5,24 +5,46 @@
  */
 
 import React from 'react';
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
+import { selectEvents } from './selectors';
+import { loadEvents, clickOnEventCard, deleteEvent, clickOnEventTag } from './actions';
 import requiresAuth from 'containers/RequiresAuth';
-import EventsList from 'containers/EventsList';
+import EntitiesList from 'components/EntitiesList';
 
 export class EventsPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
+  static propTypes = {
+    events: React.PropTypes.array,
+    loadEvents: React.PropTypes.func,
+    clickOnEventCard: React.PropTypes.func,
+    deleteEvent: React.PropTypes.func,
+    clickOnEventTag: React.PropTypes.func,
+  }
   render() {
     return (
-      <div>
-        <EventsList />
-      </div>
+      <EntitiesList
+        entities={this.props.events}
+        initEntitiesList={this.props.loadEvents}
+        clickOnEntityCard={this.props.clickOnEventCard}
+        clickOnEntityDelete={this.props.deleteEvent}
+        clickOnEntityTag={this.props.clickOnEventTag}
+      />
     );
   }
 }
 
+const mapStateToProps = createStructuredSelector({
+  events: selectEvents(),
+});
+
 function mapDispatchToProps(dispatch) {
   return {
-    dispatch,
+    loadEvents: bindActionCreators(loadEvents, dispatch),
+    clickOnEventCard: bindActionCreators(clickOnEventCard, dispatch),
+    deleteEvent: bindActionCreators(deleteEvent, dispatch),
+    clickOnEventTag: bindActionCreators(clickOnEventTag, dispatch),
   };
 }
 
-export default connect(mapDispatchToProps)(requiresAuth(EventsPage));
+export default connect(mapStateToProps, mapDispatchToProps)(requiresAuth(EventsPage));
