@@ -6,6 +6,7 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import selectLogInPage from './selectors';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 
@@ -19,6 +20,7 @@ export class LogInPage extends React.Component { // eslint-disable-line react/pr
   }
 }
 
+const mapStateToProps = selectLogInPage();
 
 function mapDispatchToProps(dispatch) {
   return {
@@ -26,4 +28,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default connect(mapDispatchToProps)(LogInPage);
+export default connect(mapStateToProps, mapDispatchToProps)(LogInPage);
