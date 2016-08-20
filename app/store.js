@@ -49,10 +49,10 @@ export default function configureStore(initialState = {}, history) {
   // Create hook for async sagas
   store.runSaga = sagaMiddleware.run;
 
-  // Save Auth State in LocalStorage
+  // Save App State in LocalStorage
   store.subscribe(throttle(() => {
     saveState({
-      auth: store.getState().auth,
+      app: store.getState().app,
     });
   }, 1000));
 
