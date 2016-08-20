@@ -4,42 +4,59 @@
  *
  */
 
-import React, { PropTypes } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { browserHistory } from 'react-router';
-import selectRequiresAuth from './selectors';
+import { push } from 'react-router-redux';
+import selectAuthDomain from './selectors';
+import { createStructuredSelector } from 'reselect';
 
 // Learn from http://engineering.blogfoster.com/higher-order-components-theory-and-practice/
 export default function requiresAuth(Component) {
   class AuthenticatedComponent extends React.Component {
     static propTypes = {
-      auth: PropTypes.object,
+      auth: React.PropTypes.object,
+      changeRoute: React.PropTypes.func,
     };
     componentDidMount() {
-      this.checkAndRedirect().bind(this);
+      this.checkAndRedirect();
     }
     componentDidUpdate() {
-      this.checkAndRedirect().bind(this);
+      this.checkAndRedirect();
     }
-    checkAndRedirect() {
-      if (this.checkAuth(this.props.auth)) {
-        browserHistory.push('/login');
+    openRoute = (route) => {
+      this.props.changeRoute(route);
+    }
+    openLogInPage = () => {
+      this.openRoute('/login');
+    }
+    checkAndRedirect = () => {
+      if (!this.hasAuthToken(this.props.auth.toJS())) {
+        this.openLogInPage();
       }
     }
-    checkAuth(auth) {
-      if (typeof auth.username !== 'undefined' && typeof auth.password !== 'undefined') {
-        return false;
+    hasAuthToken = (auth) => {
+      if (typeof auth.token !== 'undefined') {
+        return true;
       }
-      return true;
+      return false;
     }
     render() {
       return (
         <div className="authenticated">
-          { this.checkAuth(this.props.auth) ? <Component {...this.props} /> : null }
+          { this.hasAuthToken(this.props.auth.toJS()) ? <Component {...this.props} /> : null }
         </div>
       );
     }
   }
-  const mapStateToProps = selectRequiresAuth();
-  return connect(mapStateToProps)(AuthenticatedComponent);
+
+  function mapDispatchToProps(dispatch) {
+    return {
+      changeRoute: (url) => dispatch(push(url)),
+      dispatch,
+    };
+  }
+  const mapStateToProps = createStructuredSelector({
+    auth: selectAuthDomain(),
+  });
+  return connect(mapStateToProps, mapDispatchToProps)(AuthenticatedComponent);
 }

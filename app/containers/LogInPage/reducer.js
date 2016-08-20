@@ -1,6 +1,6 @@
 /*
  *
- * RequiresAuth reducer
+ * LogInPage reducer
  *
  */
 
@@ -11,7 +11,7 @@ import {
 
 const initialState = fromJS({});
 
-function requiresAuthReducer(state = initialState, action) {
+function logInPageReducer(state = initialState, action) {
   switch (action.type) {
     case DEFAULT_ACTION:
       return state;
@@ -20,4 +20,4 @@ function requiresAuthReducer(state = initialState, action) {
   }
 }
 
-export default requiresAuthReducer ;
+export default logInPageReducer;

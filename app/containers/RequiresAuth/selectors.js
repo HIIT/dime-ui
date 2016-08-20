@@ -1,25 +1,6 @@
-import { createSelector } from 'reselect';
+const selectAuthDomain = () => state => state.getIn(['app', 'auth']);
 
-/**
- * Direct selector to the requiresAuth state domain
- */
-const selectAuthDomain = () => state => state.get('auth');
-
-/**
- * Other specific selectors
- */
-
-
-/**
- * Default selector used by RequiresAuth
- */
-
-const selectRequiresAuth = () => createSelector(
-  selectAuthDomain(),
-  (substate) => substate.toJS()
-);
-
-export default selectRequiresAuth;
+export default selectAuthDomain;
 export {
   selectAuthDomain,
 };

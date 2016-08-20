@@ -1,6 +1,6 @@
 /*
  *
- * RequiresAuth actions
+ * LogInPage actions
  *
  */
 
