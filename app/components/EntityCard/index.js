@@ -1,26 +1,25 @@
-/*
- *
- * EntityCard
- *
- */
+/**
+*
+* EntityCard
+*
+*/
 
 import React from 'react';
-import moment from 'moment'; // TODO: es6 import moment?
 import styles from './styles.css';
 
 export class EntityCard extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
-    clickOnEntity: React.PropTypes.func,
-    deleteEntity: React.PropTypes.func,
+    clickOnEntityCard: React.PropTypes.func,
+    clickOnEntityDelete: React.PropTypes.func,
     entity: React.PropTypes.object,
   }
   handleClickOnEntity = (entity, mouseEvent) => {
     mouseEvent.preventDefault();
-    this.props.clickOnEntity(entity);
+    this.props.clickOnEntityCard(entity);
   }
   handleClickOnDelete = (entity, mouseEvent) => {
     mouseEvent.preventDefault();
-    this.props.deleteEntity(entity);
+    this.props.clickOnEntityDelete(entity);
   }
   renderEntityCardHeader = (entity) => {
     const cardHeaderStyle = `card-header clearfix ${styles.entityCardHeader}`;
@@ -99,7 +98,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
     const timeStampStyle = `pull-xs-right ${styles.entityCardHeaderUrl}`;
     return (
       <span className={timeStampStyle}>
-        {`${moment(timeCreated).format('MMMM Do YYYY, HH:mm:ss')}`}
+        {timeCreated}
       </span>
     );
   }

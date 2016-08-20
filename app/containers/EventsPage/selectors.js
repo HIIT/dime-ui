@@ -9,17 +9,22 @@ const selectEventsPageDomain = () => state => state.get('eventsPage');
  * Other specific selectors
  */
 
+const selectAuth = () => (state) => state.getIn(['app', 'auth']).toJS();
+
+const selectAPI = () => (state) => state.getIn(['app', 'API']).toJS();
 
 /**
  * Default selector used by EventsPage
  */
 
-const selectEventsPage = () => createSelector(
+const selectEvents = () => createSelector(
   selectEventsPageDomain(),
-  (substate) => substate.toJS()
+  (eventsPage) => eventsPage.get('data').toJS()
 );
 
-export default selectEventsPage;
+export default selectEventsPageDomain;
 export {
-  selectEventsPageDomain,
+  selectEvents,
+  selectAuth,
+  selectAPI,
 };
