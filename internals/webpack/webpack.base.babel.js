@@ -19,9 +19,14 @@ module.exports = (options) => ({
       query: options.babelQuery,
     }, {
       // Transform our own .css files with PostCSS and CSS-modules
-      test: /\.s?css$/,
+      test: /\.css$/,
       exclude: /node_modules/,
       loader: options.cssLoaders,
+    }, {
+      // load flexboxgrid with CSS Modules
+      test: /\.css$/,
+      loader: 'style!css?modules',
+      include: /flexboxgrid/,
     }, {
       // Do not transform vendor's CSS with CSS-modules
       // The point is that they remain in global scope.
@@ -30,6 +35,7 @@ module.exports = (options) => ({
       // So, no need for ExtractTextPlugin here.
       test: /\.css$/,
       include: /node_modules/,
+      exclude: /flexboxgrid/,
       loaders: ['style-loader', 'css-loader'],
     }, {
       test: /\.(eot|svg|ttf|woff|woff2)$/,
