@@ -15,22 +15,25 @@ class TagsList extends React.Component { // eslint-disable-line react/prefer-sta
     clickOnTag: React.PropTypes.func,
     className: React.PropTypes.string,
   }
-  handleTagClick(tag, entityID, mouseEvent) {
+  handleTagClick = (tag, entityID, mouseEvent) => {
     mouseEvent.preventDefault();
     this.props.clickOnTag(tag, entityID);
   }
   render() {
     const { tags, entityID, className } = this.props;
-    const tagNodes = tags.map(function tagNodeRender(tag) {
-      return (
-        <span
-          key={tag.id} // TODO: in current dime API, tag does not have id, find alternative for keys
-          onClick={(mouseEvent) => this.handleTagClick(tag, entityID, mouseEvent)}
-          className={`label label-pill pull-xs-right ${className}`}
-        >
-          {tag.text}
-        </span>
-      );
+    const tagNodes = tags.map((tag, key) => {
+      if (tag.text) {
+        return (
+          <span
+            key={`tag ${key}`}
+            onClick={(mouseEvent) => this.handleTagClick(tag, entityID, mouseEvent)}
+            className={`${styles.tag} ${className}`}
+          >
+            {tag.text}
+          </span>
+        );
+      }
+      return null;
     });
     return (
       <div className={styles.tagsList}>
