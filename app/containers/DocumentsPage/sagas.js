@@ -66,7 +66,7 @@ export function* deleteDocument(action) {
   const { id } = action.document;
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/data/informationelement/${id}/`;
+  const requestURL = `http://${url}/api/data/informationelement/${id}`;
   const options = {
     method: 'DELETE',
     headers: {
@@ -91,11 +91,12 @@ export function* toogleDocumentTagAutoLabel(action) {
   const { tag, documentID } = action;
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/data/informationelement/${documentID}/addrag`;
+  const requestURL = `http://${url}/api/data/informationelement/${documentID}/addtag`;
   const options = {
     method: 'POST',
     headers: {
       Authorization: `Basic ${token}`,
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(merge(tag, {
       auto: !tag.auto,
