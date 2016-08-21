@@ -1,0 +1,38 @@
+
+
+.navBar { /* stylelint-ignore */
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  padding-top: 15px;
+}
+
+.navBarLeftWrapper {
+  float: left;
+  margin-left: 1.6vw;
+}
+
+.navBarRightWrapper {
+  position: relative;
+  float: right;
+}
+
+.navBarLogoWrapper {
+  display: inline-block;
+}
+
+.navBarLogo {
+  color: rgba(0,0,0,.8);
+  font-family: 'Roboto Mono', monospace;
+  font-size: 32px;
+}
+
+.navBarMenuWrapper {
+  display: inline-block;
+  margin-left: .55vw;
+}
+
+.navBarAccountWrapper {
+  margin-right: .7vw;
+}
