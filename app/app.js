@@ -35,12 +35,12 @@ import { translationMessages } from './i18n';
 // Import the CSS reset, which HtmlWebpackPlugin transfers to the build folder
 // import 'sanitize.css/sanitize.css';
 
-// Observe loading of Open Sans (to remove open sans, remove the <link> tag in
+// Observe loading of Roboto Font
 // the index.html file and this observer)
 import styles from 'containers/App/styles.css';
-const robotoObserver = new FontFaceObserver('Roboto', {});
+const robotoObserver = new FontFaceObserver(['Roboto', 'Roboto Mono'], {});
 
-// When Open Sans is loaded, add a font-family using Open Sans to the body
+// When Roboto is loaded, add a font-family using Open Sans to the body
 robotoObserver.load().then(() => {
   document.body.classList.add(styles.fontLoaded);
 }, () => {

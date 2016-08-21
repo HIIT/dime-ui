@@ -3,7 +3,7 @@
  *
  * App container styles
  */
-@import 'https://fonts.googleapis.com/css?family=Roboto:300,400,500';
+@import 'https://fonts.googleapis.com/css?family=Roboto|Roboto+Mono';
 
 body {
   font-family: Helvetica, Arial, sans-serif;
