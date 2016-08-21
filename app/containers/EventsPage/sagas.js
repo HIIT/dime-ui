@@ -91,7 +91,7 @@ export function* toogleEventTagAutoLabel(action) {
   const { tag, eventID } = action;
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/data/event/${eventID}/addrag`;
+  const requestURL = `http://${url}/api/data/event/${eventID}/addtag`;
   const options = {
     method: 'POST',
     headers: {
