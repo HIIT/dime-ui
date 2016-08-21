@@ -1,3 +1,14 @@
 .tagsList { /* stylelint-ignore */
 
 }
+
+.tag {
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 300;
+  font-family: 'Roboto Mono', monospace;
+  cursor: pointer;
+  border-radius: 3px;
+  padding: 1px 4px 2px 4px;
+  margin: 0px 5px 5px 0;
+}
