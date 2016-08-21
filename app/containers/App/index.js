@@ -8,22 +8,42 @@
  */
 
 import React from 'react';
+import { connect } from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import styles from './styles.css';
+import NavBar from 'components/NavBar';
+import { push } from 'react-router-redux';
+import { selectAuthDomain } from './selectors';
+import { createStructuredSelector } from 'reselect';
 
-export default class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
   static propTypes = {
     children: React.PropTypes.node,
+    auth: React.PropTypes.object,
+    changeRoute: React.PropTypes.func,
   };
 
   render() {
     return (
       <MuiThemeProvider>
         <div className={styles.container}>
+          <NavBar changeRoute={this.props.changeRoute} auth={this.props.auth} />
           {React.Children.toArray(this.props.children)}
         </div>
       </MuiThemeProvider>
     );
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    changeRoute: (url) => dispatch(push(url)),
+    dispatch,
+  };
+}
+const mapStateToProps = createStructuredSelector({
+  auth: selectAuthDomain(),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
