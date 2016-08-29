@@ -12,7 +12,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import messages from './messages';
-import styles from './styles.css'
+import styles from './styles.css';
 
 export default class NotFound extends React.Component { // eslint-disable-line react/prefer-stateless-function
 
