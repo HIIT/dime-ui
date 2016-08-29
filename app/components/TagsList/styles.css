@@ -1,5 +1,4 @@
 .tagsList { /* stylelint-ignore */
-
 }
 
 .tag {
@@ -9,6 +8,6 @@
   font-family: 'Roboto Mono', monospace;
   cursor: pointer;
   border-radius: 3px;
-  padding: 1px 4px 2px 4px;
-  margin: 0px 5px 5px 0;
+  padding: 1px 4px 2px;
+  margin: 0 5px 5px 0;
 }

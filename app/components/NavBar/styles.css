@@ -23,16 +23,16 @@
 }
 
 .navBarLogo {
-  color: rgba(0,0,0,.8);
+  color: rgba(0, 0, 0, 0.8);
   font-family: 'Roboto Mono', monospace;
   font-size: 32px;
 }
 
 .navBarMenuWrapper {
   display: inline-block;
-  margin-left: .55vw;
+  margin-left: 0.55vw;
 }
 
 .navBarAccountWrapper {
-  margin-right: .7vw;
+  margin-right: 0.7vw;
 }
