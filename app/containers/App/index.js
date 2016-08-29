@@ -22,13 +22,18 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     children: React.PropTypes.node,
     auth: React.PropTypes.object,
     changeRoute: React.PropTypes.func,
+    location: React.PropTypes.object,
   };
 
   render() {
     return (
       <MuiThemeProvider>
         <div className={styles.container}>
-          <NavBar changeRoute={this.props.changeRoute} auth={this.props.auth} />
+          <NavBar
+            changeRoute={this.props.changeRoute}
+            auth={this.props.auth}
+            pathName={this.props.location.pathname}
+          />
           {React.Children.toArray(this.props.children)}
         </div>
       </MuiThemeProvider>
