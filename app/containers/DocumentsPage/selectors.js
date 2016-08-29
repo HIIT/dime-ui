@@ -22,9 +22,22 @@ const selectDocuments = () => createSelector(
   (documentsPage) => documentsPage.get('data').toJS()
 );
 
+const selectLoading = () => createSelector(
+  selectDocumentsPageDomain(),
+  (documentsPage) => documentsPage.get('loading')
+);
+
+const selectError = () => createSelector(
+  selectDocumentsPageDomain(),
+  (documentsPage) => documentsPage.get('error').toJS()
+);
+
+
 export default selectDocumentsPageDomain;
 export {
   selectDocuments,
+  selectLoading,
+  selectError,
   selectAuth,
   selectAPI,
 };

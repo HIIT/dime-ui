@@ -22,9 +22,21 @@ const selectEvents = () => createSelector(
   (eventsPage) => eventsPage.get('data').toJS()
 );
 
+const selectLoading = () => createSelector(
+  selectEventsPageDomain(),
+  (documentsPage) => documentsPage.get('loading')
+);
+
+const selectError = () => createSelector(
+  selectEventsPageDomain(),
+  (documentsPage) => documentsPage.get('error').toJS()
+);
+
 export default selectEventsPageDomain;
 export {
   selectEvents,
+  selectLoading,
+  selectError,
   selectAuth,
   selectAPI,
 };
