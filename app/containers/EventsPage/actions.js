@@ -56,24 +56,26 @@ export function clickOnEventCard(event) {
   };
 }
 
-export function deleteEvent(event) {
+export function deleteEvent(eventID) {
   return {
     type: DELETE_EVENT,
-    event,
+    eventID,
   };
 }
 
-export function deleteEventError(error) {
+export function deleteEventError(error, eventID) {
   return {
     type: DELETE_EVENT_ERROR,
     error,
+    eventID,
   };
 }
 
-export function deleteEventSucess(respond) {
+export function deleteEventSucess(respond, eventID) {
   return {
     type: DELETE_EVENT_SUCESS,
     respond,
+    eventID,
   };
 }
 
@@ -91,10 +93,11 @@ export function clickOnEventTag(tag, eventID) {
   };
 }
 
-export function toogleEventTagScuess(respond) {
+export function toogleEventTagScuess(respond, tag) {
   return {
     type: TOOGLE_EVENT_TAG_SUCESS,
     respond,
+    tag,
   };
 }
 
