@@ -20,6 +20,10 @@
 
 .navBarLogoWrapper {
   display: inline-block;
+
+  @media (max-width: 780px) {
+    display: none;
+  }
 }
 
 .navBarLogo {
@@ -30,7 +34,10 @@
 
 .navBarMenuWrapper {
   display: inline-block;
-  margin-left: 0.55vw;
+
+  @media (max-width: 480px) {
+    display: none;
+  }
 }
 
 .navBarAccountWrapper {
