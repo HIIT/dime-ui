@@ -32,7 +32,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
   }
   handleClickOnDelete = (entity, mouseEvent) => {
     mouseEvent.preventDefault();
-    this.props.clickOnEntityDelete(entity);
+    this.props.clickOnEntityDelete(entity.id);
   }
   handleExpandChange = (expanded) => {
     this.setState({ expanded });
@@ -83,6 +83,9 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
         />
         <JSONTree
           data={entity}
+          shouldExpandNode={() => false}
+          valueRenderer={raw => (raw.length > 1000 ? <em>text lenth > 1000, hiden</em> : raw)}
+          sortObjectKeys
           hideRoot
         />
       </CardText>
