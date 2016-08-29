@@ -8,6 +8,7 @@ import React from 'react';
 import ReactList from 'react-list';
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import TextField from 'material-ui/TextField';
+import CircularProgress from 'material-ui/CircularProgress';
 import TagsList from 'components/TagsList';
 import EntityCard from 'components/EntityCard';
 import styles from './styles.css';
@@ -15,16 +16,36 @@ import styles from './styles.css';
 export class EntitiesList extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     initEntitiesList: React.PropTypes.func,
+    search: React.PropTypes.func,
     entities: React.PropTypes.array,
+    loading: React.PropTypes.bool,
+    error: React.PropTypes.object,
     clickOnEntityCard: React.PropTypes.func,
     clickOnEntityDelete: React.PropTypes.func,
     clickOnEntityTag: React.PropTypes.func,
   }
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: '',
+    };
+  }
   componentWillMount() {
     this.props.initEntitiesList();
   }
-  renderEntity = (entityIndex) => {
-    const entity = this.props.entities[entityIndex]; // TODO:react-list should pass entity itslef as arugment, check doc.
+  handleChange = (event) => {
+    this.setState({
+      value: event.target.value,
+    });
+  };
+  handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      this.props.search(this.state.value);
+    }
+  }
+  rednerLoadingIndicator = () => (this.props.loading ? <CircularProgress size={0.5} /> : null)
+  renderEntity = (entity) => {
+    // const entity = this.props.entities[entityIndex];
     const notAutoTags = entity.tags.filter((tag) => !tag.auto);
     const autoTags = entity.tags.filter((tag) => tag.auto);
     return (
@@ -61,10 +82,21 @@ export class EntitiesList extends React.Component { // eslint-disable-line react
     const floatedHint = 'Keyword';
     return (
       <Row>
-        <Col xsOffset={2} xs={8} smOffset={4} sm={6} >
+        <Col
+          smOffset={3}
+          xs={1}
+          sm={1}
+        >
+          <div className={styles.loadingIndicatorWrapper}>
+            {this.rednerLoadingIndicator()}
+          </div>
+        </Col>
+        <Col xsOffset={1} xs={8} smOffset={0} sm={6} >
           <TextField
             hintText={hint}
             floatingLabelText={floatedHint}
+            onKeyDown={this.handleKeyDown}
+            onChange={this.handleChange}
             fullWidth
           />
         </Col>
@@ -78,7 +110,7 @@ export class EntitiesList extends React.Component { // eslint-disable-line react
       >
         {this.renderSearchBox()}
         <ReactList
-          itemRenderer={this.renderEntity}
+          itemRenderer={(index) => this.renderEntity(this.props.entities[index])}
           length={this.props.entities.length}
           pageSize={12}
           threshold={450}

@@ -27,3 +27,10 @@
 .entityWrapper {
   margin-top: 15px;
 }
+
+.loadingIndicatorWrapper {
+  height: 50px;
+  position: relative;
+  float: right;
+  margin-top: 25px;
+}
