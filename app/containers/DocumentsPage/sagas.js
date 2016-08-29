@@ -3,7 +3,6 @@ import { takeEvery, takeLatest } from 'redux-saga';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { LOAD_DOCUMENTS, CLICK_DOCUMENT_TAG, CLICK_DOCUMENT_CARD, DELETE_DOCUMENT } from './constants';
 import request from 'utils/request';
-import merge from 'lodash/merge';
 import { selectAuth, selectAPI } from './selectors';
 import {
   documentsLoaded,
@@ -63,10 +62,9 @@ export function* clickDocumentWatcherPlusLocationChangeCanceler() {
 // Delete Document Card Saga
 
 export function* deleteDocument(action) {
-  const { id } = action.document;
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/data/informationelement/${id}`;
+  const requestURL = `http://${url}/api/data/informationelement/${action.documentID}`;
   const options = {
     method: 'DELETE',
     headers: {
@@ -75,9 +73,9 @@ export function* deleteDocument(action) {
   };
   const respond = yield call(request, requestURL, options);
   if (!respond.err) {
-    yield put(deleteDocumentSucess(respond.data));
+    yield put(deleteDocumentSucess(respond.data, action.documentID));
   } else {
-    yield put(deleteDocumentError(respond.err));
+    yield put(deleteDocumentError(respond.err, action.documentID));
   }
 }
 
@@ -91,24 +89,40 @@ export function* toogleDocumentTagAutoLabel(action) {
   const { tag, documentID } = action;
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/data/informationelement/${documentID}/addtag`;
-  const options = {
+  const removeTagRequestURL = `http://${url}/api/data/informationelement/${documentID}/removetag`;
+  const removeTagRequestOptions = {
     method: 'POST',
     headers: {
       Authorization: `Basic ${token}`,
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(merge(tag, {
+    body: JSON.stringify(tag),
+  };
+  const addTagRequestURL = `http://${url}/api/data/informationelement/${documentID}/addtag`;
+  const addTagRequestOptions = {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      '@type': 'Tag',
+      text: tag.text,
       auto: !tag.auto,
       actor: 'dime-ui',
       time: new Date().toISOString(),
-    })),
+    }),
   };
-  const respond = yield call(request, requestURL, options);
-  if (!respond.err) {
-    yield put(toogleDocumentTagScuess(respond.data));
+  const removeTagRespond = yield call(request, removeTagRequestURL, removeTagRequestOptions);
+  if (!removeTagRespond.err) {
+    const addTagRespond = yield call(request, addTagRequestURL, addTagRequestOptions);
+    if (!addTagRespond.err) {
+      yield put(toogleDocumentTagScuess(addTagRespond.data, tag));
+    } else {
+      yield put(toogleDocumentTagError(addTagRespond.err));
+    }
   } else {
-    yield put(toogleDocumentTagError(respond.err));
+    yield put(toogleDocumentTagError(removeTagRespond.err));
   }
 }
 

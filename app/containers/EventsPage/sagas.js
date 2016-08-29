@@ -63,10 +63,9 @@ export function* clickEventWatcherPlusLocationChangeCanceler() {
 // Delete Event Card Saga
 
 export function* deleteEvent(action) {
-  const { id } = action.event;
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/data/event/${id}/`;
+  const requestURL = `http://${url}/api/data/event/${action.eventID}/`;
   const options = {
     method: 'DELETE',
     headers: {
@@ -75,9 +74,9 @@ export function* deleteEvent(action) {
   };
   const respond = yield call(request, requestURL, options);
   if (!respond.err) {
-    yield put(deleteEventSucess(respond.data));
+    yield put(deleteEventSucess(respond.data, action.eventID));
   } else {
-    yield put(deleteEventError(respond.err));
+    yield put(deleteEventError(respond.err, action.eventID));
   }
 }
 
@@ -91,23 +90,40 @@ export function* toogleEventTagAutoLabel(action) {
   const { tag, eventID } = action;
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/data/event/${eventID}/addtag`;
-  const options = {
+  const removeTagRequestURL = `http://${url}/api/data/informationelement/${eventID}/removetag`;
+  const removeTagRequestOptions = {
     method: 'POST',
     headers: {
       Authorization: `Basic ${token}`,
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify(merge(tag, {
+    body: JSON.stringify(tag),
+  };
+  const addTagRequestURL = `http://${url}/api/data/informationelement/${eventID}/addtag`;
+  const addTagRequestOptions = {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      '@type': 'Tag',
+      text: tag.text,
       auto: !tag.auto,
       actor: 'dime-ui',
       time: new Date().toISOString(),
-    })),
+    }),
   };
-  const respond = yield call(request, requestURL, options);
-  if (!respond.err) {
-    yield put(toogleEventTagScuess(respond.data));
+  const removeTagRespond = yield call(request, removeTagRequestURL, removeTagRequestOptions);
+  if (!removeTagRespond.err) {
+    const addTagRespond = yield call(request, addTagRequestURL, addTagRequestOptions);
+    if (!addTagRespond.err) {
+      yield put(toogleEventTagScuess(addTagRespond.data, tag));
+    } else {
+      yield put(toogleEventTagError(addTagRespond.err));
+    }
   } else {
-    yield put(toogleEventTagError(respond.err));
+    yield put(toogleEventTagError(removeTagRespond.err));
   }
 }
 
