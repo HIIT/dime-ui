@@ -15,11 +15,19 @@
    CLICK_DOCUMENT_TAG,
    TOOGLE_DOCUMENT_TAG_SUCESS,
    TOOGLE_DOCUMENT_TAG_ERROR,
+   SEARCH_DOCUMENTS,
  } from './constants';
 
  export function loadDocuments() {
    return {
      type: LOAD_DOCUMENTS,
+   };
+ }
+
+ export function searchDocument(keyword) {
+   return {
+     type: SEARCH_DOCUMENTS,
+     keyword,
    };
  }
 
@@ -50,24 +58,26 @@
    };
  }
 
- export function deleteDocument(document) {
+ export function deleteDocument(documentID) {
    return {
      type: DELETE_DOCUMENT,
-     document,
+     documentID,
    };
  }
 
- export function deleteDocumentError(error) {
+ export function deleteDocumentError(error, documentID) {
    return {
      type: DELETE_DOCUMENT_ERROR,
      error,
+     documentID,
    };
  }
 
- export function deleteDocumentSucess(respond) {
+ export function deleteDocumentSucess(respond, documentID) {
    return {
      type: DELETE_DOCUMENT_SUCESS,
      respond,
+     documentID,
    };
  }
 
@@ -85,10 +95,11 @@
    };
  }
 
- export function toogleDocumentTagScuess(respond) {
+ export function toogleDocumentTagScuess(respond, tag) {
    return {
      type: TOOGLE_DOCUMENT_TAG_SUCESS,
      respond,
+     tag,
    };
  }
 
