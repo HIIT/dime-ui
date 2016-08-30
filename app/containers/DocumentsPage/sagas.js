@@ -31,7 +31,7 @@ export function* getDocuments() {
   if (!respond.err) {
     yield put(documentsLoaded(respond.data));
   } else {
-    yield put(documentsLoadingError(respond.err));
+    yield put(documentsLoadingError(respond));
   }
 }
 
@@ -62,7 +62,7 @@ export function* searchDocument(action) {
   if (!respond.err) {
     yield put(searchDocumentLoaded(keyword.length > 0 ? respond.data.docs : respond.data));
   } else {
-    yield put(searchDocumentError(respond.err));
+    yield put(searchDocumentError(respond));
   }
 }
 
@@ -108,7 +108,7 @@ export function* deleteDocument(action) {
   if (!respond.err) {
     yield put(deleteDocumentSucess(respond.data, action.documentID));
   } else {
-    yield put(deleteDocumentError(respond.err, action.documentID));
+    yield put(deleteDocumentError(respond, action.documentID));
   }
 }
 

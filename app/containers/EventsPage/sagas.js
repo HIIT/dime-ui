@@ -31,7 +31,7 @@ export function* getEvents() {
   if (!respond.err) {
     yield put(eventsLoaded(respond.data));
   } else {
-    yield put(eventsLoadingError(respond.err));
+    yield put(eventsLoadingError(respond));
   }
 }
 
@@ -62,7 +62,7 @@ export function* searchEvent(action) {
   if (!respond.err) {
     yield put(searchEventLoaded(keyword.length > 0 ? respond.data.docs : respond.data));
   } else {
-    yield put(searchEventError(respond.err));
+    yield put(searchEventError(respond));
   }
 }
 
@@ -108,7 +108,7 @@ export function* deleteEvent(action) {
   if (!respond.err) {
     yield put(deleteEventSucess(respond.data, action.eventID));
   } else {
-    yield put(deleteEventError(respond.err, action.eventID));
+    yield put(deleteEventError(respond, action.eventID));
   }
 }
 
