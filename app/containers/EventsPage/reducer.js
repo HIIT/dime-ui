@@ -9,6 +9,9 @@ import {
   LOAD_EVENTS,
   LOAD_EVENTS_SUCCESS,
   LOAD_EVENTS_ERROR,
+  SEARCH_EVENTS,
+  SEARCH_EVENTS_SUCCESS,
+  SEARCH_EVENTS_ERROR,
   DELETE_EVENT,
   DELETE_EVENT_SUCESS,
   DELETE_EVENT_ERROR,
@@ -39,6 +42,18 @@ function eventsPageReducer(state = initialState, action) {
         .set('loading', false)
         .set('error', fromJS(action.error))
         .set('data', fromJS([]));
+    case SEARCH_EVENTS:
+      return state
+        .set('loading', true);
+    case SEARCH_EVENTS_SUCCESS:
+      return state
+        .set('data', fromJS(action.documents))
+        .set('loading', false)
+        .set('error', fromJS({}));
+    case SEARCH_EVENTS_ERROR:
+      return state
+        .set('loading', false)
+        .set('error', fromJS(action.error));
     case DELETE_EVENT:
       return state
         .set('loading', true);

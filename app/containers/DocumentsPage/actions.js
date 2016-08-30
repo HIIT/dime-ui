@@ -8,6 +8,9 @@
    LOAD_DOCUMENTS,
    LOAD_DOCUMENTS_SUCCESS,
    LOAD_DOCUMENTS_ERROR,
+   SEARCH_DOCUMENTS,
+   SEARCH_DOCUMENTS_SUCCESS,
+   SEARCH_DOCUMENTS_ERROR,
    CLICK_DOCUMENT_CARD,
    DELETE_DOCUMENT,
    DELETE_DOCUMENT_SUCESS,
@@ -15,19 +18,11 @@
    CLICK_DOCUMENT_TAG,
    TOOGLE_DOCUMENT_TAG_SUCESS,
    TOOGLE_DOCUMENT_TAG_ERROR,
-   SEARCH_DOCUMENTS,
  } from './constants';
 
  export function loadDocuments() {
    return {
      type: LOAD_DOCUMENTS,
-   };
- }
-
- export function searchDocument(keyword) {
-   return {
-     type: SEARCH_DOCUMENTS,
-     keyword,
    };
  }
 
@@ -41,6 +36,32 @@
  export function documentsLoadingError(error) {
    return {
      type: LOAD_DOCUMENTS_ERROR,
+     error,
+   };
+ }
+
+ /*
+  *
+  * Search actions
+  *
+  */
+ export function searchDocument(keyword) {
+   return {
+     type: SEARCH_DOCUMENTS,
+     keyword,
+   };
+ }
+
+ export function searchDocumentLoaded(documents) {
+   return {
+     type: SEARCH_DOCUMENTS_SUCCESS,
+     documents,
+   };
+ }
+
+ export function searchDocumentError(error) {
+   return {
+     type: SEARCH_DOCUMENTS_ERROR,
      error,
    };
  }

@@ -14,6 +14,9 @@ import {
   LOAD_EVENTS,
   LOAD_EVENTS_SUCCESS,
   LOAD_EVENTS_ERROR,
+  SEARCH_EVENTS,
+  SEARCH_EVENTS_SUCCESS,
+  SEARCH_EVENTS_ERROR,
   CLICK_EVENT_CARD,
   DELETE_EVENT,
   DELETE_EVENT_SUCESS,
@@ -39,6 +42,32 @@ export function eventsLoaded(events) {
 export function eventsLoadingError(error) {
   return {
     type: LOAD_EVENTS_ERROR,
+    error,
+  };
+}
+
+/*
+ *
+ * Search actions
+ *
+ */
+export function searchEvent(keyword) {
+  return {
+    type: SEARCH_EVENTS,
+    keyword,
+  };
+}
+
+export function searchEventLoaded(documents) { // DiMe EventSearch will return documents
+  return {
+    type: SEARCH_EVENTS_SUCCESS,
+    documents,
+  };
+}
+
+export function searchEventError(error) {
+  return {
+    type: SEARCH_EVENTS_ERROR,
     error,
   };
 }

@@ -9,6 +9,9 @@
    LOAD_DOCUMENTS,
    LOAD_DOCUMENTS_SUCCESS,
    LOAD_DOCUMENTS_ERROR,
+   SEARCH_DOCUMENTS,
+   SEARCH_DOCUMENTS_SUCCESS,
+   SEARCH_DOCUMENTS_ERROR,
    DELETE_DOCUMENT,
    DELETE_DOCUMENT_SUCESS,
    DELETE_DOCUMENT_ERROR,
@@ -37,6 +40,18 @@
      case LOAD_DOCUMENTS_ERROR:
        return state
          .set('data', fromJS([]))
+         .set('loading', false)
+         .set('error', fromJS(action.error));
+     case SEARCH_DOCUMENTS:
+       return state
+         .set('loading', true);
+     case SEARCH_DOCUMENTS_SUCCESS:
+       return state
+         .set('data', fromJS(action.documents))
+         .set('loading', false)
+         .set('error', fromJS({}));
+     case SEARCH_DOCUMENTS_ERROR:
+       return state
          .set('loading', false)
          .set('error', fromJS(action.error));
      case DELETE_DOCUMENT:

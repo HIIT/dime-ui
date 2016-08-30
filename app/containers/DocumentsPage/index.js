@@ -9,7 +9,7 @@
  import { connect } from 'react-redux';
  import { createStructuredSelector } from 'reselect';
  import { selectDocuments, selectLoading, selectError } from './selectors';
- import { loadDocuments, clickOnDocumentCard, deleteDocument, clickOnDocumentTag, searchDocument } from './actions';
+ import { loadDocuments, searchDocument, clickOnDocumentCard, deleteDocument, clickOnDocumentTag } from './actions';
  import requiresAuth from 'containers/RequiresAuth';
  import EntitiesList from 'components/EntitiesList';
 
