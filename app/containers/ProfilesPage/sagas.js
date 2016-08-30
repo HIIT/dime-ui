@@ -20,7 +20,7 @@ import {
 export function* getProfiles() {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/data/informationelements`;
+  const requestURL = `http://${url}/api/profile`;
   const options = {
     method: 'GET',
     headers: {
@@ -31,7 +31,7 @@ export function* getProfiles() {
   if (!respond.err) {
     yield put(profilesLoaded(respond.data));
   } else {
-    yield put(profilesLoadingError(respond.err));
+    yield put(profilesLoadingError(respond));
   }
 }
 
@@ -89,6 +89,7 @@ export function* createProfile(action) {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
+      '@type': 'Profile',
       name: action.name,
     }),
   };
