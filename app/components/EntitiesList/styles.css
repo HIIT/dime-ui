@@ -29,7 +29,7 @@
 }
 
 .loadingIndicatorWrapper {
-  height: 50px;
+  min-height: 50px;
   position: relative;
   float: right;
   margin-top: 25px;
