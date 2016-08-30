@@ -9,6 +9,9 @@ import ReactList from 'react-list';
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import TextField from 'material-ui/TextField';
 import CircularProgress from 'material-ui/CircularProgress';
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import { blue300 } from 'material-ui/styles/colors';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 import TagsList from 'components/TagsList';
 import EntityCard from 'components/EntityCard';
 import styles from './styles.css';
@@ -73,6 +76,15 @@ export class EntitiesList extends React.Component { // eslint-disable-line react
             clickOnEntityCard={this.props.clickOnEntityCard}
             clickOnEntityDelete={this.props.clickOnEntityDelete}
           />
+        </Col>
+        <Col xs={1} >
+          <FloatingActionButton
+            zDepth={0}
+            backgroundColor={blue300}
+            mini
+          >
+            <ContentAdd />
+          </FloatingActionButton>
         </Col>
       </Row>
     );
