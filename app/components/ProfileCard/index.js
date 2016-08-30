@@ -10,7 +10,7 @@ import { FormattedMessage } from 'react-intl';
 import messages from './messages';
 import styles from './styles.css';
 
-class Profile extends React.Component { // eslint-disable-line react/prefer-stateless-function
+class ProfileCard extends React.Component { // eslint-disable-line react/prefer-stateless-function
   render() {
     return (
       <div className={styles.profile}>
@@ -20,4 +20,4 @@ class Profile extends React.Component { // eslint-disable-line react/prefer-stat
   }
 }
 
-export default Profile;
+export default ProfileCard;

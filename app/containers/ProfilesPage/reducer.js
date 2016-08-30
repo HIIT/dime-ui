@@ -60,7 +60,8 @@
      case CREATE_PROFILE_SUCCESS:
        return state
          .set('loading', false)
-         .set('error', fromJS({}));
+         .set('error', fromJS({}))
+         .set('data', state.get('data').push(fromJS(action.respond)));
      case CREATE_PROFILE_ERROR:
        return state
          .set('loading', false)
