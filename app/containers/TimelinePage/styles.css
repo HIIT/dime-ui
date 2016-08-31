@@ -1,0 +1,76 @@
+/*
+ modify from https://codepen.io/yohanbaillet/pen/MaKGWQ
+*/
+.timelineContainer {
+  margin: 100px 20px 0;
+  display: flex;
+  height: 70vh;
+  background: rgba(0, 0, 0, 0);
+  border: 1px solid rgba(0, 0, 0, 0.5);
+}
+
+.timeline {
+  position: relative;
+  display: flex;
+  flex: 1;
+  top: 50%;
+  height: 1px;
+  padding: 0 10px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.timePointsWrapper {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 15px;
+  display: flex;
+  justify-content: space-around;
+  flex: 1;
+}
+
+.period {
+  position: absolute;
+  height: 15px;
+  background: rgba(0, 0, 0, 0.8);
+  width: 10%;
+  border-radius: 0;
+}
+
+.point {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 20px;
+  width: 20px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+}
+
+.point:hover {
+  height: 25px;
+  width: 25px;
+  border-radius: 25px;
+}
+
+.timeStamp {
+  cursor: default;
+  font-size: 0.65vw;
+  font-family: 'Roboto Mono', monospace;
+  color: rgba(0, 0, 0, 0.65);
+  padding: 0.22%  0.92%  0.4%  0.52%;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  margin-top: 38vh;
+  transform: translateY(-50%);
+  height: 10px;
+  width: 20px;
+  background: rgba(0, 0, 0, 0.025);
+
+  @media (max-width: 920px) {
+    font-size: 0.85vw;
+    color: black;
+    background: transparent;
+  }
+}
