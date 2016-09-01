@@ -36,7 +36,7 @@ function eventsPageReducer(state = initialState, action) {
       return state
         .set('loading', false)
         .set('error', fromJS({}))
-        .set('data', fromJS(action.events));
+        .set('data', fromJS(action.events).reverse());
     case LOAD_EVENTS_ERROR:
       return state
         .set('loading', false)
@@ -47,7 +47,7 @@ function eventsPageReducer(state = initialState, action) {
         .set('loading', true);
     case SEARCH_EVENTS_SUCCESS:
       return state
-        .set('data', fromJS(action.documents))
+        .set('data', fromJS(action.documents).reverse())
         .set('loading', false)
         .set('error', fromJS({}));
     case SEARCH_EVENTS_ERROR:

@@ -34,7 +34,7 @@
          .set('data', fromJS([]));
      case LOAD_DOCUMENTS_SUCCESS:
        return state
-         .set('data', fromJS(action.documents))
+         .set('data', fromJS(action.documents).reverse())
          .set('loading', false)
          .set('error', fromJS({}));
      case LOAD_DOCUMENTS_ERROR:
@@ -47,7 +47,7 @@
          .set('loading', true);
      case SEARCH_DOCUMENTS_SUCCESS:
        return state
-         .set('data', fromJS(action.documents))
+         .set('data', fromJS(action.documents).reverse())
          .set('loading', false)
          .set('error', fromJS({}));
      case SEARCH_DOCUMENTS_ERROR:
