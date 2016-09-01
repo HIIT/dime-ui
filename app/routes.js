@@ -116,6 +116,26 @@ export default function createRoutes(store) {
         importModules.catch(errorLoading);
       },
     }, {
+      path: '/timeline',
+      name: 'timelinePage',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          System.import('containers/TimelinePage/reducer'),
+          System.import('containers/TimelinePage/sagas'),
+          System.import('containers/TimelinePage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('timelinePage', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {
