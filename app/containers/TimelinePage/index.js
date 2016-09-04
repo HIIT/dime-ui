@@ -67,6 +67,7 @@ export class TimelinePage extends React.Component { // eslint-disable-line react
       }
       return false;
     });
+    const rawDataMarginTop = '-8';
     return (
       <div className={styles.timelineContainer}>
         <div className={styles.timeline}>
@@ -85,6 +86,7 @@ export class TimelinePage extends React.Component { // eslint-disable-line react
                       width: `${(event.duration / (1440 * 60)) * 100}%`,
                       height: `${event.value}px`,
                       top: `-${event.value - 8}px`,
+                      marginTop: `${rawDataMarginTop}%`,
                     }}
                   >
                   </div>
@@ -100,6 +102,7 @@ export class TimelinePage extends React.Component { // eslint-disable-line react
                       width: '1px',
                       height: '5px',
                       background: `hsl(${100 - (event.value / 1.4)}, 100%, 50%)`,
+                      marginTop: `${rawDataMarginTop}%`,
                     }}
                   >
                   </div>
@@ -109,55 +112,37 @@ export class TimelinePage extends React.Component { // eslint-disable-line react
                 <div
                   className={styles.point}
                   key={event.id}
-                  style={{ left: `${timeInPercent}%` }}
+                  style={{
+                    left: `${timeInPercent}%`,
+                    marginTop: `${rawDataMarginTop - 2}%`,
+                  }}
                   onMouseEnter={this.onMouseEnterEventCircleHandler}
                   onMouseLeave={this.onMouseLeaveEventCircleHandler}
                 >
-                  {this.renderTags(event)}
                 </div>
               );
             })}
             {walkStartStopEvents.map((walkStartStopEvent, index) => {
-              if (walkStartStopEvent.value === 1) {
-                const startTime = getTimeInMins(new Date(walkStartStopEvent.start)) / 14.4;
-                const endTime = getTimeInMins(new Date(walkStartStopEvents[index + 1].start)) / 14.4;
-                const walkingDuration = endTime - startTime;
-                if (walkStartStopEvent.activityType === 'walkstartstop') {
-                  return (
-                    <div
-                      className={styles.period}
-                      key={walkStartStopEvent.id}
-                      style={{
-                        background: 'rgba(0, 255, 205, 0.1)',
-                        marginTop: '-20%',
-                        left: `${startTime}%`,
-                        width: `${walkingDuration}%`,
-                        height: '300%',
-                      }}
-                    >
-                    </div>
-                  );
-                }
-              } else if (walkStartStopEvent.value === 0 && walkStartStopEvent && walkStartStopEvents[index + 1]) {
+              if (walkStartStopEvent.value === 0 && walkStartStopEvent && walkStartStopEvents[index + 1]) {
                 const startTime = getTimeInMins(new Date(walkStartStopEvent.start)) / 14.4;
                 const endTime = getTimeInMins(new Date(walkStartStopEvents[index + 1].start)) / 14.4;
                 const walkingDuration = endTime - startTime;
                 const workingEventsTags = flatten(this.props.events.filter((event) => {
                   const eventTime = getTimeInMins(new Date(event.start)) / 14.4;
-                  if (startTime < eventTime && eventTime < endTime && event.activityType !== 'heart' && event.activityType !== 'steps') {
+                  if (startTime < eventTime && eventTime < endTime && event.activityType !== 'heart' && event.activityType !== 'steps' && event.activityType !== 'walkstartstop') {
                     return true;
                   }
                   return false;
                 }).map((event) => event.targettedResource.tags.map((tag) => tag.text)));
                 const mostUsed = getFrequentWords(workingEventsTags, 8);
-                if (walkStartStopEvent.activityType === 'walkstartstop') {
+                if (walkStartStopEvent.activityType === 'walkstartstop' && walkStartStopEvent.timeCreated > 1472731258847) {
                   return (
                     <div
                       className={styles.period}
                       key={walkStartStopEvent.id}
                       style={{
-                        background: 'rgba(0, 255, 205, 1)',
-                        marginTop: '-23%',
+                        background: `${mostUsed.length > 0 ? 'rgba(0, 255, 205, 1)' : 'rgba(0, 255, 205, 0.2)'}`,
+                        marginTop: '1%',
                         left: `${startTime}%`,
                         width: `${walkingDuration}%`,
                         height: '400%',
@@ -177,7 +162,7 @@ export class TimelinePage extends React.Component { // eslint-disable-line react
               }
               return null;
             })}
-            {timeStamps.map((time, index) => <div className={styles.timeStamp} key={`time ${index}`} style={{ left: `${(100 / 24) * index}%` }}> {time}</div>)}
+            {timeStamps.map((time, index) => <div className={styles.timeStamp} key={`time ${index}`} style={{ left: `${(100 / 24) * index}%` }}><br /><br />{time}</div>)}
           </div>
         </div>
       </div>
