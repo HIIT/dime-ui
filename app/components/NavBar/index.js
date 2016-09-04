@@ -5,7 +5,7 @@
 */
 
 import React from 'react';
-import { Link } from 'react-router'
+import { Link } from 'react-router';
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
