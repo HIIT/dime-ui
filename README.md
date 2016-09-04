@@ -1,18 +1,13 @@
 # dime-ui
 
-* [ReactJS](https://facebook.github.io/react/) + [Redux](https://github.com/reactjs/redux)
-* The project is written in [ES6/JSX](https://babeljs.io/docs/learn-es2015/) Harmony, the next generation JavaScript and compile into ES5(current version of javascript)with the help of [babel](https://babeljs.io) and [Webpack](https://webpack.github.io/)
+React-based user interface for [dime-server](https://github.com/HIIT/dime-server)
 
-### For Development
-
-1. install node.js <https://nodejs.org/en/>
-2. ``npm install`` to fetch all the necessary npm packages
-4. ``npm start`` and open <http://localhost:3001> in your browsers.
-5. edit js files in the ``./src``, webpack-dev-server will monitor the editing and recompile src.
-6. your local dime-server must run at port 127.0.0.1:8080, if not, find ``const dimeServerUrl`` in ``./CORSenabler.js`` and modify ``localhost:8080`` to your port number/address.
-
-### For Production
-
-1. ``npm install`` to install packages for building static html and javascript
-2. ``npm run build``
-3. There will be an ``index.html`` and a ``bundle.js`` appear after build. They are the compiled static files that could be run in any (modern) browsers.
+1. get node.js <https://nodejs.org/en/>
+2. ``npm install`` to fetch dependencies
+4. ``npm start`` and open <http://localhost:3000> in your browser.
+5. edit files in ``app/``, webpack-dev-server will monitor the editing and recompile
+6. Unfortunately since dime-server does not have API to create accounts, the dime username and password are hardcoded in js. Modfiy your dime username/password/server address in ``app/containers/App/reducer.js``
+7. ``npm run build`` and compiled html/js/css will be genreated in ``build/*``.
+8. Copy ``build/index.html`` and replace ``[dime-server:branch=new-dime-ui]/src/main/resources/templates/index.html``
+9. Copy all files except ``index.html`` in ``build/`` and replace everything in ``[dime-server:branch=new-dime-ui]/src/main/resources/static``
+10. ``make run`` your dime-server
