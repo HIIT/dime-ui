@@ -1,0 +1,40 @@
+.cardWrapper {
+  word-wrap: break-word;
+}
+
+.cardHeaderInfoWrapper {
+  overflow: hidden;
+  margin-top: 5px;
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.18);
+}
+
+.entityType {
+  display: inline-block;
+  padding: 0 4px 0 5px;
+  font-size: 12px;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.entityActor {
+  display: inline-block;
+  padding: 0 3px 0 4px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.entityTime {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 8px;
+  font-weight: 300;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.cardHeaderDeleteWrapper {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  cursor: pointer;
+}

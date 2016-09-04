@@ -1,0 +1,36 @@
+.entitiesListWrapper {
+  margin-top: -10px;
+}
+
+.notAutoTag {
+  cursor: pointer;
+  color: #FFF;
+  background-color: #81C784;
+}
+
+.notAutoTag:hover {
+  color: #E8F5E9;
+  background-color: #66BB6A;
+}
+
+.autoTag {
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(0, 0, 0, 0.085);
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.autoTag:hover {
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.entityWrapper {
+  margin-top: 15px;
+}
+
+.loadingIndicatorWrapper {
+  min-height: 50px;
+  position: relative;
+  float: right;
+  margin-top: 25px;
+}
