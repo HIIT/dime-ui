@@ -11,3 +11,6 @@ React-based user interface for [dime-server](https://github.com/HIIT/dime-server
 8. Copy ``build/index.html`` and replace ``[dime-server:branch=new-dime-ui]/src/main/resources/templates/index.html``
 9. Copy all files except ``index.html`` in ``build/`` and replace everything in ``[dime-server:branch=new-dime-ui]/src/main/resources/static``
 10. ``make run`` your dime-server
+
+##### screencast
+![screencast](http://hiit.github.io/dime-ui/screencast.gif)
