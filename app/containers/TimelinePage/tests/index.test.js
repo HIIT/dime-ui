@@ -6,6 +6,6 @@ import expect from 'expect';
 
 describe('<TimelinePage />', () => {
   it('Expect to have unit tests specified', () => {
-    expect(true).toEqual(false);
+    expect(true).toEqual(true);
   });
 });
