@@ -29,6 +29,9 @@ const ReactBoilerplate = {
         'minimist',
         'sanitize.css',
         'boostrap',
+        'react-icons',
+        'react-json-tree',
+        'react-list',
       ],
 
       /**
