@@ -20,8 +20,8 @@ module.exports = (options) => ({
     }, {
       // Transform our own .css files with PostCSS and CSS-modules
       test: /\.css$/,
-      exclude: /node_modules/,
       loader: options.cssLoaders,
+      exclude: /node_modules/,
     }, {
       // load flexboxgrid with CSS Modules
       test: /\.css$/,
