@@ -1,4 +1,5 @@
-.cardWrapper {
+.entityWrapper {
+  margin-top: 15px;
   word-wrap: break-word;
 }
 
@@ -7,6 +8,34 @@
   margin-top: 5px;
   font-size: 10px;
   color: rgba(0, 0, 0, 0.18);
+}
+
+.profileListUL {
+  margin: 0;
+  padding: 0;
+}
+
+.profileListLI,
+.profileListLICancel {
+  font-size: 14px;
+  cursor: pointer;
+  list-style: none;
+  padding: 10px 30px 7px 10px;
+}
+
+.profileListLI:hover {
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+.profileListLICancel {
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.25);
+}
+
+.profileListLICancel:hover {
+  color: rgba(255, 0, 0, 0.35);
+  border-top: 1px solid rgba(0, 0, 0, 0);
+  background-color: rgba(255, 0, 0, 0.02);
 }
 
 .entityType {
@@ -37,4 +66,26 @@
   top: 12px;
   right: 12px;
   cursor: pointer;
+}
+
+.notAutoTag {
+  cursor: pointer;
+  color: #FFF;
+  background-color: #81C784;
+}
+
+.notAutoTag:hover {
+  color: #E8F5E9;
+  background-color: #66BB6A;
+}
+
+.autoTag {
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(0, 0, 0, 0.085);
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.autoTag:hover {
+  border: 1px solid rgba(0, 0, 0, 0.18);
+  color: rgba(0, 0, 0, 0.65);
 }
