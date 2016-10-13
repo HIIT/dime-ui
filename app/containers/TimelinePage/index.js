@@ -133,7 +133,12 @@ export class TimelinePage extends React.Component { // eslint-disable-line react
                     return true;
                   }
                   return false;
-                }).map((event) => event.targettedResource.tags.map((tag) => tag.text)));
+                }).map((event) => {
+                  if (event.targettedResource && event.targettedResource.tags) {
+                    return event.targettedResource.tags.map((tag) => tag.text);
+                  }
+                  return null;
+                }));
                 const mostUsed = getFrequentWords(workingEventsTags, 8);
                 if (walkStartStopEvent.activityType === 'walkstartstop' && walkStartStopEvent.timeCreated > 1472731258847) {
                   return (
