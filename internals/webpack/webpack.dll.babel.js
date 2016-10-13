@@ -22,6 +22,14 @@ const outputPath = join(process.cwd(), dllConfig.path);
 module.exports = {
   context: process.cwd(),
   entry: dllConfig.dlls ? dllConfig.dlls : dllPlugin.entry(pkg),
+  module: {
+    loaders: [{
+      // load flexboxgrid with CSS Modules
+      test: /\.css$/,
+      loader: 'style!css?modules',
+      include: /flexboxgrid/,
+    }],
+  },
   devtool: 'eval',
   output: {
     filename: '[name].dll.js',
