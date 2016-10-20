@@ -32,6 +32,10 @@ const selectError = () => createSelector(
   (documentsPage) => documentsPage.get('error').toJS()
 );
 
+const selectProfiles = () => createSelector(
+  selectDocumentsPageDomain(),
+  (documentsPage) => documentsPage.get('profiles').toJS()
+);
 
 export default selectDocumentsPageDomain;
 export {
@@ -40,4 +44,5 @@ export {
   selectError,
   selectAuth,
   selectAPI,
+  selectProfiles,
 };

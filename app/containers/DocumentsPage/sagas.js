@@ -1,7 +1,10 @@
 import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
-import { takeEvery, takeLatest } from 'redux-saga';
+import { takeLatest } from 'redux-saga';
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { LOAD_DOCUMENTS, SEARCH_DOCUMENTS, CLICK_DOCUMENT_TAG, CLICK_DOCUMENT_CARD, DELETE_DOCUMENT } from './constants';
+import {
+  LOAD_DOCUMENTS, SEARCH_DOCUMENTS, CLICK_DOCUMENT_TAG, CLICK_DOCUMENT_CARD, DELETE_DOCUMENT,
+  LOAD_PROFILES, ADD_DOCCUMENT_TO_PROFILE,
+} from './constants';
 import request from 'utils/request';
 import { selectAuth, selectAPI } from './selectors';
 import {
@@ -13,6 +16,10 @@ import {
   deleteDocumentError,
   toogleDocumentTagScuess,
   toogleDocumentTagError,
+  profilesLoaded,
+  profilesLoadingError,
+  addDocumentToProfileSucess,
+  addDocumentToProfileError,
 } from './actions';
 
 // Init DocumentList Sage (Load Document Sage)
@@ -113,7 +120,7 @@ export function* deleteDocument(action) {
 }
 
 export function* deleteEntityWatcher() {
-  yield* takeEvery(DELETE_DOCUMENT, deleteDocument);
+  yield* takeLatest(DELETE_DOCUMENT, deleteDocument);
 }
 
 // Click Document Tag Saga
@@ -160,7 +167,67 @@ export function* toogleDocumentTagAutoLabel(action) {
 }
 
 export function* clickTagWatcher() {
-  yield* takeEvery(CLICK_DOCUMENT_TAG, toogleDocumentTagAutoLabel);
+  yield* takeLatest(CLICK_DOCUMENT_TAG, toogleDocumentTagAutoLabel);
+}
+
+// Load Profiles
+
+export function* getProfiles() {
+  const { token } = yield select(selectAuth());
+  const { url } = yield select(selectAPI());
+  const requestURL = `http://${url}/api/profiles`;
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Basic ${token}`,
+    },
+  };
+  const respond = yield call(request, requestURL, options);
+  if (!respond.err) {
+    yield put(profilesLoaded(respond.data));
+  } else {
+    yield put(profilesLoadingError(respond));
+  }
+}
+
+export function* getProfilesWatcher() {
+  yield* takeLatest(LOAD_PROFILES, getProfiles);
+}
+
+export function* profilesData() {
+  const getProfilesWatcherFork = yield fork(getProfilesWatcher);
+  yield take(LOCATION_CHANGE);
+  yield cancel(getProfilesWatcherFork);
+}
+
+// Click Document Tag Saga
+
+export function* addToProfile(action) {
+  const { profileID, document } = action;
+  const { token } = yield select(selectAuth());
+  const { url } = yield select(selectAPI());
+  const addToProfileRequestURL = `http://${url}/api/profile/${profileID}/validateinformationelement`;
+  const addToProfileRequestOptions = {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      informationelement: document,
+      weight: 1,
+    }),
+  };
+  const addToProfieRespond = yield call(request, addToProfileRequestURL, addToProfileRequestOptions);
+  if (!addToProfieRespond.err) {
+    yield put(addDocumentToProfileSucess(addToProfieRespond.data, profileID));
+  } else {
+    yield put(addDocumentToProfileError(addToProfieRespond.err, profileID));
+  }
+}
+
+export function* addToPofileWatcher() {
+  yield* takeLatest(ADD_DOCCUMENT_TO_PROFILE, addToProfile);
 }
 
 // All sagas to be loaded
@@ -170,4 +237,6 @@ export default [
   clickDocumentWatcherPlusLocationChangeCanceler,
   deleteEntityWatcher,
   clickTagWatcher,
+  profilesData,
+  addToPofileWatcher,
 ];
