@@ -3,17 +3,24 @@
  */
 
 import { fromJS } from 'immutable';
-
 // The initial state of the App
-// API.url = url: `${window.location.hostname}:${window.location.port}`,
-const initialState = fromJS({
+
+let initialState = fromJS({
   API: {
-    url: 'localhost:8080',
-  },
-  auth: {
-    token: window.btoa('testuser:testuser123'),
+    url: `${window.location.hostname}:${window.location.port}`,
   },
 });
+
+if (process.env.NODE_ENV !== 'production') {
+  initialState = fromJS({
+    API: {
+      url: 'localhost:8080',
+    },
+    auth: {
+      token: window.btoa('testuser:testuser123'),
+    },
+  });
+}
 
 function appReducer(state = initialState, action) {
   switch (action.type) {

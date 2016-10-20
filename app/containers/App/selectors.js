@@ -15,10 +15,56 @@ const selectLocationState = () => {
   };
 };
 
-const selectAuthDomain = () => state => state.getIn(['app', 'auth']);
+const selectAuthDomain = () => state => state.getIn(['app', 'auth']).toJS();
+
+const selectDocumentsPageLoading = () => state => state.getIn(['eventsPage', 'loading']);
+
+const selectEventsPageLoading = () => state => state.getIn(['documentsPage', 'loading']);
+
+const selectProfilesPageLoading = () => state => state.getIn(['profilesPage', 'loading']);
+
+const selectTimelinePageLoading = () => state => state.getIn(['timelinePage', 'loading']);
+
+const selectDocumentsPageError = () => state => {
+  try {
+    return state.getIn(['eventsPage', 'error']).toJS();
+  } catch (e) {
+    return undefined;
+  }
+};
+const selectEventsPageError = () => state => {
+  try {
+    return state.getIn(['documentsPage', 'error']).toJS();
+  } catch (e) {
+    return undefined;
+  }
+};
+const selectProfilesPageError = () => state => {
+  try {
+    return state.getIn(['profilesPage', 'error']).toJS();
+  } catch (e) {
+    return undefined;
+  }
+};
+
+const selectTimelinePageError = () => state => {
+  try {
+    return state.getIn(['timelinePage', 'error']).toJS();
+  } catch (e) {
+    return undefined;
+  }
+};
 
 export default selectLocationState;
 export {
   selectLocationState,
   selectAuthDomain,
+  selectDocumentsPageLoading,
+  selectEventsPageLoading,
+  selectProfilesPageLoading,
+  selectTimelinePageLoading,
+  selectDocumentsPageError,
+  selectEventsPageError,
+  selectProfilesPageError,
+  selectTimelinePageError,
 };
