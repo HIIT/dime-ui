@@ -28,17 +28,11 @@ const selectLoading = () => createSelector(
   (documentsPage) => documentsPage.get('loading')
 );
 
-const selectError = () => createSelector(
-  timeLinePageDomain(),
-  (documentsPage) => documentsPage.get('error').toJS()
-);
-
 export default timeLinePageDomain;
 export {
   selectEvents,
   selectDocuments,
   selectLoading,
-  selectError,
   selectAuth,
   selectAPI,
 };
