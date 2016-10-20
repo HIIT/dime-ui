@@ -1,7 +1,10 @@
 import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
-import { takeEvery, takeLatest } from 'redux-saga';
+import { takeLatest } from 'redux-saga';
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { LOAD_EVENTS, SEARCH_EVENTS, CLICK_EVENT_TAG, CLICK_EVENT_CARD, DELETE_EVENT } from './constants';
+import {
+  LOAD_EVENTS, SEARCH_EVENTS, CLICK_EVENT_TAG, CLICK_EVENT_CARD, DELETE_EVENT,
+  LOAD_PROFILES, ADD_EVENT_TO_PROFILE,
+ } from './constants';
 import request from 'utils/request';
 import { selectAuth, selectAPI } from './selectors';
 import {
@@ -13,6 +16,10 @@ import {
   deleteEventError,
   toogleEventTagScuess,
   toogleEventTagError,
+  profilesLoaded,
+  profilesLoadingError,
+  addEventToProfileSucess,
+  addEventToProfileError,
 } from './actions';
 
 // Init EventList Sage (Load Event Sage)
@@ -113,7 +120,7 @@ export function* deleteEvent(action) {
 }
 
 export function* deleteEntityWatcher() {
-  yield* takeEvery(DELETE_EVENT, deleteEvent);
+  yield* takeLatest(DELETE_EVENT, deleteEvent);
 }
 
 // Click Event Tag Saga
@@ -160,7 +167,67 @@ export function* toogleEventTagAutoLabel(action) {
 }
 
 export function* clickTagWatcher() {
-  yield* takeEvery(CLICK_EVENT_TAG, toogleEventTagAutoLabel);
+  yield* takeLatest(CLICK_EVENT_TAG, toogleEventTagAutoLabel);
+}
+
+// Load Profiles
+
+export function* getProfiles() {
+  const { token } = yield select(selectAuth());
+  const { url } = yield select(selectAPI());
+  const requestURL = `http://${url}/api/profiles`;
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Basic ${token}`,
+    },
+  };
+  const respond = yield call(request, requestURL, options);
+  if (!respond.err) {
+    yield put(profilesLoaded(respond.data));
+  } else {
+    yield put(profilesLoadingError(respond));
+  }
+}
+
+export function* getProfilesWatcher() {
+  yield* takeLatest(LOAD_PROFILES, getProfiles);
+}
+
+export function* profilesData() {
+  const getProfilesWatcherFork = yield fork(getProfilesWatcher);
+  yield take(LOCATION_CHANGE);
+  yield cancel(getProfilesWatcherFork);
+}
+
+// Click Event Tag Saga
+
+export function* addToProfile(action) {
+  const { profileID, event } = action;
+  const { token } = yield select(selectAuth());
+  const { url } = yield select(selectAPI());
+  const addToProfileRequestURL = `http://${url}/api/profile/${profileID}/validateevent`;
+  const addToProfileRequestOptions = {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      event,
+      weight: 1,
+    }),
+  };
+  const addToProfieRespond = yield call(request, addToProfileRequestURL, addToProfileRequestOptions);
+  if (!addToProfieRespond.err) {
+    yield put(addEventToProfileSucess(addToProfieRespond.data, profileID));
+  } else {
+    yield put(addEventToProfileError(addToProfieRespond.err, profileID));
+  }
+}
+
+export function* addToPofileWatcher() {
+  yield* takeLatest(ADD_EVENT_TO_PROFILE, addToProfile);
 }
 
 // All sagas to be loaded
@@ -170,4 +237,6 @@ export default [
   clickEventWatcherPlusLocationChangeCanceler,
   deleteEntityWatcher,
   clickTagWatcher,
+  profilesData,
+  addToPofileWatcher,
 ];

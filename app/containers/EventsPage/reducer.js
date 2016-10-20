@@ -5,6 +5,7 @@
  */
 
 import { fromJS } from 'immutable';
+import { LOCATION_CHANGE } from 'react-router-redux';
 import {
   LOAD_EVENTS,
   LOAD_EVENTS_SUCCESS,
@@ -18,12 +19,16 @@ import {
   CLICK_EVENT_TAG,
   TOOGLE_EVENT_TAG_SUCESS,
   TOOGLE_EVENT_TAG_ERROR,
+  LOAD_PROFILES,
+  LOAD_PROFILES_SUCCESS,
+  LOAD_PROFILES_ERROR,
 } from './constants';
 
 const initialState = fromJS({
   loading: false,
   error: {},
   data: [],
+  profiles: [],
 });
 
 function eventsPageReducer(state = initialState, action) {
@@ -35,7 +40,7 @@ function eventsPageReducer(state = initialState, action) {
     case LOAD_EVENTS_SUCCESS:
       return state
         .set('loading', false)
-        .set('error', fromJS({}))
+        .set('error', {})
         .set('data', fromJS(action.events).reverse());
     case LOAD_EVENTS_ERROR:
       return state
@@ -49,7 +54,7 @@ function eventsPageReducer(state = initialState, action) {
       return state
         .set('data', fromJS(action.documents).reverse())
         .set('loading', false)
-        .set('error', fromJS({}));
+        .set('error', {});
     case SEARCH_EVENTS_ERROR:
       return state
         .set('loading', false)
@@ -60,7 +65,7 @@ function eventsPageReducer(state = initialState, action) {
     case DELETE_EVENT_SUCESS:
       return state
         .set('loading', false)
-        .set('error', fromJS({}))
+        .set('error', {})
         .deleteIn(['data', state.get('data').findIndex((item) => item.get('id') === action.eventID)]);
     case DELETE_EVENT_ERROR:
       return state
@@ -69,19 +74,35 @@ function eventsPageReducer(state = initialState, action) {
     case CLICK_EVENT_TAG:
       return state
         .set('loading', true)
-        .set('error', fromJS({}));
+        .set('error', {});
     case TOOGLE_EVENT_TAG_SUCESS: {
       const eventIndex = state.get('data').findIndex((item) => item.get('id') === action.respond.id);
       const newEventWithNewTags = fromJS(action.respond);
       return state
         .set('loading', false)
-        .set('error', fromJS({}))
+        .set('error', {})
         .setIn(['data', eventIndex, 'tags'], newEventWithNewTags.getIn(['tags']));
     }
     case TOOGLE_EVENT_TAG_ERROR:
       return state
         .set('loading', false)
         .set('error', fromJS(action.error));
+    case LOAD_PROFILES:
+      return state
+        .set('loading', true);
+    case LOAD_PROFILES_SUCCESS:
+      return state
+        .set('profiles', fromJS(action.profiles).reverse())
+        .set('loading', false)
+        .set('error', {});
+    case LOAD_PROFILES_ERROR:
+      return state
+        .set('profiles', fromJS([]))
+        .set('loading', false)
+        .set('error', fromJS(action.error));
+    case LOCATION_CHANGE:
+      return state
+        .set('error', {});
     default:
       return state;
   }
