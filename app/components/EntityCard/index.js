@@ -129,9 +129,9 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
             <SyntaxHighlighter
               language="javascript"
               style={tomorrow}
-              customStyle={{ wordWrap: 'break-word', whiteSpace: 'pre-wrap', fontSize: '12px', fontFamily: '"Roboto Mono", monospace' }}
+              customStyle={{ wordWrap: 'break-word', whiteSpace: 'pre-wrap', fontSize: '12px', fontFamily: "'Roboto Mono', monospace !important" }}
             >
-              {JSON.stringify(entity)}
+              {JSON.stringify(entity, null, 4)}
             </SyntaxHighlighter>
           </Tab>
         </Tabs>
@@ -185,14 +185,14 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
     const notAutoTags = entity.tags.filter((tag) => !tag.auto);
     const autoTags = entity.tags.filter((tag) => tag.auto);
     return (
-      <div
+      <Row
+        key={entity.id}
         className={styles.entityWrapper}
       >
-        <Row
-          key={entity.id}
-          className={styles.entityWrapper}
-        >
-          <Col xsOffset={0} xs={1} smOffset={2} sm={2} >
+        <Col xsOffset={0} xs={1} smOffset={2} sm={2} >
+          <div
+            className={styles.entityWrapper}
+          >
             <TagsList
               entityID={entity.id}
               tags={autoTags}
@@ -205,56 +205,56 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
               clickOnTag={this.props.clickOnEntityTag}
               className={styles.notAutoTag}
             />
-          </Col>
-          <Col xsOffset={1} xs={8} smOffset={0} sm={6} >
-            <Card
-              expanded={this.state.entity_details_expanded}
-              onExpandChange={this.handleExpandChange}
+          </div>
+        </Col>
+        <Col xsOffset={1} xs={8} smOffset={0} sm={6} >
+          <Card
+            expanded={this.state.entity_details_expanded}
+            onExpandChange={this.handleExpandChange}
+          >
+            {this.renderEntityCardHeader(entity)}
+            {this.state.entity_details_expanded ? this.renderEntityCardBody(entity) : null}
+            {this.renderEntityCardActions(entity)}
+          </Card>
+        </Col>
+        <Col xs={2} >
+          { this.state.profile_list_expanded ? null :
+            <FloatingActionButton
+              zDepth={0}
+              backgroundColor={blue300}
+              mini
+              onTouchTap={(mouseEvent) => this.handleClickAdd(entity, mouseEvent)}
             >
-              {this.renderEntityCardHeader(entity)}
-              {this.state.entity_details_expanded ? this.renderEntityCardBody(entity) : null}
-              {this.renderEntityCardActions(entity)}
-            </Card>
-          </Col>
-          <Col xs={2} >
-            { this.state.profile_list_expanded ? null :
-              <FloatingActionButton
-                zDepth={0}
-                backgroundColor={blue300}
-                mini
-                onTouchTap={(mouseEvent) => this.handleClickAdd(entity, mouseEvent)}
+              <ContentAdd />
+            </FloatingActionButton>
+          }
+          { this.state.profile_list_expanded ?
+            <Paper
+              style={{ display: 'inline-block' }}
+            >
+              <ul
+                className={styles.profileListUL}
               >
-                <ContentAdd />
-              </FloatingActionButton>
-            }
-            { this.state.profile_list_expanded ?
-              <Paper
-                style={{ display: 'inline-block' }}
-              >
-                <ul
-                  className={styles.profileListUL}
+               {this.props.profiles.map((profile) =>
+                 <li
+                   className={styles.profileListLI}
+                   key={profile.id}
+                   onTouchTap={(mouseEvent) => this.handleAddToProfile(entity, profile.id, mouseEvent)}
+                 >
+                    {profile.name}
+                 </li>)
+               }
+                <li
+                  className={styles.profileListLICancel}
+                  onTouchTap={(mouseEvent) => this.handleClickCancelAdd(mouseEvent)}
                 >
-                 {this.props.profiles.map((profile) =>
-                   <li
-                     className={styles.profileListLI}
-                     key={profile.id}
-                     onTouchTap={(mouseEvent) => this.handleAddToProfile(entity, profile.id, mouseEvent)}
-                   >
-                      {profile.name}
-                   </li>)
-                 }
-                  <li
-                    className={styles.profileListLICancel}
-                    onTouchTap={(mouseEvent) => this.handleClickCancelAdd(mouseEvent)}
-                  >
-                    Cancel
-                  </li>
-                </ul>
-              </Paper>
-            : null }
-          </Col>
-        </Row>
-      </div>
+                  Cancel
+                </li>
+              </ul>
+            </Paper>
+          : null }
+        </Col>
+      </Row>
     );
   }
 }
