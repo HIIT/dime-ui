@@ -9,6 +9,9 @@ let initialState = fromJS({
   API: {
     url: `${window.location.hostname}:${window.location.port}`,
   },
+  auth: {
+    token: window.btoa('testuser:testuser123'),
+  },
 });
 
 if (process.env.NODE_ENV !== 'production') {
