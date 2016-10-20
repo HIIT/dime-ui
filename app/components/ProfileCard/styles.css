@@ -1,2 +1,139 @@
-.profileCard {  /* stylelint-ignore */
+.cardHeaderEditWrapper,
+.cardHeaderDeleteWrapper,
+.cardHeaderCancelWrapper,
+.cardHeaderSaveWrapper {
+  position: absolute;
+  top: 12px;
+  right: 40px;
+  cursor: pointer;
+}
+
+.cardHeaderDeleteWrapper {
+  right: 12px;
+}
+
+.cardHeaderSaveWrapper {
+  right: 68px;
+}
+
+.cardHeaderInfoWrapper {
+  overflow: hidden;
+  margin-top: 5px;
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.15);
+}
+
+.profileNameWrapper {
+  overflow: hidden;
+}
+
+.profileTags {
+  font-size: 11px;
+  font-weight: 100;
+  margin: 5px 5px 0 0;
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(0, 0, 0, 0.085);
+  color: rgba(0, 0, 0, 0.55);
+  padding: 1px 4px 2px;
+}
+
+.profileTags:hover {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.profileTagsEditing {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 100;
+  font-family: 'Roboto Mono', monospace;
+  border-radius: 3px;
+  padding: 1px 4px 2px;
+  margin: 5px 5px 0 0;
+  color: rgba(0, 0, 0, 0.55);
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(0, 0, 0, 0.085);
+}
+
+/* Styles for the input */
+.profileTagsInput {
+  position: relative;
+  top: 0;
+  width: 75px;
+  border-radius: 3px;
+  display: block;
+  margin-top: 10px;
+}
+
+.profileTagsInput input {
+  height: 23px;
+  margin: 0;
+  padding: 4px;
+  font-size: 11px;
+  font-family: 'Roboto Mono', monospace;
+  width: 100%;
+  border: 1px solid #EEE;
+  transition: all ease-in-out 0.15s;
+}
+
+.profileTagsInput input:focus {
+  outline: none;
+  border-color: rgba(59, 153, 252, 0.65);
+  box-shadow: 0 0 3px rgba(59, 153, 252, 0.5);
+}
+
+/* Styles for selected tags */
+.profileTagsSelected span.profileTags {
+  border: 1px solid #DDD;
+  background: #EEE;
+  font-size: 12px;
+  display: inline-block;
+  padding: 5px;
+  margin: 0 5px;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.profileTagsSelected a.profileTagsRemove {
+  color: #AAA;
+  margin-left: 5px;
+  cursor: pointer;
+}
+
+/* Styles for suggestions */
+.profileTagSuggestion {
+  position: absolute;
+}
+
+.profileTagSuggestion ul {
+  list-style-type: none;
+  box-shadow: 0.05em 0.01em 0.5em rgba(0, 0, 0, 0.2);
+  background: white;
+  width: 200px;
+}
+
+.profileTagSuggestion li {
+  border-bottom: 1px solid #DDD;
+  padding: 5px 10px;
+  margin: 0;
+}
+
+.profileTagSuggestion li mark {
+  text-decoration: underline;
+  background: none;
+  font-weight: 600;
+}
+
+.profileTagSuggestion ul li.active {
+  background: #B7CFE0;
+  cursor: pointer;
+}
+
+.suggestedEntitiesWrapper {
+  transition: all ease-in-out 0.2s;
+}
+
+.suggestedEntitiesWrapper:hover {
+  opacity: 0.8;
+  filter: blur(0);
 }

@@ -5,12 +5,12 @@
 */
 
 import React from 'react';
-import ReactList from 'react-list';
+// import ReactList from 'react-list';
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
+import { Tabs, Tab } from 'material-ui/Tabs';
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
-import AddBox from 'material-ui/svg-icons/content/add-box';
-import CircularProgress from 'material-ui/CircularProgress';
+import Add from 'material-ui/svg-icons/content/add';
 import ProfileCard from 'components/ProfileCard';
 import styles from './styles.css';
 
@@ -18,10 +18,13 @@ export class ProfilesList extends React.Component { // eslint-disable-line react
   static propTypes = {
     initProfilesList: React.PropTypes.func,
     createProfile: React.PropTypes.func,
+    deleteProfile: React.PropTypes.func,
+    editProfile: React.PropTypes.func,
+    clickOnEntityTag: React.PropTypes.func,
+    cancelEditProfile: React.PropTypes.func,
     search: React.PropTypes.func,
     profiles: React.PropTypes.array,
-    loading: React.PropTypes.bool,
-    error: React.PropTypes.object,
+    clickOnEntitiy: React.PropTypes.func,
   }
   constructor(props) {
     super(props);
@@ -43,6 +46,11 @@ export class ProfilesList extends React.Component { // eslint-disable-line react
       profileName: event.target.value,
     });
   };
+  handleKeyPress = (event) => {
+    if (event.key === 'Enter') {
+      this.props.createProfile(event.target.value);
+    }
+  }
   handeClickProfileCreate = () => {
     this.props.createProfile(this.state.profileName);
   }
@@ -51,7 +59,6 @@ export class ProfilesList extends React.Component { // eslint-disable-line react
       this.props.search(this.state.value);
     }
   }
-  rednerLoadingIndicator = () => (this.props.loading ? <CircularProgress size={0.5} /> : null)
   renderProfile = (profile) => {
     const { id } = profile;
     return (
@@ -59,14 +66,15 @@ export class ProfilesList extends React.Component { // eslint-disable-line react
         key={id}
         className={styles.profileWrapper}
       >
-        <Col xsOffset={0} xs={1} smOffset={2} sm={2} >
-        </Col>
-        <Col xsOffset={1} xs={8} smOffset={0} sm={6} >
+        <Col xs={12}>
           <ProfileCard
             profile={profile}
+            editProfile={this.props.editProfile}
+            cancelEditProfile={this.props.cancelEditProfile}
+            deleteProfile={this.props.deleteProfile}
+            clickOnEntityTag={this.props.clickOnEntityTag}
+            clickOnEntitiy={this.props.clickOnEntitiy}
           />
-        </Col>
-        <Col xs={1} >
         </Col>
       </Row>
     );
@@ -76,16 +84,7 @@ export class ProfilesList extends React.Component { // eslint-disable-line react
     const floatedHint = 'Keyword';
     return (
       <Row>
-        <Col
-          smOffset={3}
-          xs={1}
-          sm={1}
-        >
-          <div className={styles.loadingIndicatorWrapper}>
-            {this.rednerLoadingIndicator()}
-          </div>
-        </Col>
-        <Col xsOffset={1} xs={8} smOffset={0} sm={6} >
+        <Col xsOffset={1} xs={10} smOffset={4} sm={6} >
           <TextField
             hintText={hint}
             floatingLabelText={floatedHint}
@@ -99,41 +98,57 @@ export class ProfilesList extends React.Component { // eslint-disable-line react
   }
   render() {
     return (
-      <Grid
-        className={styles.profilesListWrapper}
-      >
+      <Grid>
         {this.renderSearchBox()}
-        <Row>
-          <Col
-            xsOffset={2}
-            xs={1}
-          >
-            <div className={styles.createButtonWrapper}>
-              <TextField
-                hintText="Name"
-                floatingLabelText="New Profile"
-                style={{ width: '120px' }}
-                onChange={this.handleProfileNameChange}
-              />
-              <RaisedButton
-                label="CREATE"
-                labelPosition="after"
-                primary
-                icon={<AddBox />}
-                style={{ width: '120px' }}
-                disabled={this.state.profileName.length < 1}
-                onClick={this.handeClickProfileCreate}
-              />
-            </div>
-          </Col>
-        </Row>
-        <ReactList
+        {/* <ReactList
           itemRenderer={(index) => this.renderProfile(this.props.profiles[index])}
           length={this.props.profiles.length}
           pageSize={12}
           threshold={450}
           useTranslate3d // TODO:check browsers support for Translate3d
-        />
+        /> */}
+        <Row>
+          <Col
+            xsOffset={1}
+            xs={1}
+          >
+            <div className={styles.createButtonWrapper}>
+              <TextField
+                hintText="Profile"
+                floatingLabelText="New"
+                style={{ width: '88px' }}
+                onChange={this.handleProfileNameChange}
+                onKeyPress={this.handleKeyPress}
+              />
+              <RaisedButton
+                labelPosition="after"
+                primary
+                icon={<Add />}
+                style={{ minWidth: '34px' }}
+                disabled={this.state.profileName.length < 1}
+                onClick={this.handeClickProfileCreate}
+              />
+            </div>
+          </Col>
+          <Col xs={10}>
+            <Tabs
+              tabItemContainerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.025)', marginTop: '10px' }}
+              inkBarStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
+            >
+              {
+                this.props.profiles.map((profile) =>
+                  <Tab
+                    key={profile.id}
+                    label={profile.name}
+                    style={{ color: 'rgba(0, 0, 0, 0.65)' }}
+                  >
+                    {this.renderProfile(profile)}
+                  </Tab>
+                )
+              }
+            </Tabs>
+          </Col>
+        </Row>
       </Grid>
     );
   }

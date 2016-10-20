@@ -1,14 +1,7 @@
-.profilesListWrapper {
-  margin-top: -10px;
-}
-
 .profileWrapper {
   margin-top: 15px;
 }
 
-.loadingIndicatorWrapper {
-  min-height: 50px;
-  position: relative;
-  float: right;
-  margin-top: 25px;
+.createButtonWrapper {
+  margin-top: 50px;
 }
