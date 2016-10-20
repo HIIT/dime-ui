@@ -8,7 +8,7 @@ import React from 'react';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import { Row, Col } from 'react-flexbox-grid/lib/index';
 import { Tabs, Tab } from 'material-ui/Tabs';
-import JSONTree from '@alexkuz/react-json-tree';
+import JSONTree from 'react-json-tree';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import EpandedMore from 'material-ui/svg-icons/navigation/expand-more';
 import EpandedLess from 'material-ui/svg-icons/navigation/expand-less';
