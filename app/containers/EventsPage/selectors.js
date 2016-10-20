@@ -24,12 +24,17 @@ const selectEvents = () => createSelector(
 
 const selectLoading = () => createSelector(
   selectEventsPageDomain(),
-  (documentsPage) => documentsPage.get('loading')
+  (eventsPage) => eventsPage.get('loading')
 );
 
 const selectError = () => createSelector(
   selectEventsPageDomain(),
-  (documentsPage) => documentsPage.get('error').toJS()
+  (eventsPage) => eventsPage.get('error').toJS()
+);
+
+const selectProfiles = () => createSelector(
+  selectEventsPageDomain(),
+  (eventsPage) => eventsPage.get('profiles').toJS()
 );
 
 export default selectEventsPageDomain;
@@ -39,4 +44,5 @@ export {
   selectError,
   selectAuth,
   selectAPI,
+  selectProfiles,
 };
