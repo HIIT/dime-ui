@@ -5,6 +5,7 @@
  */
 
  import { fromJS } from 'immutable';
+ import { LOCATION_CHANGE } from 'react-router-redux';
  import {
    LOAD_PROFILES,
    LOAD_PROFILES_SUCCESS,
@@ -15,6 +16,8 @@
    CREATE_PROFILE,
    CREATE_PROFILE_SUCCESS,
    CREATE_PROFILE_ERROR,
+   EDIT_PROFILE,
+   CANCEL_EDIT_PROFILE,
    DELETE_PROFILE,
    DELETE_PROFILE_SUCCESS,
    DELETE_PROFILE_ERROR,
@@ -34,9 +37,9 @@
          .set('data', fromJS([]));
      case LOAD_PROFILES_SUCCESS:
        return state
-         .set('data', fromJS(action.profiles))
+         .set('data', fromJS(action.profiles).reverse())
          .set('loading', false)
-         .set('error', fromJS({}));
+         .set('error', {});
      case LOAD_PROFILES_ERROR:
        return state
          .set('data', fromJS([]))
@@ -47,9 +50,9 @@
          .set('loading', true);
      case SEARCH_PROFILES_SUCCESS:
        return state
-         .set('data', fromJS(action.profiles))
+         .set('data', fromJS(action.profiles).reverse())
          .set('loading', false)
-         .set('error', fromJS({}));
+         .set('error', {});
      case SEARCH_PROFILES_ERROR:
        return state
          .set('loading', false)
@@ -59,25 +62,34 @@
          .set('loading', true);
      case CREATE_PROFILE_SUCCESS:
        return state
-         .set('loading', false)
-         .set('error', fromJS({}))
-         .set('data', state.get('data').push(fromJS(action.respond)));
+        .set('loading', false)
+        .set('error', {})
+        .set('data', state.get('data').unshift(fromJS(action.respond)));
      case CREATE_PROFILE_ERROR:
        return state
          .set('loading', false)
          .set('error', fromJS(action.error));
+     case EDIT_PROFILE:
+       return state
+         .setIn(['data', state.get('data').findIndex((item) => item.get('id') === action.profileID), 'editing'], true);
+     case CANCEL_EDIT_PROFILE:
+       return state
+         .setIn(['data', state.get('data').findIndex((item) => item.get('id') === action.profileID), 'editing'], false);
      case DELETE_PROFILE:
        return state
          .set('loading', true);
      case DELETE_PROFILE_SUCCESS:
        return state
          .set('loading', false)
-         .set('error', fromJS({}))
+         .set('error', {})
          .deleteIn(['data', state.get('data').findIndex((item) => item.get('id') === action.profileID)]);
      case DELETE_PROFILE_ERROR:
        return state
          .set('loading', false)
          .set('error', fromJS(action.error));
+     case LOCATION_CHANGE:
+       return state
+         .set('error', {});
      default:
        return state;
    }

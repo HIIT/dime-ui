@@ -11,12 +11,15 @@
    CREATE_PROFILE,
    CREATE_PROFILE_SUCCESS,
    CREATE_PROFILE_ERROR,
+   EDIT_PROFILE,
+   CANCEL_EDIT_PROFILE,
    DELETE_PROFILE,
    DELETE_PROFILE_SUCCESS,
    DELETE_PROFILE_ERROR,
    SEARCH_PROFILES,
    SEARCH_PROFILES_SUCCESS,
    SEARCH_PROFILES_ERROR,
+   CLICK_ON_ENTITY_TAG,
  } from './constants';
 
  export function loadProfiles() {
@@ -67,27 +70,48 @@
 
  /*
   *
+  * Edit actions
+  *
+  */
+ export function editProfile(profileID) {
+   return {
+     type: EDIT_PROFILE,
+     profileID,
+   };
+ }
+
+ export function cancelEditProfile(profileID) {
+   return {
+     type: CANCEL_EDIT_PROFILE,
+     profileID,
+   };
+ }
+
+ /*
+  *
   * Delete actions
   *
   */
- export function deleteProfile(name) {
+ export function deleteProfile(profileID) {
    return {
      type: DELETE_PROFILE,
-     name,
+     profileID,
    };
  }
 
- export function deleteProfileSuccess(respond) {
+ export function deleteProfileSuccess(respond, profileID) {
    return {
      type: DELETE_PROFILE_SUCCESS,
      respond,
+     profileID,
    };
  }
 
- export function deleteProfileError(error) {
+ export function deleteProfileError(error, profileID) {
    return {
      type: DELETE_PROFILE_ERROR,
      error,
+     profileID,
    };
  }
 
@@ -114,5 +138,18 @@
    return {
      type: SEARCH_PROFILES_ERROR,
      error,
+   };
+ }
+
+ /*
+  *
+  * Click on Entity Tag
+  *
+  */
+ export function clickOnEntityTag(tag, profileID) {
+   return {
+     type: CLICK_ON_ENTITY_TAG,
+     tag,
+     profileID,
    };
  }

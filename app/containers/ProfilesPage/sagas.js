@@ -1,5 +1,5 @@
 import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
-import { takeEvery, takeLatest } from 'redux-saga';
+import { takeLatest } from 'redux-saga';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { LOAD_PROFILES, SEARCH_PROFILES, CREATE_PROFILE, DELETE_PROFILE } from './constants';
 import request from 'utils/request';
@@ -20,7 +20,7 @@ import {
 export function* getProfiles() {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/profile`;
+  const requestURL = `http://${url}/api/profiles`;
   const options = {
     method: 'GET',
     headers: {
@@ -91,18 +91,21 @@ export function* createProfile(action) {
     body: JSON.stringify({
       '@type': 'Profile',
       name: action.name,
+      tags: [],
     }),
   };
   const respond = yield call(request, requestURL, options);
   if (!respond.err) {
-    yield put(createProfileSuccess(respond.data, action.profileID));
+    const profile = respond.data;
+    profile.editing = true;
+    yield put(createProfileSuccess(profile, action.profileID));
   } else {
     yield put(createProfileError(respond.err, action.profileID));
   }
 }
 
 export function* createProfileWatcher() {
-  yield* takeEvery(CREATE_PROFILE, createProfile);
+  yield* takeLatest(CREATE_PROFILE, createProfile);
 }
 
 // Delete Profile Saga
@@ -126,7 +129,7 @@ export function* deleteProfile(action) {
 }
 
 export function* deleteProfileWatcher() {
-  yield* takeEvery(DELETE_PROFILE, deleteProfile);
+  yield* takeLatest(DELETE_PROFILE, deleteProfile);
 }
 
 
