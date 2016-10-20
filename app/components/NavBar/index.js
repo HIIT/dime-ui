@@ -20,6 +20,7 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
     pathName: React.PropTypes.string,
   };
   handleChange = (event, key, payload) => {
+    event.preventDefault();
     this.props.changeRoute(payload);
   }
   render() {
