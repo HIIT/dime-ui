@@ -1,6 +1,6 @@
 /*
  *
- * LogInPage reducer
+ * SignInPage reducer
  *
  */
 
@@ -11,7 +11,7 @@ import {
 
 const initialState = fromJS({});
 
-function logInPageReducer(state = initialState, action) {
+function signInPageReducer(state = initialState, action) {
   switch (action.type) {
     case DEFAULT_ACTION:
       return state;
@@ -20,4 +20,4 @@ function logInPageReducer(state = initialState, action) {
   }
 }
 
-export default logInPageReducer;
+export default signInPageReducer;

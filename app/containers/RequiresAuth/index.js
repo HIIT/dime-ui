@@ -26,12 +26,12 @@ export default function requiresAuth(Component) {
     openRoute = (route) => {
       this.props.changeRoute(route);
     }
-    openLogInPage = () => {
-      this.openRoute('/login');
+    openSignInPage = () => {
+      this.openRoute('/signin');
     }
     checkAndRedirect = () => {
       if (!this.hasAuthToken(this.props.auth.toJS())) {
-        this.openLogInPage();
+        this.openSignInPage();
       }
     }
     hasAuthToken = (auth) => {
