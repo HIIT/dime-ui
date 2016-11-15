@@ -165,7 +165,7 @@ export function* toogleEventTagAutoLabel(action) {
       try {
         const addTagRespond = yield call(request, addTagRequestURL, addTagRequestOptions);
         if (addTagRespond) {
-          yield put(toogleEventTagScuess(addTagRespond.data, tag));
+          yield put(toogleEventTagScuess(addTagRespond, tag, eventID));
         }
       } catch (error) {
         yield put(toogleEventTagError(error));

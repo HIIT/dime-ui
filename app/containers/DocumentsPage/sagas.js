@@ -162,11 +162,10 @@ export function* toogleDocumentTagAutoLabel(action) {
   try {
     const removeTagRespond = yield call(request, removeTagRequestURL, removeTagRequestOptions);
     if (removeTagRespond) {
-      yield put(deleteDocumentSucess(removeTagRespond, action.documentID));
       try {
         const addTagRespond = yield call(request, addTagRequestURL, addTagRequestOptions);
         if (addTagRespond) {
-          yield put(toogleDocumentTagScuess(addTagRespond, tag));
+          yield put(toogleDocumentTagScuess(addTagRespond, tag, documentID));
         }
       } catch (error) {
         yield put(toogleDocumentTagError(error));

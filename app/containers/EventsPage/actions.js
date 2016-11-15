@@ -131,11 +131,12 @@ export function clickOnEventTag(tag, eventID) {
   };
 }
 
-export function toogleEventTagScuess(respond, tag) {
+export function toogleEventTagScuess(respond, tag, eventID) {
   return {
     type: TOOGLE_EVENT_TAG_SUCESS,
     respond,
     tag,
+    eventID,
   };
 }
 

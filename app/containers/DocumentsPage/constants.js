@@ -15,6 +15,7 @@
  export const DELETE_DOCUMENT_SUCESS = 'app/DocumentsPage/DELETE_DOCUMENT_SUCESS';
  export const DELETE_DOCUMENT_ERROR = 'app/DocumentsPage/DELETE_DOCUMENT_ERROR';
  export const CLICK_DOCUMENT_TAG = 'app/DocumentsPage/CLICK_DOCUMENT_TAG';
+ export const REMOVE_DOCUMENT_TAG_SUCESS = 'app/DocumentsPage/REMOVE_DOCUMENT_TAG_SUCESS';
  export const TOOGLE_DOCUMENT_TAG_SUCESS = 'app/DocumentsPage/TOOGLE_DOCUMENT_TAG_SUCESS';
  export const TOOGLE_DOCUMENT_TAG_ERROR = 'app/DocumentsPage/CONFIRM_DOCUMENT_TAG_ERROR';
  export const LOAD_PROFILES = 'app/DocumentsPage/LOAD_PROFILES';

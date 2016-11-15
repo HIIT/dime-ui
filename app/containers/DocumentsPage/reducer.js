@@ -75,7 +75,7 @@
        return state
          .set('loading', true);
      case TOOGLE_DOCUMENT_TAG_SUCESS: {
-       const informationDocumentIndex = state.get('data').findIndex((item) => item.get('id') === action.respond.id);
+       const informationDocumentIndex = state.get('data').findIndex((item) => item.get('id') === action.documentID);
        const newInfoDocWithNewTags = fromJS(action.respond);
        return state
          .set('loading', false)

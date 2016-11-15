@@ -76,7 +76,7 @@ function eventsPageReducer(state = initialState, action) {
         .set('loading', true)
         .set('error', {});
     case TOOGLE_EVENT_TAG_SUCESS: {
-      const eventIndex = state.get('data').findIndex((item) => item.get('id') === action.respond.id);
+      const eventIndex = state.get('data').findIndex((item) => item.get('id') === action.respond.eventID);
       const newEventWithNewTags = fromJS(action.respond);
       return state
         .set('loading', false)

@@ -16,6 +16,7 @@ import {
  DELETE_DOCUMENT_SUCESS,
  DELETE_DOCUMENT_ERROR,
  CLICK_DOCUMENT_TAG,
+ REMOVE_DOCUMENT_TAG_SUCESS,
  TOOGLE_DOCUMENT_TAG_SUCESS,
  TOOGLE_DOCUMENT_TAG_ERROR,
  LOAD_PROFILES,
@@ -125,11 +126,21 @@ export function clickOnDocumentTag(tag, documentID) {
   };
 }
 
-export function toogleDocumentTagScuess(respond, tag) {
+export function removeDocumentTagScuess(respond, tag, documentID) {
+  return {
+    type: REMOVE_DOCUMENT_TAG_SUCESS,
+    respond,
+    tag,
+    documentID,
+  };
+}
+
+export function toogleDocumentTagScuess(respond, tag, documentID) {
   return {
     type: TOOGLE_DOCUMENT_TAG_SUCESS,
     respond,
     tag,
+    documentID,
   };
 }
 
