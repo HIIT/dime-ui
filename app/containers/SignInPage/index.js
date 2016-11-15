@@ -70,7 +70,6 @@ export class SignInPage extends React.Component { // eslint-disable-line react/p
   }
   handleSubmit = () => {
     const { username, password, rememberMe } = this.state;
-    console.log(this.props.locationBeforeSignIn);
     this.props.submitSignIn(username, password, rememberMe, this.props.locationBeforeSignIn);
     // this.props.router.goBack();
   }
