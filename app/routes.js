@@ -54,27 +54,6 @@ export default function createRoutes(store) {
 
         importModules.catch(errorLoading);
       },
-    },
-    {
-      path: '/signin',
-      name: 'signInPage',
-      getComponent(nextState, cb) {
-        const importModules = Promise.all([
-          System.import('containers/SignInPage/reducer'),
-          System.import('containers/SignInPage/sagas'),
-          System.import('containers/SignInPage'),
-        ]);
-
-        const renderRoute = loadModule(cb);
-
-        importModules.then(([reducer, sagas, component]) => {
-          injectReducer('signInPage', reducer.default);
-          injectSagas(sagas.default);
-          renderRoute(component);
-        });
-
-        importModules.catch(errorLoading);
-      },
     }, {
       path: '/documents',
       name: 'documentsPage',
@@ -129,6 +108,26 @@ export default function createRoutes(store) {
 
         importModules.then(([reducer, sagas, component]) => {
           injectReducer('timelinePage', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
+      path: '/signin',
+      name: 'signInPage',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          System.import('containers/SignInPage/reducer'),
+          System.import('containers/SignInPage/sagas'),
+          System.import('containers/SignInPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('signInPage', reducer.default);
           injectSagas(sagas.default);
           renderRoute(component);
         });
