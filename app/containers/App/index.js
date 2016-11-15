@@ -10,6 +10,7 @@
 import React from 'react';
 import get from 'lodash/get';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Snackbar from 'material-ui/Snackbar';
 import styles from './styles.css';
@@ -28,10 +29,10 @@ import {
   selectProfilesPageError,
   selectTimelinePageError,
 } from './selectors';
+import { clearCredentials } from './actions';
 import { createStructuredSelector } from 'reselect';
 
 class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
-
   static propTypes = {
     children: React.PropTypes.node,
     auth: React.PropTypes.object,
@@ -45,11 +46,17 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     eventsPageError: React.PropTypes.object,
     profilesPageError: React.PropTypes.object,
     timelinePageError: React.PropTypes.object,
+    clearCredentials: React.PropTypes.func,
+  }
+  clickOnAccountIcon = () => {
+    this.props.clearCredentials();
+    this.props.changeRoute('/');
   }
   render() {
     const { documentsPageLoading, eventsPageLoading, profilesPageLoading, timelinePageLoading } = this.props;
     const { documentsPageError, eventsPageError, profilesPageError, timelinePageError } = this.props;
     const error = Object.assign({}, documentsPageError, eventsPageError, profilesPageError, timelinePageError);
+    const hasError = !(Object.keys(error).length === 0 && error.constructor === Object);
     return (
       <MuiThemeProvider>
         <div className={styles.container}>
@@ -57,17 +64,20 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
             changeRoute={this.props.changeRoute}
             auth={this.props.auth}
             pathName={this.props.location.pathname}
+            clickOnAccountIcon={this.clickOnAccountIcon}
           />
           <div style={{ opacity: 0.65 }}>
             <ProgressBar intervalTime={40} autoIncrement percent={(documentsPageLoading || eventsPageLoading || profilesPageLoading || timelinePageLoading) ? 7 : 100} />
           </div>
           {React.Children.toArray(this.props.children)}
-          <Snackbar
-            style={{ left: '57%' }}
-            bodyStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
-            open={(typeof error.err !== 'undefined')}
-            message={error.err ? `HTTP Status Codes ${get(error, ['err', 'response', 'status']) ? error.err.response.status : null}; Message: ${get(error, ['err', 'message']) ? error.err.message : null}` : ''}
-          />
+          {error.response ?
+            <Snackbar
+              style={{ left: '57%' }}
+              bodyStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+              open={hasError}
+              message={`HTTP Status Code ${get(error, ['response', 'status']) ? error.response.status : null}, ${get(error, ['response', 'statusText']) ? error.response.statusText : null}`}
+            />
+          : null}
         </div>
       </MuiThemeProvider>
     );
@@ -77,7 +87,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
 function mapDispatchToProps(dispatch) {
   return {
     changeRoute: (url) => dispatch(push(url)),
-    dispatch,
+    clearCredentials: bindActionCreators(clearCredentials, dispatch),
   };
 }
 const mapStateToProps = createStructuredSelector({
