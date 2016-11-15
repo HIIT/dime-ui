@@ -34,11 +34,13 @@ export function* getDocuments() {
       Authorization: `Basic ${token}`,
     },
   };
-  const respond = yield call(request, requestURL, options);
-  if (!respond.err) {
-    yield put(documentsLoaded(respond.data));
-  } else {
-    yield put(documentsLoadingError(respond));
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(documentsLoaded(respond));
+    }
+  } catch (error) {
+    yield put(documentsLoadingError(error));
   }
 }
 
@@ -65,11 +67,13 @@ export function* searchDocument(action) {
       Authorization: `Basic ${token}`,
     },
   };
-  const respond = yield call(request, requestURL, options);
-  if (!respond.err) {
-    yield put(searchDocumentLoaded(keyword.length > 0 ? respond.data.docs : respond.data));
-  } else {
-    yield put(searchDocumentError(respond));
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(searchDocumentLoaded(keyword.length > 0 ? respond.docs : respond));
+    }
+  } catch (error) {
+    yield put(searchDocumentError(error));
   }
 }
 
@@ -111,11 +115,13 @@ export function* deleteDocument(action) {
       Authorization: `Basic ${token}`,
     },
   };
-  const respond = yield call(request, requestURL, options);
-  if (!respond.err) {
-    yield put(deleteDocumentSucess(respond.data, action.documentID));
-  } else {
-    yield put(deleteDocumentError(respond, action.documentID));
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(deleteDocumentSucess(respond, action.documentID));
+    }
+  } catch (error) {
+    yield put(deleteDocumentError(error, action.documentID));
   }
 }
 
@@ -153,16 +159,21 @@ export function* toogleDocumentTagAutoLabel(action) {
       time: new Date().toISOString(),
     }),
   };
-  const removeTagRespond = yield call(request, removeTagRequestURL, removeTagRequestOptions);
-  if (!removeTagRespond.err) {
-    const addTagRespond = yield call(request, addTagRequestURL, addTagRequestOptions);
-    if (!addTagRespond.err) {
-      yield put(toogleDocumentTagScuess(addTagRespond.data, tag));
-    } else {
-      yield put(toogleDocumentTagError(addTagRespond.err));
+  try {
+    const removeTagRespond = yield call(request, removeTagRequestURL, removeTagRequestOptions);
+    if (removeTagRespond) {
+      yield put(deleteDocumentSucess(removeTagRespond, action.documentID));
+      try {
+        const addTagRespond = yield call(request, addTagRequestURL, addTagRequestOptions);
+        if (addTagRespond) {
+          yield put(toogleDocumentTagScuess(addTagRespond, tag));
+        }
+      } catch (error) {
+        yield put(toogleDocumentTagError(error));
+      }
     }
-  } else {
-    yield put(toogleDocumentTagError(removeTagRespond.err));
+  } catch (error) {
+    yield put(toogleDocumentTagError(error));
   }
 }
 
@@ -182,11 +193,13 @@ export function* getProfiles() {
       Authorization: `Basic ${token}`,
     },
   };
-  const respond = yield call(request, requestURL, options);
-  if (!respond.err) {
-    yield put(profilesLoaded(respond.data));
-  } else {
-    yield put(profilesLoadingError(respond));
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(profilesLoaded(respond));
+    }
+  } catch (error) {
+    yield put(profilesLoadingError(error));
   }
 }
 
@@ -218,11 +231,13 @@ export function* addToProfile(action) {
       weight: 1,
     }),
   };
-  const addToProfieRespond = yield call(request, addToProfileRequestURL, addToProfileRequestOptions);
-  if (!addToProfieRespond.err) {
-    yield put(addDocumentToProfileSucess(addToProfieRespond.data, profileID));
-  } else {
-    yield put(addDocumentToProfileError(addToProfieRespond.err, profileID));
+  try {
+    const respond = yield call(request, addToProfileRequestURL, addToProfileRequestOptions);
+    if (respond) {
+      yield put(addDocumentToProfileSucess(respond, profileID));
+    }
+  } catch (error) {
+    yield put(addDocumentToProfileError(error, profileID));
   }
 }
 
