@@ -23,11 +23,13 @@ export function* getEvents() {
       Authorization: `Basic ${token}`,
     },
   };
-  const respond = yield call(request, requestURL, options);
-  if (!respond.err) {
-    yield put(eventsLoaded(respond.data));
-  } else {
-    yield put(eventsLoadingError(respond));
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(eventsLoaded(respond));
+    }
+  } catch (error) {
+    yield put(eventsLoadingError(error));
   }
 }
 
@@ -53,11 +55,13 @@ export function* getDocuments() {
       Authorization: `Basic ${token}`,
     },
   };
-  const respond = yield call(request, requestURL, options);
-  if (!respond.err) {
-    yield put(documentsLoaded(respond.data));
-  } else {
-    yield put(documentsLoadingError(respond));
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(documentsLoaded(respond));
+    }
+  } catch (error) {
+    yield put(documentsLoadingError(error));
   }
 }
 
