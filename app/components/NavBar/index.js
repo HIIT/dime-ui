@@ -18,6 +18,7 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
     auth: React.PropTypes.object,
     changeRoute: React.PropTypes.func,
     pathName: React.PropTypes.string,
+    clickOnAccountIcon: React.PropTypes.func,
   };
   handleChange = (event, key, payload) => {
     event.preventDefault();
@@ -36,26 +37,31 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
               </span>
             </div>
           </Link>
-          <div className={styles.navBarMenuWrapper}>
-            <DropDownMenu value={this.props.pathName} onChange={this.handleChange}>
-              <MenuItem value={'/events'} primaryText="Events" />
-              <MenuItem value={'/documents'} primaryText="Documents" />
-              <MenuItem value={'/profiles'} primaryText="Profiles" />
-              <MenuItem value={'/timeline'} primaryText="Timeline" />
-            </DropDownMenu>
-          </div>
+          { this.props.pathName === '/signin' ? null :
+            <div className={styles.navBarMenuWrapper}>
+              <DropDownMenu value={this.props.pathName} onChange={this.handleChange}>
+                <MenuItem value={'/events'} primaryText="Events" />
+                <MenuItem value={'/documents'} primaryText="Documents" />
+                <MenuItem value={'/profiles'} primaryText="Profiles" />
+                <MenuItem value={'/timeline'} primaryText="Timeline" />
+              </DropDownMenu>
+            </div>
+          }
         </div>
-        <div className={styles.navBarRightWrapper}>
-          <div className={styles.navBarAccountWrapper}>
-            <IconButton
-              tooltip="Log Out"
-            >
-              <AccountCircle
-                color={indigoA700}
-              />
-            </IconButton>
+        { this.props.pathName === '/signin' ? null :
+          <div className={styles.navBarRightWrapper}>
+            <div className={styles.navBarAccountWrapper}>
+              <IconButton
+                tooltip="Log Out"
+                onClick={this.props.clickOnAccountIcon}
+              >
+                <AccountCircle
+                  color={indigoA700}
+                />
+              </IconButton>
+            </div>
           </div>
-        </div>
+        }
       </div>
     );
   }
