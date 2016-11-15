@@ -3,6 +3,8 @@
  */
 
 import { fromJS } from 'immutable';
+import { SAVE_CREDENTIALS, CLEAR_CREDENTIALS, SAVE_LOCATION_BEFORE_SIGN_IN } from './constants';
+
 // The initial state of the App
 
 let initialState = fromJS({
@@ -10,7 +12,9 @@ let initialState = fromJS({
     url: `${window.location.hostname}:${window.location.port}`,
   },
   auth: {
-    token: window.btoa('testuser:testuser123'),
+    token: undefined,
+    rememberMe: undefined,
+    locationBeforeSignIn: undefined,
   },
 });
 
@@ -20,19 +24,25 @@ if (process.env.NODE_ENV !== 'production') {
       url: 'localhost:8080',
     },
     auth: {
-      token: window.btoa('testuser:testuser123'),
+      token: undefined, // window.btoa('testuser:testuser123')
+      rememberMe: undefined,
+      locationBeforeSignIn: undefined,
     },
   });
 }
 
 function appReducer(state = initialState, action) {
   switch (action.type) {
-    case 'LOG_IN':
+    case SAVE_CREDENTIALS:
       return state
-        .setIn(['auth', 'token'], action.payload.token);
-    case 'SET_API_ROOT':
+        .setIn(['auth', 'token'], window.btoa(`${action.username}:${action.password}`))
+        .setIn(['auth', 'rememberMe'], action.rememberMe);
+    case CLEAR_CREDENTIALS:
       return state
-        .setIn(['API', 'url'], action.payload.url);
+        .setIn(['auth', 'token'], undefined)
+        .setIn(['auth', 'rememberMe'], undefined);
+    case SAVE_LOCATION_BEFORE_SIGN_IN:
+      return state.setIn(['auth', 'locationBeforeSignIn'], fromJS(action.location));
     default:
       return state;
   }
