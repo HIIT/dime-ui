@@ -5,11 +5,31 @@
  */
 
 import {
-  DEFAULT_ACTION,
+  SUBMIT_SIGNIN,
+  SIGNIN_SUCESS,
+  SIGNIN_ERROR,
 } from './constants';
 
-export function defaultAction() {
+export function submitSignIn(username, password, rememberMe, previousLocation) {
   return {
-    type: DEFAULT_ACTION,
+    type: SUBMIT_SIGNIN,
+    username,
+    password,
+    rememberMe,
+    previousLocation,
+  };
+}
+
+export function signInSucess(respond) {
+  return {
+    type: SIGNIN_SUCESS,
+    respond,
+  };
+}
+
+export function signInError(error) {
+  return {
+    type: SIGNIN_ERROR,
+    error,
   };
 }
