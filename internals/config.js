@@ -30,8 +30,6 @@ const ReactBoilerplate = {
         'sanitize.css',
         'boostrap',
         'react-icons',
-        'react-json-tree',
-        'react-list',
       ],
 
       /**
