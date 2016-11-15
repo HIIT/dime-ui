@@ -34,11 +34,13 @@ export function* getEvents() {
       Authorization: `Basic ${token}`,
     },
   };
-  const respond = yield call(request, requestURL, options);
-  if (!respond.err) {
-    yield put(eventsLoaded(respond.data));
-  } else {
-    yield put(eventsLoadingError(respond));
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(eventsLoaded(respond));
+    }
+  } catch (error) {
+    yield put(eventsLoadingError(error));
   }
 }
 
@@ -65,11 +67,13 @@ export function* searchEvent(action) {
       Authorization: `Basic ${token}`,
     },
   };
-  const respond = yield call(request, requestURL, options);
-  if (!respond.err) {
-    yield put(searchEventLoaded(keyword.length > 0 ? respond.data.docs : respond.data));
-  } else {
-    yield put(searchEventError(respond));
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(searchEventLoaded(keyword.length > 0 ? respond.docs : respond));
+    }
+  } catch (error) {
+    yield put(searchEventError(error));
   }
 }
 
@@ -111,11 +115,13 @@ export function* deleteEvent(action) {
       Authorization: `Basic ${token}`,
     },
   };
-  const respond = yield call(request, requestURL, options);
-  if (!respond.err) {
-    yield put(deleteEventSucess(respond.data, action.eventID));
-  } else {
-    yield put(deleteEventError(respond, action.eventID));
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(deleteEventSucess(respond, action.eventID));
+    }
+  } catch (error) {
+    yield put(deleteEventError(error, action.eventID));
   }
 }
 
@@ -153,16 +159,20 @@ export function* toogleEventTagAutoLabel(action) {
       time: new Date().toISOString(),
     }),
   };
-  const removeTagRespond = yield call(request, removeTagRequestURL, removeTagRequestOptions);
-  if (!removeTagRespond.err) {
-    const addTagRespond = yield call(request, addTagRequestURL, addTagRequestOptions);
-    if (!addTagRespond.err) {
-      yield put(toogleEventTagScuess(addTagRespond.data, tag));
-    } else {
-      yield put(toogleEventTagError(addTagRespond.err));
+  try {
+    const removeTagRespond = yield call(request, removeTagRequestURL, removeTagRequestOptions);
+    if (removeTagRespond) {
+      try {
+        const addTagRespond = yield call(request, addTagRequestURL, addTagRequestOptions);
+        if (addTagRespond) {
+          yield put(toogleEventTagScuess(addTagRespond.data, tag));
+        }
+      } catch (error) {
+        yield put(toogleEventTagError(error));
+      }
     }
-  } else {
-    yield put(toogleEventTagError(removeTagRespond.err));
+  } catch (error) {
+    yield put(toogleEventTagError(error));
   }
 }
 
@@ -182,11 +192,13 @@ export function* getProfiles() {
       Authorization: `Basic ${token}`,
     },
   };
-  const respond = yield call(request, requestURL, options);
-  if (!respond.err) {
-    yield put(profilesLoaded(respond.data));
-  } else {
-    yield put(profilesLoadingError(respond));
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(profilesLoaded(respond));
+    }
+  } catch (error) {
+    yield put(profilesLoadingError(error));
   }
 }
 
@@ -206,7 +218,7 @@ export function* addToProfile(action) {
   const { profileID, event } = action;
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const addToProfileRequestURL = `http://${url}/api/profile/${profileID}/validateevent`;
+  const addToProfileRequestURL = `http://${url}/api/profiles/${profileID}/validatedevents`;
   const addToProfileRequestOptions = {
     method: 'POST',
     headers: {
@@ -218,11 +230,13 @@ export function* addToProfile(action) {
       weight: 1,
     }),
   };
-  const addToProfieRespond = yield call(request, addToProfileRequestURL, addToProfileRequestOptions);
-  if (!addToProfieRespond.err) {
-    yield put(addEventToProfileSucess(addToProfieRespond.data, profileID));
-  } else {
-    yield put(addEventToProfileError(addToProfieRespond.err, profileID));
+  try {
+    const addToProfieRespond = yield call(request, addToProfileRequestURL, addToProfileRequestOptions);
+    if (addToProfieRespond) {
+      yield put(addEventToProfileSucess(addToProfieRespond, profileID));
+    }
+  } catch (error) {
+    yield put(addEventToProfileError(error, profileID));
   }
 }
 
