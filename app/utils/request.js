@@ -1,4 +1,14 @@
 import 'whatwg-fetch';
+/**
+ * Parses the JSON returned by a network request
+ *
+ * @param  {object} response A response from a network request
+ *
+ * @return {object}          The parsed JSON from the request
+ */
+function parseJSON(response) {
+  return response.json();
+}
 
 /**
  * Checks if a network request came back fine, and throws an error if not
@@ -7,9 +17,9 @@ import 'whatwg-fetch';
  *
  * @return {object|undefined} Returns either the response, or throws an error
  */
-function checkResponse(response) {
-  if (response.ok) {
-    return response[response.status === 204 ? 'text' : 'json']();
+function checkStatus(response) {
+  if (response.status >= 200 && response.status < 300) {
+    return response;
   }
   const error = new Error(response.statusText);
   error.response = response;
@@ -22,11 +32,10 @@ function checkResponse(response) {
  * @param  {string} url       The URL we want to request
  * @param  {object} [options] The options we want to pass to "fetch"
  *
- * @return {object}           An object containing either "data" or "err"
+ * @return {object}           The response data
  */
 export default function request(url, options) {
   return fetch(url, options)
-    .then(checkResponse)
-    .then((data) => ({ data }))
-    .catch((err) => ({ err }));
+    .then(checkStatus)
+    .then(parseJSON);
 }
