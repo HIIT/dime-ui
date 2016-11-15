@@ -27,11 +27,13 @@ export function* getProfiles() {
       Authorization: `Basic ${token}`,
     },
   };
-  const respond = yield call(request, requestURL, options);
-  if (!respond.err) {
-    yield put(profilesLoaded(respond.data));
-  } else {
-    yield put(profilesLoadingError(respond));
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(profilesLoaded(respond));
+    }
+  } catch (error) {
+    yield put(profilesLoadingError(error));
   }
 }
 
@@ -58,11 +60,13 @@ export function* searchProfile(action) {
       Authorization: `Basic ${token}`,
     },
   };
-  const respond = yield call(request, requestURL, options);
-  if (!respond.err) {
-    yield put(searchProfileLoaded(keyword.length > 0 ? respond.data.docs : respond.data));
-  } else {
-    yield put(searchProfileError(respond.err));
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(searchProfileLoaded(keyword.length > 0 ? respond.docs : respond));
+    }
+  } catch (error) {
+    yield put(searchProfileError(error));
   }
 }
 
@@ -81,7 +85,7 @@ export function* searchData() {
 export function* createProfile(action) {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/profile`;
+  const requestURL = `http://${url}/api/profiles`;
   const options = {
     method: 'POST',
     headers: {
@@ -94,13 +98,15 @@ export function* createProfile(action) {
       tags: [],
     }),
   };
-  const respond = yield call(request, requestURL, options);
-  if (!respond.err) {
-    const profile = respond.data;
-    profile.editing = true;
-    yield put(createProfileSuccess(profile, action.profileID));
-  } else {
-    yield put(createProfileError(respond.err, action.profileID));
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      const profile = respond;
+      profile.editing = true;
+      yield put(createProfileSuccess(profile, action.profileID));
+    }
+  } catch (error) {
+    yield put(createProfileError(error, action.profileID));
   }
 }
 
@@ -113,18 +119,20 @@ export function* createProfileWatcher() {
 export function* deleteProfile(action) {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/profile/${action.profileID}`;
+  const requestURL = `http://${url}/api/profiles/${action.profileID}`;
   const options = {
     method: 'DELETE',
     headers: {
       Authorization: `Basic ${token}`,
     },
   };
-  const respond = yield call(request, requestURL, options);
-  if (!respond.err) {
-    yield put(deleteProfileSuccess(respond.data, action.profileID));
-  } else {
-    yield put(deleteProfileError(respond.err, action.profileID));
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(deleteProfileSuccess(respond, action.profileID));
+    }
+  } catch (error) {
+    yield put(deleteProfileError(error, action.profileID));
   }
 }
 
