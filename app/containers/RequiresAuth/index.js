@@ -6,8 +6,10 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import { push } from 'react-router-redux';
 import selectAuthDomain from './selectors';
+import { saveLocationBeforeSignIn } from 'containers/App/actions';
 import { createStructuredSelector } from 'reselect';
 
 // Learn from http://engineering.blogfoster.com/higher-order-components-theory-and-practice/
@@ -16,34 +18,22 @@ export default function requiresAuth(Component) {
     static propTypes = {
       auth: React.PropTypes.object,
       changeRoute: React.PropTypes.func,
+      location: React.PropTypes.object,
+      saveLocationBeforeSignIn: React.PropTypes.func,
     };
     componentDidMount() {
       this.checkAndRedirect();
     }
-    componentDidUpdate() {
-      this.checkAndRedirect();
-    }
-    openRoute = (route) => {
-      this.props.changeRoute(route);
-    }
-    openSignInPage = () => {
-      this.openRoute('/signin');
-    }
     checkAndRedirect = () => {
-      if (!this.hasAuthToken(this.props.auth.toJS())) {
-        this.openSignInPage();
+      if (!this.props.auth.token || !this.props.auth.rememberMe) {
+        this.props.changeRoute('/signin');
+        this.props.saveLocationBeforeSignIn(this.props.location);
       }
-    }
-    hasAuthToken = (auth) => {
-      if (typeof auth.token !== 'undefined') {
-        return true;
-      }
-      return false;
     }
     render() {
       return (
-        <div className="authenticated">
-          { this.hasAuthToken(this.props.auth.toJS()) ? <Component {...this.props} /> : null }
+        <div className={this.props.auth.token ? 'authenticated' : 'unauthenticated'}>
+          { this.props.auth.token ? <Component {...this.props} /> : null }
         </div>
       );
     }
@@ -52,7 +42,7 @@ export default function requiresAuth(Component) {
   function mapDispatchToProps(dispatch) {
     return {
       changeRoute: (url) => dispatch(push(url)),
-      dispatch,
+      saveLocationBeforeSignIn: bindActionCreators(saveLocationBeforeSignIn, dispatch),
     };
   }
   const mapStateToProps = createStructuredSelector({
