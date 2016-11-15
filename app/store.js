@@ -24,6 +24,7 @@ export default function configureStore(initialState = {}, history) {
   ];
 
   if (process.env.NODE_ENV !== 'production') {
+    // localStorage.clear();
     const stateTransformer = (state) => {
       if (Iterable.isIterable(state)) return state.toJS();
       return state;
@@ -39,10 +40,10 @@ export default function configureStore(initialState = {}, history) {
     devtools(),
   ];
 
-  const persistedState = loadState();
+  const persistanState = loadState();
   const store = createStore(
     createReducer(),
-    fromJS(persistedState),
+    fromJS(persistanState),
     compose(...enhancers)
   );
 
@@ -51,9 +52,11 @@ export default function configureStore(initialState = {}, history) {
 
   // Save App State in LocalStorage
   store.subscribe(throttle(() => {
-    saveState({
-      app: store.getState().app,
-    });
+    if (store.getState().getIn(['app', 'auth', 'rememberMe'])) {
+      saveState({
+        app: store.getState().getIn(['app']),
+      });
+    }
   }, 1000));
 
   // Make reducers hot reloadable, see http://mxs.is/googmo
