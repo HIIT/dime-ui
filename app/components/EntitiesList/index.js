@@ -57,8 +57,8 @@ export class EntitiesList extends React.Component { // eslint-disable-line react
       removeFromProfile={this.props.removeFromProfile}
     />
   renderSearchBox = () => {
-    const hint = 'Search';
-    const floatedHint = 'Keyword';
+    const hint = 'Enter Keywords';
+    const floatedHint = 'Search';
     return (
       <Row>
         <Col xsOffset={1} xs={10} smOffset={4} sm={6} >

@@ -15,8 +15,7 @@ class TagsList extends React.Component { // eslint-disable-line react/prefer-sta
     clickOnTag: React.PropTypes.func,
     className: React.PropTypes.string,
   }
-  handleTagClick = (tag, entityID, mouseEvent) => {
-    mouseEvent.preventDefault();
+  handleTagClick = (tag, entityID) => {
     this.props.clickOnTag(tag, entityID);
   }
   render() {
