@@ -100,13 +100,6 @@ export class ProfilesList extends React.Component { // eslint-disable-line react
     return (
       <Grid>
         {this.renderSearchBox()}
-        {/* <ReactList
-          itemRenderer={(index) => this.renderProfile(this.props.profiles[index])}
-          length={this.props.profiles.length}
-          pageSize={12}
-          threshold={450}
-          useTranslate3d // TODO:check browsers support for Translate3d
-        /> */}
         <Row>
           <Col
             xsOffset={1}
