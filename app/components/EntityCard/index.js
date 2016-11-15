@@ -8,7 +8,7 @@ import React from 'react';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import { Row, Col } from 'react-flexbox-grid/lib/index';
 import { Tabs, Tab } from 'material-ui/Tabs';
-import JSONTree from 'react-json-tree';
+import JSONTree from 'leonaves-react-json-tree';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import EpandedMore from 'material-ui/svg-icons/navigation/expand-more';
 import EpandedLess from 'material-ui/svg-icons/navigation/expand-less';
@@ -110,6 +110,8 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
           tabItemContainerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.02)' }}
           inkBarStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
         >
+
+
           <Tab
             label="JSON (tree-view)"
             style={{ color: 'rgba(0, 0, 0, 0.25)' }}
@@ -118,7 +120,6 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
               data={entity}
               shouldExpandNode={() => false}
               valueRenderer={raw => (raw.length > 1000 ? <em>text lenth > 3000, hiden</em> : raw)}
-              sortObjectKeys
               hideRoot
             />
           </Tab>
