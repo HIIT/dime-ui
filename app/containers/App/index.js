@@ -25,6 +25,7 @@ import {
   selectEventsPageLoading,
   selectProfilesPageLoading,
   selectTimelinePageLoading,
+  selectSignInPageLoading,
   selectDocumentsPageError,
   selectEventsPageError,
   selectProfilesPageError,
@@ -45,6 +46,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     eventsPageLoading: React.PropTypes.bool,
     profilesPageLoading: React.PropTypes.bool,
     timelinePageLoading: React.PropTypes.bool,
+    signInPageLoading: React.PropTypes.bool,
     documentsPageError: React.PropTypes.object,
     eventsPageError: React.PropTypes.object,
     profilesPageError: React.PropTypes.object,
@@ -74,7 +76,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     fetch(`http://${this.props.API}/api/updateleaderboard`, options).then(checkStatus);
   }
   render() {
-    const { documentsPageLoading, eventsPageLoading, profilesPageLoading, timelinePageLoading } = this.props;
+    const { documentsPageLoading, eventsPageLoading, profilesPageLoading, timelinePageLoading, signInPageLoading } = this.props;
     const { documentsPageError, eventsPageError, profilesPageError, timelinePageError, signInPageError } = this.props;
     const error = Object.assign({}, documentsPageError, eventsPageError, profilesPageError, timelinePageError, signInPageError);
     const hasError = !(Object.keys(error).length === 0 && error.constructor === Object);
@@ -89,7 +91,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
             clickOnSendToLeaderboard={this.clickOnSendToLeaderboard}
           />
           <div style={{ opacity: 0.65 }}>
-            <ProgressBar intervalTime={40} autoIncrement percent={(documentsPageLoading || eventsPageLoading || profilesPageLoading || timelinePageLoading) ? 7 : 100} />
+            <ProgressBar intervalTime={40} autoIncrement percent={(documentsPageLoading || eventsPageLoading || profilesPageLoading || timelinePageLoading || signInPageLoading) === true ? 30 : 100} />
           </div>
           {React.Children.toArray(this.props.children)}
           {error.response ?
@@ -119,6 +121,7 @@ const mapStateToProps = createStructuredSelector({
   eventsPageLoading: selectEventsPageLoading(),
   profilesPageLoading: selectProfilesPageLoading(),
   timelinePageLoading: selectTimelinePageLoading(),
+  signInPageLoading: selectSignInPageLoading(),
   documentsPageError: selectDocumentsPageError(),
   eventsPageError: selectEventsPageError(),
   profilesPageError: selectProfilesPageError(),
