@@ -14,7 +14,6 @@
 }
 
 .navBarRightWrapper {
-  position: relative;
   float: right;
 }
 
@@ -42,4 +41,10 @@
 
 .navBarAccountWrapper {
   margin-right: 0.7vw;
+}
+
+.navBarSendToLeaderboardWrapper {
+  position: absolute;
+  top: 46px;
+  left: 47px;
 }
