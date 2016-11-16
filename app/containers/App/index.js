@@ -29,6 +29,7 @@ import {
   selectEventsPageError,
   selectProfilesPageError,
   selectTimelinePageError,
+  selectSignInPageError,
 } from './selectors';
 import { clearCredentials } from './actions';
 import { createStructuredSelector } from 'reselect';
@@ -48,6 +49,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     eventsPageError: React.PropTypes.object,
     profilesPageError: React.PropTypes.object,
     timelinePageError: React.PropTypes.object,
+    signInPageError: React.PropTypes.object,
     clearCredentials: React.PropTypes.func,
   }
   clickOnAccountIcon = () => {
@@ -55,7 +57,6 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     this.props.changeRoute('/');
   }
   clickOnSendToLeaderboard = () => {
-    console.log('click');
     const options = {
       method: 'POST',
       headers: {
@@ -64,7 +65,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     };
     function checkStatus(response) {
       if (response.status >= 200 && response.status < 300) {
-        console.log('send to leaderboard');
+        return;
       }
       const error = new Error(response.statusText);
       error.response = response;
@@ -74,8 +75,8 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
   }
   render() {
     const { documentsPageLoading, eventsPageLoading, profilesPageLoading, timelinePageLoading } = this.props;
-    const { documentsPageError, eventsPageError, profilesPageError, timelinePageError } = this.props;
-    const error = Object.assign({}, documentsPageError, eventsPageError, profilesPageError, timelinePageError);
+    const { documentsPageError, eventsPageError, profilesPageError, timelinePageError, signInPageError } = this.props;
+    const error = Object.assign({}, documentsPageError, eventsPageError, profilesPageError, timelinePageError, signInPageError);
     const hasError = !(Object.keys(error).length === 0 && error.constructor === Object);
     return (
       <MuiThemeProvider>
@@ -94,7 +95,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
           {error.response ?
             <Snackbar
               style={{ left: '57%' }}
-              bodyStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}
+              bodyStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
               open={hasError}
               message={`HTTP Status Code ${get(error, ['response', 'status']) ? error.response.status : null}, ${get(error, ['response', 'statusText']) ? error.response.statusText : null}`}
             />
@@ -122,6 +123,7 @@ const mapStateToProps = createStructuredSelector({
   eventsPageError: selectEventsPageError(),
   profilesPageError: selectProfilesPageError(),
   timelinePageError: selectTimelinePageError(),
+  signInPageError: selectSignInPageError(),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

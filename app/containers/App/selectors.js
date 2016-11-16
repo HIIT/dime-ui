@@ -30,6 +30,7 @@ const selectDocumentsPageError = () => state => state.getIn(['documentsPage', 'e
 const selectEventsPageError = () => state => state.getIn(['eventsPage', 'error']);
 const selectProfilesPageError = () => state => state.getIn(['profilesPage', 'error']);
 const selectTimelinePageError = () => state => state.getIn(['timelinePage', 'error']);
+const selectSignInPageError = () => state => state.getIn(['signInPage', 'error']);
 
 export default selectLocationState;
 export {
@@ -44,4 +45,5 @@ export {
   selectEventsPageError,
   selectProfilesPageError,
   selectTimelinePageError,
+  selectSignInPageError,
 };
