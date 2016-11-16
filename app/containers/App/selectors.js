@@ -19,12 +19,10 @@ const selectAuthDomain = () => state => state.getIn(['app', 'auth']).toJS();
 const selectAPI = () => state => state.getIn(['app', 'API', 'url']);
 
 const selectDocumentsPageLoading = () => state => state.getIn(['eventsPage', 'loading']);
-
 const selectEventsPageLoading = () => state => state.getIn(['documentsPage', 'loading']);
-
 const selectProfilesPageLoading = () => state => state.getIn(['profilesPage', 'loading']);
-
 const selectTimelinePageLoading = () => state => state.getIn(['timelinePage', 'loading']);
+const selectSignInPageLoading = () => state => state.getIn(['signInPage', 'loading']);
 
 const selectDocumentsPageError = () => state => state.getIn(['documentsPage', 'error']);
 const selectEventsPageError = () => state => state.getIn(['eventsPage', 'error']);
@@ -41,6 +39,7 @@ export {
   selectEventsPageLoading,
   selectProfilesPageLoading,
   selectTimelinePageLoading,
+  selectSignInPageLoading,
   selectDocumentsPageError,
   selectEventsPageError,
   selectProfilesPageError,
