@@ -9,8 +9,9 @@ import { Link } from 'react-router';
 import MenuItem from 'material-ui/MenuItem';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import AccountCircle from 'material-ui/svg-icons/action/account-circle';
+import CloudCircle from 'material-ui/svg-icons/file/cloud-circle';
 import IconButton from 'material-ui/IconButton';
-import { indigoA700 } from 'material-ui/styles/colors';
+import { indigoA700, lightBlue300 } from 'material-ui/styles/colors';
 import styles from './styles.css';
 
 class NavBar extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -19,6 +20,7 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
     changeRoute: React.PropTypes.func,
     pathName: React.PropTypes.string,
     clickOnAccountIcon: React.PropTypes.func,
+    clickOnSendToLeaderboard: React.PropTypes.func,
   };
   handleChange = (event, key, payload) => {
     event.preventDefault();
@@ -28,6 +30,16 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
     return (
       <div className={styles.navBar}>
         <div className={styles.navBarLeftWrapper}>
+          <div className={styles.navBarSendToLeaderboardWrapper}>
+            <IconButton
+              tooltip="Send to Leaderboard"
+              onClick={this.props.clickOnSendToLeaderboard}
+            >
+              <CloudCircle
+                color={lightBlue300}
+              />
+            </IconButton>
+          </div>
           <Link to="/">
             <div className={styles.navBarLogoWrapper}>
               <span
