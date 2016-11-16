@@ -26,7 +26,14 @@ export function* saveSignIn({ username, password, rememberMe, previousLocation }
         browserHistory.push(previousLocation);
       } else { browserHistory.push('/'); }
     }
-  } catch (error) {
+  } catch (e) {
+    // This is an ugly fix should be avoided. It was intend to disaply corret(but fake) info 401 for the user but currently /api/ping does not return corrent response.
+    const fakeResponse = {
+      status: 401,
+      statusText: 'Unauthorized',
+    };
+    const error = new Error(fakeResponse.statusText);
+    error.response = fakeResponse;
     yield put(signInError(error));
   }
 }
