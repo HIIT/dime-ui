@@ -1,7 +1,13 @@
 import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import { LOCATION_CHANGE } from 'react-router-redux';
-import { LOAD_PROFILES, SEARCH_PROFILES, CREATE_PROFILE, DELETE_PROFILE } from './constants';
+import {
+  LOAD_PROFILES,
+  SEARCH_PROFILES,
+  CREATE_PROFILE,
+  DELETE_PROFILE,
+  CLICK_ON_ENTITY_TAG,
+} from './constants';
 import request from 'utils/request';
 import { selectAuth, selectAPI } from './selectors';
 import {
@@ -13,6 +19,8 @@ import {
   deleteProfileError,
   createProfileSuccess,
   createProfileError,
+  addTagToProfileSuccess,
+  addTagToProfileError,
 } from './actions';
 
 // Init ProfileList Sage (Load Profile Sage)
@@ -140,6 +148,30 @@ export function* deleteProfileWatcher() {
   yield* takeLatest(DELETE_PROFILE, deleteProfile);
 }
 
+export function* addTagToProfile(action) {
+  const { token } = yield select(selectAuth());
+  const { url } = yield select(selectAPI());
+  const requestURL = `http://${url}/api/profiles/${action.profileID}/tags`;
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${token}`,
+    },
+  };
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(addTagToProfileSuccess(respond, action.profileID));
+    }
+  } catch (error) {
+    yield put(addTagToProfileError(error, action.profileID));
+  }
+}
+
+export function* clickOnEntityTagWatcher() {
+  yield* takeLatest(CLICK_ON_ENTITY_TAG, addTagToProfile);
+}
+
 
 // All sagas to be loaded
 export default [
@@ -147,4 +179,5 @@ export default [
   searchData,
   deleteProfileWatcher,
   createProfileWatcher,
+  clickOnEntityTagWatcher,
 ];
