@@ -218,7 +218,7 @@ export function* addToProfile(action) {
   const { profileID, document } = action;
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const addToProfileRequestURL = `http://${url}/api/profile/${profileID}/validateinformationelement`;
+  const addToProfileRequestURL = `http://${url}/api/profiles/${profileID}/validateinformationelement`;
   const addToProfileRequestOptions = {
     method: 'POST',
     headers: {
