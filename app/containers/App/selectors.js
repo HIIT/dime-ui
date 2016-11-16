@@ -16,6 +16,7 @@ const selectLocationState = () => {
 };
 
 const selectAuthDomain = () => state => state.getIn(['app', 'auth']).toJS();
+const selectAPI = () => state => state.getIn(['app', 'API', 'url']);
 
 const selectDocumentsPageLoading = () => state => state.getIn(['eventsPage', 'loading']);
 
@@ -34,6 +35,7 @@ export default selectLocationState;
 export {
   selectLocationState,
   selectAuthDomain,
+  selectAPI,
   selectDocumentsPageLoading,
   selectEventsPageLoading,
   selectProfilesPageLoading,

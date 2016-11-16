@@ -20,6 +20,7 @@ import ProgressBar from 'react-progress-bar-plus';
 import 'react-progress-bar-plus/lib/progress-bar.css';
 import {
   selectAuthDomain,
+  selectAPI,
   selectDocumentsPageLoading,
   selectEventsPageLoading,
   selectProfilesPageLoading,
@@ -36,6 +37,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
   static propTypes = {
     children: React.PropTypes.node,
     auth: React.PropTypes.object,
+    API: React.PropTypes.string,
     changeRoute: React.PropTypes.func,
     location: React.PropTypes.object,
     documentsPageLoading: React.PropTypes.bool,
@@ -52,6 +54,24 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     this.props.clearCredentials();
     this.props.changeRoute('/');
   }
+  clickOnSendToLeaderboard = () => {
+    console.log('click');
+    const options = {
+      method: 'POST',
+      headers: {
+        Authorization: `Basic ${this.props.auth.token}`,
+      },
+    };
+    function checkStatus(response) {
+      if (response.status >= 200 && response.status < 300) {
+        console.log('send to leaderboard');
+      }
+      const error = new Error(response.statusText);
+      error.response = response;
+      throw error;
+    }
+    fetch(`http://${this.props.API}/api/updateleaderboard`, options).then(checkStatus);
+  }
   render() {
     const { documentsPageLoading, eventsPageLoading, profilesPageLoading, timelinePageLoading } = this.props;
     const { documentsPageError, eventsPageError, profilesPageError, timelinePageError } = this.props;
@@ -65,6 +85,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
             auth={this.props.auth}
             pathName={this.props.location.pathname}
             clickOnAccountIcon={this.clickOnAccountIcon}
+            clickOnSendToLeaderboard={this.clickOnSendToLeaderboard}
           />
           <div style={{ opacity: 0.65 }}>
             <ProgressBar intervalTime={40} autoIncrement percent={(documentsPageLoading || eventsPageLoading || profilesPageLoading || timelinePageLoading) ? 7 : 100} />
@@ -92,6 +113,7 @@ function mapDispatchToProps(dispatch) {
 }
 const mapStateToProps = createStructuredSelector({
   auth: selectAuthDomain(),
+  API: selectAPI(),
   documentsPageLoading: selectDocumentsPageLoading(),
   eventsPageLoading: selectEventsPageLoading(),
   profilesPageLoading: selectProfilesPageLoading(),
