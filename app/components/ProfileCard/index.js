@@ -26,7 +26,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
     deleteProfile: React.PropTypes.func,
     profile: React.PropTypes.object,
     clickOnProfileTag: React.PropTypes.func,
-    clickOnEntitiy: React.PropTypes.func,
+    clickOnEntitiyTag: React.PropTypes.func,
   }
   handleClickOnDelete = (profile, mouseEvent) => {
     mouseEvent.preventDefault();
@@ -102,7 +102,6 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
   }
   renderProfileCardBody = (profile) => {
     const { editing, tags } = profile;
-    profile.tags.push({ id: 1, text: 'fakeTag2' }, { id: 2, text: 'fakg3' }, { id: 3, text: 'fakeTa' }, { id: 4, text: 'fa5' }, { id: 5, text: 'fakeTa2' }, { id: 6, text: 'keTag3' }, { id: 7, text: 'fakeTa' }, { id: 8, text: 'fakeTag5' }, { id: 9, text: 'fakefakeTag5' });
     return (
       <CardText>
         <Row>
@@ -141,7 +140,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
                   listTitle="Suggested Documents"
                   entities={profile.suggestedInformationElements}
                   editing={editing}
-                  clickOnEntitiy={this.props.clickOnEntitiy}
+                  clickOnEntitiyTag={this.props.clickOnEntitiyTag}
                 />
               : null}
               { profile.suggestedEvents.length > 0 ?
@@ -149,7 +148,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
                   listTitle="Suggested Events"
                   entities={profile.suggestedEvents}
                   editing={editing}
-                  clickOnEntitiy={this.props.clickOnEntitiy}
+                  clickOnEntitiyTag={this.props.clickOnEntitiyTag}
                 />
               : null}
             </div>
