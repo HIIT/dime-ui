@@ -146,10 +146,10 @@
   * Click on Entity Tag
   *
   */
- export function clickOnEntityTag(tag, profileID) {
+ export function clickOnEntityTag(tag, entityID) {
    return {
      type: CLICK_ON_ENTITY_TAG,
      tag,
-     profileID,
+     entityID,
    };
  }
