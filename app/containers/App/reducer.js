@@ -14,6 +14,7 @@ let initialState = fromJS({
   auth: {
     token: undefined,
     rememberMe: undefined,
+    username: undefined,
     locationBeforeSignIn: undefined,
   },
 });
@@ -26,6 +27,7 @@ if (process.env.NODE_ENV !== 'production') {
     auth: {
       token: undefined, // window.btoa('testuser:testuser123')
       rememberMe: undefined,
+      username: undefined,
       locationBeforeSignIn: undefined,
     },
   });
@@ -36,10 +38,12 @@ function appReducer(state = initialState, action) {
     case SAVE_CREDENTIALS:
       return state
         .setIn(['auth', 'token'], window.btoa(`${action.username}:${action.password}`))
+        .setIn(['auth', 'username'], action.username)
         .setIn(['auth', 'rememberMe'], action.rememberMe);
     case CLEAR_CREDENTIALS:
       return state
         .setIn(['auth', 'token'], undefined)
+        .setIn(['auth', 'username'], undefined)
         .setIn(['auth', 'rememberMe'], undefined);
     case SAVE_LOCATION_BEFORE_SIGN_IN:
       return state.setIn(['auth', 'locationBeforeSignIn'], fromJS(action.location));
