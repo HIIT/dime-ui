@@ -153,3 +153,13 @@
      entityID,
    };
  }
+
+ export function addTagToProfileSuccess() {
+   return {
+   };
+ }
+
+ export function addTagToProfileError() {
+   return {
+   };
+ }
