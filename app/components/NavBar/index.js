@@ -30,16 +30,18 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
     return (
       <div className={styles.navBar}>
         <div className={styles.navBarLeftWrapper}>
-          <div className={styles.navBarSendToLeaderboardWrapper}>
-            <IconButton
-              tooltip="Send to Leaderboard"
-              onClick={this.props.clickOnSendToLeaderboard}
-            >
-              <CloudCircle
-                color={lightBlue300}
-              />
-            </IconButton>
-          </div>
+          { this.props.pathName === '/signin' ? null :
+            <div className={styles.navBarSendToLeaderboardWrapper}>
+              <IconButton
+                tooltip="Send to Leaderboard"
+                onClick={this.props.clickOnSendToLeaderboard}
+              >
+                <CloudCircle
+                  color={lightBlue300}
+                />
+              </IconButton>
+            </div>
+          }
           <Link to="/">
             <div className={styles.navBarLogoWrapper}>
               <span
