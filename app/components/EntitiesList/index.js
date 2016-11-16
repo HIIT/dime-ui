@@ -61,7 +61,7 @@ export class EntitiesList extends React.Component { // eslint-disable-line react
     const floatedHint = 'Search';
     return (
       <Row>
-        <Col xsOffset={1} xs={10} smOffset={4} sm={6} >
+        <Col xsOffset={2} xs={8} smOffset={4} sm={6} >
           <TextField
             hintText={hint}
             floatingLabelText={floatedHint}
