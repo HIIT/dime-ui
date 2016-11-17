@@ -15,12 +15,15 @@ const loadModule = (cb) => (componentModule) => {
 export default function createRoutes(store) {
   // Create reusable async injectors using getAsyncInjectors factory
   const { injectReducer, injectSagas } = getAsyncInjectors(store); // eslint-disable-line no-unused-vars
-
+  let previousPath = null;
   return [
     {
       path: '/',
       name: 'home',
       getComponent(nextState, cb) {
+        if (nextState.location.pathname === previousPath) {
+          return;
+        }
         const importModules = Promise.all([
           System.import('containers/HomePage'),
         ]);
@@ -32,18 +35,23 @@ export default function createRoutes(store) {
         });
 
         importModules.catch(errorLoading);
+
+        previousPath = nextState.location.pathname;
       },
     },
     {
       path: '/events',
       name: 'eventsPage',
       getComponent(nextState, cb) {
+        if (nextState.location.pathname === previousPath) {
+          return;
+        }
+
         const importModules = Promise.all([
           System.import('containers/EventsPage/reducer'),
           System.import('containers/EventsPage/sagas'),
           System.import('containers/EventsPage'),
         ]);
-
         const renderRoute = loadModule(cb);
 
         importModules.then(([reducer, sagas, component]) => {
@@ -53,11 +61,17 @@ export default function createRoutes(store) {
         });
 
         importModules.catch(errorLoading);
+
+        previousPath = nextState.location.pathname;
       },
     }, {
       path: '/documents',
       name: 'documentsPage',
       getComponent(nextState, cb) {
+        if (nextState.location.pathname === previousPath) {
+          return;
+        }
+
         const importModules = Promise.all([
           System.import('containers/DocumentsPage/reducer'),
           System.import('containers/DocumentsPage/sagas'),
@@ -73,11 +87,17 @@ export default function createRoutes(store) {
         });
 
         importModules.catch(errorLoading);
+
+        previousPath = nextState.location.pathname;
       },
     }, {
       path: '/profiles',
       name: 'profilesPage',
       getComponent(nextState, cb) {
+        if (nextState.location.pathname === previousPath) {
+          return;
+        }
+
         const importModules = Promise.all([
           System.import('containers/ProfilesPage/reducer'),
           System.import('containers/ProfilesPage/sagas'),
@@ -93,11 +113,17 @@ export default function createRoutes(store) {
         });
 
         importModules.catch(errorLoading);
+
+        previousPath = nextState.location.pathname;
       },
     }, {
       path: '/timeline',
       name: 'timelinePage',
       getComponent(nextState, cb) {
+        if (nextState.location.pathname === previousPath) {
+          return;
+        }
+
         const importModules = Promise.all([
           System.import('containers/TimelinePage/reducer'),
           System.import('containers/TimelinePage/sagas'),
@@ -113,11 +139,17 @@ export default function createRoutes(store) {
         });
 
         importModules.catch(errorLoading);
+
+        previousPath = nextState.location.pathname;
       },
     }, {
       path: '/signin',
       name: 'signInPage',
       getComponent(nextState, cb) {
+        if (nextState.location.pathname === previousPath) {
+          return;
+        }
+
         const importModules = Promise.all([
           System.import('containers/SignInPage/reducer'),
           System.import('containers/SignInPage/sagas'),
@@ -133,6 +165,8 @@ export default function createRoutes(store) {
         });
 
         importModules.catch(errorLoading);
+
+        previousPath = nextState.location.pathname;
       },
     }, {
       path: '*',
