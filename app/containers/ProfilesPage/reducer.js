@@ -37,7 +37,7 @@
          .set('data', fromJS([]));
      case LOAD_PROFILES_SUCCESS:
        return state
-         .set('data', fromJS(action.profiles).reverse())
+         .set('data', fromJS(action.profiles))
          .set('loading', false)
          .set('error', {});
      case LOAD_PROFILES_ERROR:
@@ -50,7 +50,7 @@
          .set('loading', true);
      case SEARCH_PROFILES_SUCCESS:
        return state
-         .set('data', fromJS(action.profiles).reverse())
+         .set('data', fromJS(action.profiles))
          .set('loading', false)
          .set('error', {});
      case SEARCH_PROFILES_ERROR:
