@@ -5,6 +5,7 @@
  */
 
  export const LOAD_DOCUMENTS = 'app/DocumentsPage/LOAD_DOCUMENTS';
+ export const LOAD_MORE_DOCUMENTS = 'app/DocumentsPage/LOAD_MORE_DOCUMENTS';
  export const LOAD_DOCUMENTS_SUCCESS = 'app/DocumentsPage/LOAD_DOCUMENTS_SUCCESS';
  export const LOAD_DOCUMENTS_ERROR = 'app/DocumentsPage/LOAD_DOCUMENTS_ERROR';
  export const SEARCH_DOCUMENTS = 'app/DocumentsPage/SEARCH_DOCUMENTS';
