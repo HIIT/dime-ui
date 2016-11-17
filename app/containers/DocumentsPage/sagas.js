@@ -3,7 +3,7 @@ import { takeLatest } from 'redux-saga';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import {
   LOAD_DOCUMENTS, LOAD_MORE_DOCUMENTS, SEARCH_DOCUMENTS, CLICK_DOCUMENT_TAG, CLICK_DOCUMENT_CARD, DELETE_DOCUMENT,
-  LOAD_PROFILES, ADD_DOCCUMENT_TO_PROFILE,
+  LOAD_PROFILES, ADD_DOCUMENT_TO_PROFILE,
 } from './constants';
 import request from 'utils/request';
 import { selectAuth, selectAPI } from './selectors';
@@ -231,7 +231,7 @@ export function* addToProfile(action) {
   const { profileID, document } = action;
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const addToProfileRequestURL = `http://${url}/api/profiles/${profileID}/validateinformationelement`;
+  const addToProfileRequestURL = `http://${url}/api/profiles/${profileID}/validatedinformationelements`;
   const addToProfileRequestOptions = {
     method: 'POST',
     headers: {
@@ -254,7 +254,7 @@ export function* addToProfile(action) {
 }
 
 export function* addToPofileWatcher() {
-  yield* takeLatest(ADD_DOCCUMENT_TO_PROFILE, addToProfile);
+  yield* takeLatest(ADD_DOCUMENT_TO_PROFILE, addToProfile);
 }
 
 // All sagas to be loaded
