@@ -24,6 +24,8 @@ import {
   LOAD_PROFILES,
   LOAD_PROFILES_SUCCESS,
   LOAD_PROFILES_ERROR,
+  ADD_EVENT_TO_PROFILE,
+  ADD_EVENT_TO_PROFILE_SUCCESS,
   ADD_EVENT_TO_PROFILE_ERROR,
 } from './constants';
 
@@ -106,8 +108,14 @@ function eventsPageReducer(state = initialState, action) {
         .set('profiles', fromJS([]))
         .set('loading', false)
         .set('error', fromJS(action.error));
+    case ADD_EVENT_TO_PROFILE:
+      return state.set('loading', true);
+    case ADD_EVENT_TO_PROFILE_SUCCESS:
+      return state.set('loading', false);
     case ADD_EVENT_TO_PROFILE_ERROR:
-      return state.set('error', fromJS(action.error));
+      return state
+        .set('error', fromJS(action.error))
+        .set('loading', false);
     case LOCATION_CHANGE:
       return state
         .set('error', {});
