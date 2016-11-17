@@ -11,7 +11,7 @@
  import { selectProfiles } from './selectors';
  import { loadProfiles, searchProfile, createProfile, editProfile, cancelEditProfile, deleteProfile, clickOnEntityTag } from './actions';
  import requiresAuth from 'containers/RequiresAuth';
- import ProfilesList from 'components/ProfilesList';
+ import ProfilesTab from 'components/ProfilesTab';
 
  export class ProfilesPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
    static propTypes = {
@@ -26,7 +26,7 @@
    }
    render() {
      return (
-       <ProfilesList
+       <ProfilesTab
          profiles={this.props.profiles}
          initProfilesList={this.props.loadProfiles}
          search={this.props.searchProfile}
