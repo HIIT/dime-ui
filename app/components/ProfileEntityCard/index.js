@@ -70,13 +70,7 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
   renderType(type) {
     return (
       <span className={styles.entityTypeKey}>
-        Type
-        <a
-          className={styles.entityType}
-          href={`${type}`}
-        >
-          {type.substring(type.indexOf('#') + 1, type.length)}
-        </a>
+        {type.substring(type.indexOf('#') + 1, type.length)}
       </span>
     );
   }
