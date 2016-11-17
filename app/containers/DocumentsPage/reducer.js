@@ -24,6 +24,7 @@
    LOAD_PROFILES,
    LOAD_PROFILES_SUCCESS,
    LOAD_PROFILES_ERROR,
+   ADD_DOCUMENT_TO_PROFILE_ERROR,
  } from './constants';
 
  const initialState = fromJS({
@@ -104,6 +105,8 @@
          .set('profiles', fromJS([]))
          .set('loading', false)
          .set('error', fromJS(action.error));
+     case ADD_DOCUMENT_TO_PROFILE_ERROR:
+       return state.set('error', fromJS(action.error));
      case LOCATION_CHANGE:
        return state
          .set('error', {});

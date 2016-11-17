@@ -199,6 +199,7 @@ export function addEventToProfileSucess(respond, profileID) {
 export function addEventToProfileError(error, profileID) {
   return {
     type: ADD_EVENT_TO_PROFILE_ERROR,
+    error,
     profileID,
   };
 }
