@@ -6,6 +6,7 @@
 
 import {
  LOAD_DOCUMENTS,
+ LOAD_MORE_DOCUMENTS,
  LOAD_DOCUMENTS_SUCCESS,
  LOAD_DOCUMENTS_ERROR,
  SEARCH_DOCUMENTS,
@@ -33,6 +34,13 @@ import {
 export function loadDocuments() {
   return {
     type: LOAD_DOCUMENTS,
+  };
+}
+
+export function loadMoreDocuments(nextPageNumber) {
+  return {
+    type: LOAD_MORE_DOCUMENTS,
+    nextPageNumber,
   };
 }
 
