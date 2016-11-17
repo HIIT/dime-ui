@@ -44,7 +44,7 @@ function eventsPageReducer(state = initialState, action) {
         .set('loading', true);
     case LOAD_EVENTS_SUCCESS:
       return state
-        .updateIn(['data'], data => fromJS(unionBy(data.toJS(), action.events.reverse(), 'id')))
+        .updateIn(['data'], data => fromJS(unionBy(data.toJS(), action.events, 'id')))
         .set('loading', false)
         .set('error', {});
     case LOAD_EVENTS_ERROR:
@@ -56,7 +56,7 @@ function eventsPageReducer(state = initialState, action) {
         .set('loading', true);
     case SEARCH_EVENTS_SUCCESS:
       return state
-        .set('data', fromJS(action.events).reverse())
+        .set('data', fromJS(action.events))
         .set('loading', false)
         .set('error', {});
     case SEARCH_EVENTS_ERROR:
@@ -97,7 +97,7 @@ function eventsPageReducer(state = initialState, action) {
         .set('loading', true);
     case LOAD_PROFILES_SUCCESS:
       return state
-        .set('profiles', fromJS(action.profiles).reverse())
+        .set('profiles', fromJS(action.profiles))
         .set('loading', false)
         .set('error', {});
     case LOAD_PROFILES_ERROR:

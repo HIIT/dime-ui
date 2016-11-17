@@ -44,7 +44,7 @@
          .set('loading', true);
      case LOAD_DOCUMENTS_SUCCESS:
        return state
-         .updateIn(['data'], data => fromJS(unionBy(data.toJS(), action.documents.reverse(), 'id')))
+         .updateIn(['data'], data => fromJS(unionBy(data.toJS(), action.documents, 'id')))
          .set('loading', false)
          .set('error', {});
      case LOAD_DOCUMENTS_ERROR:
@@ -56,7 +56,7 @@
          .set('loading', true);
      case SEARCH_DOCUMENTS_SUCCESS:
        return state
-         .set('data', fromJS(action.documents).reverse())
+         .set('data', fromJS(action.documents))
          .set('loading', false)
          .set('error', {});
      case SEARCH_DOCUMENTS_ERROR:
@@ -96,7 +96,7 @@
          .set('loading', true);
      case LOAD_PROFILES_SUCCESS:
        return state
-         .set('profiles', fromJS(action.profiles).reverse())
+         .set('profiles', fromJS(action.profiles))
          .set('loading', false)
          .set('error', {});
      case LOAD_PROFILES_ERROR:
