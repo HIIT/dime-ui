@@ -79,6 +79,26 @@ export class ProfilesList extends React.Component { // eslint-disable-line react
       </Row>
     );
   }
+  renderCreateNewProfilePanel = () =>
+    <div className={styles.createButtonWrapper}>
+      <TextField
+        hintText="name"
+        floatingLabelText="New Profile"
+        onChange={this.handleProfileNameChange}
+        onKeyPress={this.handleKeyPress}
+        fullWidth
+      />
+      <div style={{ position: 'relative', left: '60%' }} >
+        <RaisedButton
+          labelPosition="after"
+          primary
+          icon={<Add />}
+          style={{ minWidth: '34px' }}
+          disabled={this.state.profileName.length < 1}
+          onClick={this.handeClickProfileCreate}
+        />
+      </div>
+    </div>
   render() {
     return (
       <div className={styles.profileEditorWrapper}>
@@ -88,28 +108,12 @@ export class ProfilesList extends React.Component { // eslint-disable-line react
               xsOffset={1}
               xs={1}
             >
-              <div className={styles.createButtonWrapper}>
-                <TextField
-                  hintText="Profile"
-                  floatingLabelText="New"
-                  style={{ width: '88px' }}
-                  onChange={this.handleProfileNameChange}
-                  onKeyPress={this.handleKeyPress}
-                />
-                <RaisedButton
-                  labelPosition="after"
-                  primary
-                  icon={<Add />}
-                  style={{ minWidth: '34px' }}
-                  disabled={this.state.profileName.length < 1}
-                  onClick={this.handeClickProfileCreate}
-                />
-              </div>
+              {this.renderCreateNewProfilePanel()}
             </Col>
             <Col xs={10}>
               <Tabs
-                tabItemContainerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.025)', marginTop: '10px' }}
-                inkBarStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
+                tabItemContainerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.035)' }}
+                inkBarStyle={{ backgroundColor: 'rgba(0, 255, 180, 0.7)' }}
               >
                 {
                   this.props.profiles.map((profile) =>
