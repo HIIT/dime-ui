@@ -2,7 +2,7 @@ import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import {
-  LOAD_DOCUMENTS, SEARCH_DOCUMENTS, CLICK_DOCUMENT_TAG, CLICK_DOCUMENT_CARD, DELETE_DOCUMENT,
+  LOAD_DOCUMENTS, LOAD_MORE_DOCUMENTS, SEARCH_DOCUMENTS, CLICK_DOCUMENT_TAG, CLICK_DOCUMENT_CARD, DELETE_DOCUMENT,
   LOAD_PROFILES, ADD_DOCCUMENT_TO_PROFILE,
 } from './constants';
 import request from 'utils/request';
@@ -24,10 +24,13 @@ import {
 
 // Init DocumentList Sage (Load Document Sage)
 
-export function* getDocuments() {
+export function* getDocuments(action) {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/data/informationelements`;
+  let requestURL = `http://${url}/api/data/informationelements?limit=24&page=0`;
+  if (action.nextPageNumber) {
+    requestURL = `http://${url}/api/data/informationelements?limit=24&page=${action.nextPageNumber}`;
+  }
   const options = {
     method: 'GET',
     headers: {
@@ -52,6 +55,16 @@ export function* documentsData() {
   const getDocumentsWatcherFork = yield fork(getDocumentsWatcher);
   yield take(LOCATION_CHANGE);
   yield cancel(getDocumentsWatcherFork);
+}
+
+export function* loadMoreDocumentsWatcher() {
+  yield* takeLatest(LOAD_MORE_DOCUMENTS, getDocuments);
+}
+
+export function* moreDocumentsData() {
+  const loadMoreDocumentsWatcherFork = yield fork(loadMoreDocumentsWatcher);
+  yield take(LOCATION_CHANGE);
+  yield cancel(loadMoreDocumentsWatcherFork);
 }
 
 // Search Sage
@@ -247,6 +260,7 @@ export function* addToPofileWatcher() {
 // All sagas to be loaded
 export default [
   documentsData,
+  moreDocumentsData,
   searchData,
   clickDocumentWatcherPlusLocationChangeCanceler,
   deleteEntityWatcher,
