@@ -10,7 +10,7 @@
  import { createStructuredSelector } from 'reselect';
  import { selectDocuments, selectProfiles } from './selectors';
  import {
-   loadDocuments, searchDocument, clickOnDocumentCard, deleteDocument, clickOnDocumentTag,
+   loadDocuments, loadMoreDocuments, searchDocument, clickOnDocumentCard, deleteDocument, clickOnDocumentTag,
    loadProfiles, addDocumentToProfile, removeDocumentFromProfile,
  } from './actions';
  import requiresAuth from 'containers/RequiresAuth';
@@ -20,6 +20,7 @@
    static propTypes = {
      documents: React.PropTypes.array,
      loadDocuments: React.PropTypes.func,
+     loadMoreDocuments: React.PropTypes.func,
      searchDocument: React.PropTypes.func,
      clickOnDocumentCard: React.PropTypes.func,
      deleteDocument: React.PropTypes.func,
@@ -34,6 +35,7 @@
        <EntitiesList
          entities={this.props.documents}
          initEntitiesList={this.props.loadDocuments}
+         loadMoreEntities={this.props.loadMoreDocuments}
          search={this.props.searchDocument}
          clickOnEntityCard={this.props.clickOnDocumentCard}
          clickOnEntityDelete={this.props.deleteDocument}
@@ -55,6 +57,7 @@
  function mapDispatchToProps(dispatch) {
    return {
      loadDocuments: bindActionCreators(loadDocuments, dispatch),
+     loadMoreDocuments: bindActionCreators(loadMoreDocuments, dispatch),
      searchDocument: bindActionCreators(searchDocument, dispatch),
      clickOnDocumentCard: bindActionCreators(clickOnDocumentCard, dispatch),
      deleteDocument: bindActionCreators(deleteDocument, dispatch),
