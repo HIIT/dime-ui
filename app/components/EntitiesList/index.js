@@ -48,10 +48,10 @@ export class EntitiesList extends React.Component { // eslint-disable-line react
   }
   handleScroll = () => {
     const [lastVisibleIndex] = this.entitiesList.getVisibleRange();
-    const whenAtMiddle = ((lastVisibleIndex % 24) >= 4 && (lastVisibleIndex % 24) <= 6);
-    const whenAtBottom = (lastVisibleIndex % 24 === 0);
-    if (whenAtMiddle || whenAtBottom) { // 24 = number of entities load per "page" of GET API.
-      const nextPageNumber = Math.floor(lastVisibleIndex / 24) + 1;
+    // const whenAtMiddle = ((lastVisibleIndex % 24) >= 4 && (lastVisibleIndex % 24) <= 6);
+    const whenAtBottom = (lastVisibleIndex % 24 >= 23);
+    if (whenAtBottom || isNaN(lastVisibleIndex)) { // 24 = number of entities load per "page" of GET API.
+      const nextPageNumber = Math.floor(this.entitiesList.props.length / 24) + 1;
       if (nextPageNumber) {
         this.props.loadMoreEntities(nextPageNumber);
       }
