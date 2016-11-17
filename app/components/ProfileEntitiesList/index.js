@@ -15,15 +15,22 @@ class ProfileEntitiesList extends React.Component { // eslint-disable-line react
     listTitle: React.PropTypes.string,
     editing: React.PropTypes.bool,
     clickOnEntitiyTag: React.PropTypes.func,
+    clickOnDelete: React.PropTypes.func,
   }
   render() {
-    const { entities, listTitle, editing, clickOnEntitiyTag } = this.props;
+    const { entities, listTitle, editing, clickOnEntitiyTag, clickOnDelete } = this.props;
     return (
       <div>
         <h4>{listTitle}</h4>
         <ul className={styles.validatedentitiesUL}>
         {entities.map((entity) =>
-          <ProfileEntityCard key={entity.id} entity={entity} editing={editing} clickOnEntitiyTag={clickOnEntitiyTag} />
+          <ProfileEntityCard
+            key={entity.id}
+            entity={entity}
+            editing={editing}
+            clickOnEntitiyTag={clickOnEntitiyTag}
+            clickOnDelete={clickOnDelete}
+          />
         )}
         </ul>
       </div>
