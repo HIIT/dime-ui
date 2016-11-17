@@ -9,10 +9,12 @@ import ReactList from 'react-list';
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import TextField from 'material-ui/TextField';
 import EntityCard from 'components/EntityCard';
+import styles from './styles.css';
 
 export class EntitiesList extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     initEntitiesList: React.PropTypes.func,
+    loadMoreEntities: React.PropTypes.func,
     search: React.PropTypes.func,
     entities: React.PropTypes.array,
     error: React.PropTypes.object,
@@ -42,6 +44,15 @@ export class EntitiesList extends React.Component { // eslint-disable-line react
   handleKeyDown = (event) => {
     if (event.key === 'Enter') {
       this.props.search(this.state.value);
+    }
+  }
+  handleScroll = () => {
+    const [lastVisibleIndex] = this.entitiesList.getVisibleRange();
+    if ((lastVisibleIndex % 24) >= 4 && (lastVisibleIndex % 24) <= 6) { // 24 = number of entities load per "page" of GET API.
+      const nextPageNumber = Math.floor(lastVisibleIndex / 24) + 1;
+      if (nextPageNumber) {
+        this.props.loadMoreEntities(nextPageNumber);
+      }
     }
   }
   renderEntity = (entity) =>
@@ -77,12 +88,22 @@ export class EntitiesList extends React.Component { // eslint-disable-line react
     return (
       <Grid>
         {this.renderSearchBox()}
-        <ReactList
-          itemRenderer={(index) => this.renderEntity(this.props.entities[index])}
-          length={this.props.entities.length}
-          pageSize={12}
-          threshold={450}
-        />
+        <div
+          className={styles.entitiesListOutterWrapper}
+        >
+          <div
+            className={styles.entitiesListInnerWrapper}
+            onScroll={this.handleScroll}
+          >
+            <ReactList
+              itemRenderer={(index) => this.renderEntity(this.props.entities[index])}
+              length={this.props.entities.length}
+              pageSize={12}
+              threshold={450}
+              ref={(reactList) => { this.entitiesList = reactList; }}
+            />
+          </div>
+        </div>
       </Grid>
     );
   }
