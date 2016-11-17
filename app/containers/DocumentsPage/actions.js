@@ -23,12 +23,12 @@ import {
  LOAD_PROFILES,
  LOAD_PROFILES_SUCCESS,
  LOAD_PROFILES_ERROR,
- ADD_DOCCUMENT_TO_PROFILE,
- ADD_DOCCUMENT_TO_PROFILE_SUCCESS,
- ADD_DOCCUMENT_TO_PROFILE_ERROR,
- REMOVE_DOCCUMENT_FROM_PROFILE,
- REMOVE_DOCCUMENT_FROM_PROFILE_SUCCESS,
- REMOVE_DOCCUMENT_FROM_PROFILE_ERROR,
+ ADD_DOCUMENT_TO_PROFILE,
+ ADD_DOCUMENT_TO_PROFILE_SUCCESS,
+ ADD_DOCUMENT_TO_PROFILE_ERROR,
+ REMOVE_DOCUMENT_FROM_PROFILE,
+ REMOVE_DOCUMENT_FROM_PROFILE_SUCCESS,
+ REMOVE_DOCUMENT_FROM_PROFILE_ERROR,
 } from './constants';
 
 export function loadDocuments() {
@@ -187,7 +187,7 @@ export function profilesLoadingError(error) {
 
 export function addDocumentToProfile(document, profileID) {
   return {
-    type: ADD_DOCCUMENT_TO_PROFILE,
+    type: ADD_DOCUMENT_TO_PROFILE,
     document,
     profileID,
   };
@@ -195,21 +195,22 @@ export function addDocumentToProfile(document, profileID) {
 
 export function addDocumentToProfileSucess(respond, profileID) {
   return {
-    type: ADD_DOCCUMENT_TO_PROFILE_SUCCESS,
+    type: ADD_DOCUMENT_TO_PROFILE_SUCCESS,
     profileID,
   };
 }
 
 export function addDocumentToProfileError(error, profileID) {
   return {
-    type: ADD_DOCCUMENT_TO_PROFILE_ERROR,
+    type: ADD_DOCUMENT_TO_PROFILE_ERROR,
+    error,
     profileID,
   };
 }
 
 export function removeDocumentFromProfile(document, profileID) {
   return {
-    type: REMOVE_DOCCUMENT_FROM_PROFILE,
+    type: REMOVE_DOCUMENT_FROM_PROFILE,
     document,
     profileID,
   };
@@ -217,7 +218,7 @@ export function removeDocumentFromProfile(document, profileID) {
 
 export function removeDocumentFromProfileSucess(respond, profileID) {
   return {
-    type: REMOVE_DOCCUMENT_FROM_PROFILE_SUCCESS,
+    type: REMOVE_DOCUMENT_FROM_PROFILE_SUCCESS,
     document,
     profileID,
   };
@@ -225,7 +226,7 @@ export function removeDocumentFromProfileSucess(respond, profileID) {
 
 export function removeDocumentFromProfileError(error, profileID) {
   return {
-    type: REMOVE_DOCCUMENT_FROM_PROFILE_ERROR,
+    type: REMOVE_DOCUMENT_FROM_PROFILE_ERROR,
     error,
     profileID,
   };
