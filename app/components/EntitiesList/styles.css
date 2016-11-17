@@ -1,0 +1,14 @@
+.entitiesListOutterWrapper {
+  height: 105vh;
+  overflow: hidden;
+  margin-top: -9px;
+}
+
+.entitiesListInnerWrapper {
+  height: 105vh;
+  margin-left: -12px;
+  width: 104%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-top: 5px;
+}
