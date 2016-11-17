@@ -9,6 +9,7 @@
  import { LOCATION_CHANGE } from 'react-router-redux';
  import {
    LOAD_DOCUMENTS,
+   LOAD_MORE_DOCUMENTS,
    LOAD_DOCUMENTS_SUCCESS,
    LOAD_DOCUMENTS_ERROR,
    SEARCH_DOCUMENTS,
@@ -36,6 +37,10 @@
    switch (action.type) {
      case LOAD_DOCUMENTS:
        return state
+         .set('data', fromJS([]))
+         .set('loading', true);
+     case LOAD_MORE_DOCUMENTS:
+       return state
          .set('loading', true);
      case LOAD_DOCUMENTS_SUCCESS:
        return state
@@ -56,6 +61,7 @@
          .set('error', {});
      case SEARCH_DOCUMENTS_ERROR:
        return state
+         .set('data', fromJS([]))
          .set('loading', false)
          .set('error', fromJS(action.error));
      case DELETE_DOCUMENT:

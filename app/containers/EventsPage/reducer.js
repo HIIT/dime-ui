@@ -5,9 +5,11 @@
  */
 
 import { fromJS } from 'immutable';
+import unionBy from 'lodash/unionBy';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import {
   LOAD_EVENTS,
+  LOAD_MORE_EVENTS,
   LOAD_EVENTS_SUCCESS,
   LOAD_EVENTS_ERROR,
   SEARCH_EVENTS,
@@ -35,28 +37,31 @@ function eventsPageReducer(state = initialState, action) {
   switch (action.type) {
     case LOAD_EVENTS:
       return state
-        .set('loading', true)
-        .set('data', fromJS([]));
+        .set('data', fromJS([]))
+        .set('loading', true);
+    case LOAD_MORE_EVENTS:
+      return state
+        .set('loading', true);
     case LOAD_EVENTS_SUCCESS:
       return state
+        .updateIn(['data'], data => fromJS(unionBy(data.toJS(), action.events.reverse(), 'id')))
         .set('loading', false)
-        .set('error', {})
-        .set('data', fromJS(action.events).reverse());
+        .set('error', {});
     case LOAD_EVENTS_ERROR:
       return state
         .set('loading', false)
-        .set('error', fromJS(action.error))
-        .set('data', fromJS([]));
+        .set('error', fromJS(action.error));
     case SEARCH_EVENTS:
       return state
         .set('loading', true);
     case SEARCH_EVENTS_SUCCESS:
       return state
-        .set('data', fromJS(action.documents).reverse())
+        .set('data', fromJS(action.events).reverse())
         .set('loading', false)
         .set('error', {});
     case SEARCH_EVENTS_ERROR:
       return state
+        .set('data', fromJS([]))
         .set('loading', false)
         .set('error', fromJS(action.error));
     case DELETE_EVENT:

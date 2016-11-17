@@ -5,6 +5,7 @@
  */
 
 export const LOAD_EVENTS = 'app/EventsPage/LOAD_EVENTS';
+export const LOAD_MORE_EVENTS = 'app/EventsPage/LOAD_MORE_EVENTS';
 export const LOAD_EVENTS_SUCCESS = 'app/EventsPage/LOAD_EVENTS_SUCCESS';
 export const LOAD_EVENTS_ERROR = 'app/EventsPage/LOAD_EVENTS_ERROR';
 export const SEARCH_EVENTS = 'app/EventsPage/SEARCH_EVENTS';

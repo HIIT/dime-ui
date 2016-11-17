@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectEvents, selectProfiles } from './selectors';
 import {
-  loadEvents, searchEvent, clickOnEventCard, deleteEvent, clickOnEventTag,
+  loadEvents, loadMoreEvents, searchEvent, clickOnEventCard, deleteEvent, clickOnEventTag,
   loadProfiles, addEventToProfile, removeEventFromProfile,
 } from './actions';
 import requiresAuth from 'containers/RequiresAuth';
@@ -20,6 +20,7 @@ export class EventsPage extends React.Component { // eslint-disable-line react/p
   static propTypes = {
     events: React.PropTypes.array,
     loadEvents: React.PropTypes.func,
+    loadMoreEvents: React.PropTypes.func,
     searchEvent: React.PropTypes.func,
     clickOnEventCard: React.PropTypes.func,
     deleteEvent: React.PropTypes.func,
@@ -34,6 +35,7 @@ export class EventsPage extends React.Component { // eslint-disable-line react/p
       <EntitiesList
         entities={this.props.events}
         initEntitiesList={this.props.loadEvents}
+        loadMoreEntities={this.props.loadMoreEvents}
         search={this.props.searchEvent}
         clickOnEntityCard={this.props.clickOnEventCard}
         clickOnEntityDelete={this.props.deleteEvent}
@@ -55,6 +57,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     loadEvents: bindActionCreators(loadEvents, dispatch),
+    loadMoreEvents: bindActionCreators(loadMoreEvents, dispatch),
     searchEvent: bindActionCreators(searchEvent, dispatch),
     clickOnEventCard: bindActionCreators(clickOnEventCard, dispatch),
     deleteEvent: bindActionCreators(deleteEvent, dispatch),

@@ -2,7 +2,7 @@ import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import {
-  LOAD_EVENTS, SEARCH_EVENTS, CLICK_EVENT_TAG, CLICK_EVENT_CARD, DELETE_EVENT,
+  LOAD_EVENTS, LOAD_MORE_EVENTS, SEARCH_EVENTS, CLICK_EVENT_TAG, CLICK_EVENT_CARD, DELETE_EVENT,
   LOAD_PROFILES, ADD_EVENT_TO_PROFILE,
  } from './constants';
 import request from 'utils/request';
@@ -24,10 +24,13 @@ import {
 
 // Init EventList Sage (Load Event Sage)
 
-export function* getEvents() {
+export function* getEvents(action) {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/data/events`;
+  let requestURL = `http://${url}/api/data/events?limit=24&page=0`;
+  if (action.nextPageNumber) {
+    requestURL = `http://${url}/api/data/events?limit=24&page=${action.nextPageNumber}`;
+  }
   const options = {
     method: 'GET',
     headers: {
@@ -52,6 +55,16 @@ export function* eventsData() {
   const getEventsWatcherFork = yield fork(getEventsWatcher);
   yield take(LOCATION_CHANGE);
   yield cancel(getEventsWatcherFork);
+}
+
+export function* loadMoreEventsWatcher() {
+  yield* takeLatest(LOAD_MORE_EVENTS, getEvents);
+}
+
+export function* moreEventsData() {
+  const loadMoreEventsWatcherFork = yield fork(loadMoreEventsWatcher);
+  yield take(LOCATION_CHANGE);
+  yield cancel(loadMoreEventsWatcherFork);
 }
 
 // Search Sage
@@ -247,6 +260,7 @@ export function* addToPofileWatcher() {
 // All sagas to be loaded
 export default [
   eventsData,
+  moreEventsData,
   searchData,
   clickEventWatcherPlusLocationChangeCanceler,
   deleteEntityWatcher,

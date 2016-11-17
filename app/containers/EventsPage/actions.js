@@ -12,6 +12,7 @@
 
 import {
   LOAD_EVENTS,
+  LOAD_MORE_EVENTS,
   LOAD_EVENTS_SUCCESS,
   LOAD_EVENTS_ERROR,
   SEARCH_EVENTS,
@@ -41,6 +42,13 @@ export function loadEvents() {
   };
 }
 
+export function loadMoreEvents(nextPageNumber) {
+  return {
+    type: LOAD_MORE_EVENTS,
+    nextPageNumber,
+  };
+}
+
 export function eventsLoaded(events) {
   return {
     type: LOAD_EVENTS_SUCCESS,
@@ -67,10 +75,10 @@ export function searchEvent(keyword) {
   };
 }
 
-export function searchEventLoaded(documents) { // DiMe EventSearch will return documents
+export function searchEventLoaded(events) { // DiMe EventSearch will return documents
   return {
     type: SEARCH_EVENTS_SUCCESS,
-    documents,
+    events,
   };
 }
 
