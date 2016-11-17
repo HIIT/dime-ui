@@ -5,6 +5,7 @@
  */
 
  import { fromJS } from 'immutable';
+ import unionBy from 'lodash/unionBy';
  import { LOCATION_CHANGE } from 'react-router-redux';
  import {
    LOAD_DOCUMENTS,
@@ -35,16 +36,14 @@
    switch (action.type) {
      case LOAD_DOCUMENTS:
        return state
-         .set('loading', true)
-         .set('data', fromJS([]));
+         .set('loading', true);
      case LOAD_DOCUMENTS_SUCCESS:
        return state
-         .set('data', fromJS(action.documents).reverse())
+         .updateIn(['data'], data => fromJS(unionBy(data.toJS(), action.documents.reverse(), 'id')))
          .set('loading', false)
          .set('error', {});
      case LOAD_DOCUMENTS_ERROR:
        return state
-         .set('data', fromJS([]))
          .set('loading', false)
          .set('error', fromJS(action.error));
      case SEARCH_DOCUMENTS:
