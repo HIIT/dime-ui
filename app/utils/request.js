@@ -7,6 +7,9 @@ import 'whatwg-fetch';
  * @return {object}          The parsed JSON from the request
  */
 function parseJSON(response) {
+  if (response.status === 204) {
+    return {};
+  }
   return response.json();
 }
 
