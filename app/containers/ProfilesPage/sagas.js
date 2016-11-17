@@ -3,7 +3,6 @@ import { takeLatest } from 'redux-saga';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import {
   LOAD_PROFILES,
-  SEARCH_PROFILES,
   CREATE_PROFILE,
   DELETE_PROFILE,
   CLICK_ON_ENTITY_TAG,
@@ -45,16 +44,6 @@ export function* getProfiles() {
   }
 }
 
-export function* getProfilesWatcher() {
-  yield* takeLatest(LOAD_PROFILES, getProfiles);
-}
-
-export function* profilesData() {
-  const getProfilesWatcherFork = yield fork(getProfilesWatcher);
-  yield take(LOCATION_CHANGE);
-  yield cancel(getProfilesWatcherFork);
-}
-
 // Search Sage
 
 export function* searchProfile(action) {
@@ -78,16 +67,6 @@ export function* searchProfile(action) {
   }
 }
 
-export function* searchWatcher() {
-  yield* takeLatest(SEARCH_PROFILES, searchProfile);
-}
-
-export function* searchData() {
-  const searchWatcherFork = yield fork(searchWatcher);
-  yield take(LOCATION_CHANGE);
-  yield cancel(searchWatcherFork);
-}
-
 // Create Profile Saga
 
 export function* createProfile(action) {
@@ -109,17 +88,12 @@ export function* createProfile(action) {
   try {
     const respond = yield call(request, requestURL, options);
     if (respond) {
-      const profile = respond;
-      profile.editing = true;
-      yield put(createProfileSuccess(profile, action.profileID));
+      respond.editing = true;
+      yield put(createProfileSuccess(respond, action.profileID));
     }
   } catch (error) {
     yield put(createProfileError(error, action.profileID));
   }
-}
-
-export function* createProfileWatcher() {
-  yield* takeLatest(CREATE_PROFILE, createProfile);
 }
 
 // Delete Profile Saga
@@ -144,10 +118,6 @@ export function* deleteProfile(action) {
   }
 }
 
-export function* deleteProfileWatcher() {
-  yield* takeLatest(DELETE_PROFILE, deleteProfile);
-}
-
 export function* addTagToProfile(action) {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
@@ -168,16 +138,18 @@ export function* addTagToProfile(action) {
   }
 }
 
-export function* clickOnEntityTagWatcher() {
-  yield* takeLatest(CLICK_ON_ENTITY_TAG, addTagToProfile);
+export function cancelByLocationChange(watchingConstant, func) {
+  return function* cancelByLocationChangeGenerater() {
+    const watcherFork = yield fork(takeLatest, watchingConstant, func);
+    yield take(LOCATION_CHANGE);
+    yield cancel(watcherFork);
+  };
 }
-
 
 // All sagas to be loaded
 export default [
-  profilesData,
-  searchData,
-  deleteProfileWatcher,
-  createProfileWatcher,
-  clickOnEntityTagWatcher,
+  cancelByLocationChange(LOAD_PROFILES, getProfiles),
+  cancelByLocationChange(DELETE_PROFILE, deleteProfile),
+  cancelByLocationChange(CREATE_PROFILE, createProfile),
+  cancelByLocationChange(CLICK_ON_ENTITY_TAG, addTagToProfile),
 ];
