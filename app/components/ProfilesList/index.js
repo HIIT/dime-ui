@@ -79,70 +79,54 @@ export class ProfilesList extends React.Component { // eslint-disable-line react
       </Row>
     );
   }
-  renderSearchBox = () => {
-    const hint = 'Search';
-    const floatedHint = 'Keyword';
-    return (
-      <Row>
-        <Col xsOffset={1} xs={10} smOffset={4} sm={6} >
-          <TextField
-            hintText={hint}
-            floatingLabelText={floatedHint}
-            onKeyDown={this.handleKeyDown}
-            onChange={this.handleChange}
-            fullWidth
-          />
-        </Col>
-      </Row>
-    );
-  }
   render() {
     return (
-      <Grid>
-        {this.renderSearchBox()}
-        <Row>
-          <Col
-            xsOffset={1}
-            xs={1}
-          >
-            <div className={styles.createButtonWrapper}>
-              <TextField
-                hintText="Profile"
-                floatingLabelText="New"
-                style={{ width: '88px' }}
-                onChange={this.handleProfileNameChange}
-                onKeyPress={this.handleKeyPress}
-              />
-              <RaisedButton
-                labelPosition="after"
-                primary
-                icon={<Add />}
-                style={{ minWidth: '34px' }}
-                disabled={this.state.profileName.length < 1}
-                onClick={this.handeClickProfileCreate}
-              />
-            </div>
-          </Col>
-          <Col xs={10}>
-            <Tabs
-              tabItemContainerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.025)', marginTop: '10px' }}
-              inkBarStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
+      <div className={styles.profileEditorWrapper}>
+        <Grid>
+          <Row>
+            <Col
+              xsOffset={1}
+              xs={1}
             >
-              {
-                this.props.profiles.map((profile) =>
-                  <Tab
-                    key={profile.id}
-                    label={profile.name}
-                    style={{ color: 'rgba(0, 0, 0, 0.65)' }}
-                  >
-                    {this.renderProfile(profile)}
-                  </Tab>
-                )
-              }
-            </Tabs>
-          </Col>
-        </Row>
-      </Grid>
+              <div className={styles.createButtonWrapper}>
+                <TextField
+                  hintText="Profile"
+                  floatingLabelText="New"
+                  style={{ width: '88px' }}
+                  onChange={this.handleProfileNameChange}
+                  onKeyPress={this.handleKeyPress}
+                />
+                <RaisedButton
+                  labelPosition="after"
+                  primary
+                  icon={<Add />}
+                  style={{ minWidth: '34px' }}
+                  disabled={this.state.profileName.length < 1}
+                  onClick={this.handeClickProfileCreate}
+                />
+              </div>
+            </Col>
+            <Col xs={10}>
+              <Tabs
+                tabItemContainerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.025)', marginTop: '10px' }}
+                inkBarStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
+              >
+                {
+                  this.props.profiles.map((profile) =>
+                    <Tab
+                      key={profile.id}
+                      label={profile.name}
+                      style={{ color: 'rgba(0, 0, 0, 0.65)' }}
+                    >
+                      {this.renderProfile(profile)}
+                    </Tab>
+                  )
+                }
+              </Tabs>
+            </Col>
+          </Row>
+        </Grid>
+      </div>
     );
   }
 }
