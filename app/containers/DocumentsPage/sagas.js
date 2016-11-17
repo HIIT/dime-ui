@@ -2,7 +2,7 @@ import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import {
-  LOAD_DOCUMENTS, LOAD_MORE_DOCUMENTS, SEARCH_DOCUMENTS, CLICK_DOCUMENT_TAG, CLICK_DOCUMENT_CARD, DELETE_DOCUMENT,
+  LOAD_DOCUMENTS, LOAD_MORE_DOCUMENTS, SEARCH_DOCUMENTS, CLICK_DOCUMENT_TAG, DELETE_DOCUMENT,
   LOAD_PROFILES, ADD_DOCUMENT_TO_PROFILE,
 } from './constants';
 import request from 'utils/request';
@@ -47,26 +47,6 @@ export function* getDocuments(action) {
   }
 }
 
-export function* getDocumentsWatcher() {
-  yield* takeLatest(LOAD_DOCUMENTS, getDocuments);
-}
-
-export function* documentsData() {
-  const getDocumentsWatcherFork = yield fork(getDocumentsWatcher);
-  yield take(LOCATION_CHANGE);
-  yield cancel(getDocumentsWatcherFork);
-}
-
-export function* loadMoreDocumentsWatcher() {
-  yield* takeLatest(LOAD_MORE_DOCUMENTS, getDocuments);
-}
-
-export function* moreDocumentsData() {
-  const loadMoreDocumentsWatcherFork = yield fork(loadMoreDocumentsWatcher);
-  yield take(LOCATION_CHANGE);
-  yield cancel(loadMoreDocumentsWatcherFork);
-}
-
 // Search Sage
 
 export function* searchDocument(action) {
@@ -90,30 +70,10 @@ export function* searchDocument(action) {
   }
 }
 
-export function* searchWatcher() {
-  yield* takeLatest(SEARCH_DOCUMENTS, searchDocument);
-}
-
-export function* searchData() {
-  const searchWatcherFork = yield fork(searchWatcher);
-  yield take(LOCATION_CHANGE);
-  yield cancel(searchWatcherFork);
-}
-
 // Click Document Card Saga
 
 export function* clickDocument({ document }) {
   put({ type: 'SET_MODAL_OPEN', payload: document });
-}
-
-export function* clickDocumentWatcher() {
-  yield* takeLatest(CLICK_DOCUMENT_CARD, clickDocument);
-}
-
-export function* clickDocumentWatcherPlusLocationChangeCanceler() {
-  const watcher = yield fork(clickDocumentWatcher);
-  yield take(LOCATION_CHANGE);
-  yield cancel(watcher);
 }
 
 // Delete Document Card Saga
@@ -136,10 +96,6 @@ export function* deleteDocument(action) {
   } catch (error) {
     yield put(deleteDocumentError(error, action.documentID));
   }
-}
-
-export function* deleteEntityWatcher() {
-  yield* takeLatest(DELETE_DOCUMENT, deleteDocument);
 }
 
 // Click Document Tag Saga
@@ -189,10 +145,6 @@ export function* toogleDocumentTagAutoLabel(action) {
   }
 }
 
-export function* clickTagWatcher() {
-  yield* takeLatest(CLICK_DOCUMENT_TAG, toogleDocumentTagAutoLabel);
-}
-
 // Load Profiles
 
 export function* getProfiles() {
@@ -213,16 +165,6 @@ export function* getProfiles() {
   } catch (error) {
     yield put(profilesLoadingError(error));
   }
-}
-
-export function* getProfilesWatcher() {
-  yield* takeLatest(LOAD_PROFILES, getProfiles);
-}
-
-export function* profilesData() {
-  const getProfilesWatcherFork = yield fork(getProfilesWatcher);
-  yield take(LOCATION_CHANGE);
-  yield cancel(getProfilesWatcherFork);
 }
 
 // Click Document Tag Saga
@@ -253,18 +195,21 @@ export function* addToProfile(action) {
   }
 }
 
-export function* addToPofileWatcher() {
-  yield* takeLatest(ADD_DOCUMENT_TO_PROFILE, addToProfile);
+export function cancelByLocationChange(watchingConstant, func) {
+  return function* cancelByLocationChangeGenerater() {
+    const watcherFork = yield fork(takeLatest, watchingConstant, func);
+    yield take(LOCATION_CHANGE);
+    yield cancel(watcherFork);
+  };
 }
 
 // All sagas to be loaded
 export default [
-  documentsData,
-  moreDocumentsData,
-  searchData,
-  clickDocumentWatcherPlusLocationChangeCanceler,
-  deleteEntityWatcher,
-  clickTagWatcher,
-  profilesData,
-  addToPofileWatcher,
+  cancelByLocationChange(LOAD_DOCUMENTS, getDocuments),
+  cancelByLocationChange(LOAD_MORE_DOCUMENTS, getDocuments),
+  cancelByLocationChange(SEARCH_DOCUMENTS, searchDocument),
+  cancelByLocationChange(DELETE_DOCUMENT, deleteDocument),
+  cancelByLocationChange(CLICK_DOCUMENT_TAG, toogleDocumentTagAutoLabel),
+  cancelByLocationChange(LOAD_PROFILES, getProfiles),
+  cancelByLocationChange(ADD_DOCUMENT_TO_PROFILE, addToProfile),
 ];

@@ -2,7 +2,7 @@ import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
 import { takeLatest } from 'redux-saga';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import {
-  LOAD_EVENTS, LOAD_MORE_EVENTS, SEARCH_EVENTS, CLICK_EVENT_TAG, CLICK_EVENT_CARD, DELETE_EVENT,
+  LOAD_EVENTS, LOAD_MORE_EVENTS, SEARCH_EVENTS, CLICK_EVENT_TAG, DELETE_EVENT,
   LOAD_PROFILES, ADD_EVENT_TO_PROFILE,
  } from './constants';
 import request from 'utils/request';
@@ -47,26 +47,6 @@ export function* getEvents(action) {
   }
 }
 
-export function* getEventsWatcher() {
-  yield* takeLatest(LOAD_EVENTS, getEvents);
-}
-
-export function* eventsData() {
-  const getEventsWatcherFork = yield fork(getEventsWatcher);
-  yield take(LOCATION_CHANGE);
-  yield cancel(getEventsWatcherFork);
-}
-
-export function* loadMoreEventsWatcher() {
-  yield* takeLatest(LOAD_MORE_EVENTS, getEvents);
-}
-
-export function* moreEventsData() {
-  const loadMoreEventsWatcherFork = yield fork(loadMoreEventsWatcher);
-  yield take(LOCATION_CHANGE);
-  yield cancel(loadMoreEventsWatcherFork);
-}
-
 // Search Sage
 
 export function* searchEvent(action) {
@@ -90,32 +70,6 @@ export function* searchEvent(action) {
   }
 }
 
-export function* searchWatcher() {
-  yield* takeLatest(SEARCH_EVENTS, searchEvent);
-}
-
-export function* searchData() {
-  const searchWatcherFork = yield fork(searchWatcher);
-  yield take(LOCATION_CHANGE);
-  yield cancel(searchWatcherFork);
-}
-
-// Click Event Card Saga
-
-export function* clickEvent({ event }) {
-  put({ type: 'SET_MODAL_OPEN', payload: event });
-}
-
-export function* clickEventWatcher() {
-  yield* takeLatest(CLICK_EVENT_CARD, clickEvent);
-}
-
-export function* clickEventWatcherPlusLocationChangeCanceler() {
-  const watcher = yield fork(clickEventWatcher);
-  yield take(LOCATION_CHANGE);
-  yield cancel(watcher);
-}
-
 // Delete Event Card Saga
 
 export function* deleteEvent(action) {
@@ -136,10 +90,6 @@ export function* deleteEvent(action) {
   } catch (error) {
     yield put(deleteEventError(error, action.eventID));
   }
-}
-
-export function* deleteEntityWatcher() {
-  yield* takeLatest(DELETE_EVENT, deleteEvent);
 }
 
 // Click Event Tag Saga
@@ -189,10 +139,6 @@ export function* toogleEventTagAutoLabel(action) {
   }
 }
 
-export function* clickTagWatcher() {
-  yield* takeLatest(CLICK_EVENT_TAG, toogleEventTagAutoLabel);
-}
-
 // Load Profiles
 
 export function* getProfiles() {
@@ -213,16 +159,6 @@ export function* getProfiles() {
   } catch (error) {
     yield put(profilesLoadingError(error));
   }
-}
-
-export function* getProfilesWatcher() {
-  yield* takeLatest(LOAD_PROFILES, getProfiles);
-}
-
-export function* profilesData() {
-  const getProfilesWatcherFork = yield fork(getProfilesWatcher);
-  yield take(LOCATION_CHANGE);
-  yield cancel(getProfilesWatcherFork);
 }
 
 // Click Event Tag Saga
@@ -253,18 +189,21 @@ export function* addToProfile(action) {
   }
 }
 
-export function* addToPofileWatcher() {
-  yield* takeLatest(ADD_EVENT_TO_PROFILE, addToProfile);
+export function cancelByLocationChange(watchingConstant, func) {
+  return function* cancelByLocationChangeGenerater() {
+    const watcherFork = yield fork(takeLatest, watchingConstant, func);
+    yield take(LOCATION_CHANGE);
+    yield cancel(watcherFork);
+  };
 }
 
 // All sagas to be loaded
 export default [
-  eventsData,
-  moreEventsData,
-  searchData,
-  clickEventWatcherPlusLocationChangeCanceler,
-  deleteEntityWatcher,
-  clickTagWatcher,
-  profilesData,
-  addToPofileWatcher,
+  cancelByLocationChange(LOAD_EVENTS, getEvents),
+  cancelByLocationChange(LOAD_MORE_EVENTS, getEvents),
+  cancelByLocationChange(SEARCH_EVENTS, searchEvent),
+  cancelByLocationChange(DELETE_EVENT, deleteEvent),
+  cancelByLocationChange(CLICK_EVENT_TAG, toogleEventTagAutoLabel),
+  cancelByLocationChange(LOAD_PROFILES, getProfiles),
+  cancelByLocationChange(ADD_EVENT_TO_PROFILE, addToProfile),
 ];
