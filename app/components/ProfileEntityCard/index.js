@@ -14,14 +14,16 @@ import styles from './styles.css';
 class ProfileEntityCard extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     entity: React.PropTypes.object,
+    entityType: React.PropTypes.string,
     editing: React.PropTypes.bool,
+    profileID: React.PropTypes.number,
     clickOnEntityTag: React.PropTypes.func,
     clickOnEntityDelete: React.PropTypes.func,
     clickOnEntity: React.PropTypes.func,
   }
-  handleClickOnDelete = (entity, mouseEvent) => {
+  handleClickOnDelete = (entityID, entityType, mouseEvent) => {
     mouseEvent.stopPropagation();
-    this.props.clickOnEntity(entity);
+    this.props.clickOnEntityDelete(entityID, entityType, this.props.profileID);
   }
   renderEvent(entityID, event, editing) {
     return (
@@ -40,6 +42,7 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
         { editing && event.targettedResource ?
           <TagsList
             entityID={entityID}
+            profileID={this.props.profileID}
             tags={event.targettedResource.tags}
             clickOnTag={this.props.clickOnEntityTag}
             className={styles.entityTags}
@@ -65,6 +68,7 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
         { editing ?
           <TagsList
             entityID={entityID}
+            profileID={this.props.profileID}
             tags={informationElement.tags}
             clickOnTag={this.props.clickOnEntityTag}
             className={styles.entityTags}
@@ -104,14 +108,14 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
     );
   }
   render() {
-    const { entity, editing } = this.props;
+    const { entity, entityType, profileID, editing } = this.props;
     return (
       <div style={{ position: 'relative' }}>
         <Paper
           key={entity.id}
           rounded={false}
           className={styles.profileEntityCardWrapper}
-          onClick={() => this.props.clickOnEntity(entity)}
+          onClick={() => this.props.clickOnEntity(entity, entityType, profileID)}
         >
         {entity.informationElement ?
           this.renderDocument(entity.id, entity.informationElement, editing)
@@ -119,13 +123,13 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
         {entity.event ?
           this.renderEvent(entity.id, entity.event, editing)
         : null}
-        { editing ?
+        { editing && entityType !== 'suggestedevents' && entityType !== 'suggestedinformationelements' ?
           <div className={styles.deleteButtonWrapper}>
             <ActionDelete
               color={grey300}
               hoverColor={red400}
               style={{ width: '15px' }}
-              onClick={(mouseEvent) => { this.handleClickOnDelete(entity, mouseEvent); }}
+              onClick={(mouseEvent) => { this.handleClickOnDelete(entity.id, entityType, mouseEvent); }}
             />
           </div>
         : null }
