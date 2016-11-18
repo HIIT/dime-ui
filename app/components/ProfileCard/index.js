@@ -27,6 +27,8 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
     deleteProfile: React.PropTypes.func,
     profile: React.PropTypes.object,
     clickOnProfileTag: React.PropTypes.func,
+    addTagToProfile: React.PropTypes.func,
+    deleteTagFromProfile: React.PropTypes.func,
     clickOnEntityTag: React.PropTypes.func,
     clickOnEntityDelete: React.PropTypes.func,
     clickOnEntity: React.PropTypes.func,
@@ -43,13 +45,12 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
   handleClickOnDelete = (profile) => {
     this.props.deleteProfile(profile.id);
   }
-  handleTagAddition = (tag) => {
-    this.props.profile.tags.push({ id: this.props.profile.tags.length + 1, text: tag });
+  handleTagAddition = (text, profileID) => {
+    this.props.addTagToProfile({ '@type': 'Tag', text }, profileID);
   }
-  handleTagDelete = (index) => {
-    const tags = this.props.profile.tags;
-    tags.splice(index, 1);
-    this.props.profile.tags = tags;
+  handleTagDelete = (tagIndex, profileID) => {
+    const tag = this.props.profile.tags[tagIndex];
+    this.props.deleteTagFromProfile(tag, profileID);
   }
   renderProfileCardHeader = (profile) => {
     const { editing, name } = profile;
@@ -119,14 +120,24 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
         <ProfileEntitiesList
           listTitle="Validated Documents"
           entities={profile.validatedInformationElements}
+          entityType="validatedinformationelements"
           editing={editing}
+          profileID={profile.id}
+          clickOnEntityTag={this.props.clickOnEntityTag}
+          clickOnEntityDelete={this.props.clickOnEntityDelete}
+          clickOnEntity={this.props.clickOnEntity}
         />
       : null}
       { profile.validatedEvents.length > 0 ?
         <ProfileEntitiesList
           listTitle="Validated Events"
           entities={profile.validatedEvents}
+          entityType="validatedevents"
           editing={editing}
+          profileID={profile.id}
+          clickOnEntityTag={this.props.clickOnEntityTag}
+          clickOnEntityDelete={this.props.clickOnEntityDelete}
+          clickOnEntity={this.props.clickOnEntity}
         />
       : null}
     </div>
@@ -136,16 +147,24 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
         <ProfileEntitiesList
           listTitle="Suggested Documents"
           entities={profile.suggestedInformationElements}
+          entityType="suggestedinformationelements"
           editing={editing}
+          profileID={profile.id}
           clickOnEntityTag={this.props.clickOnEntityTag}
+          clickOnEntityDelete={this.props.clickOnEntityDelete}
+          clickOnEntity={this.props.clickOnEntity}
         />
       : null}
       { profile.suggestedEvents.length > 0 ?
         <ProfileEntitiesList
           listTitle="Suggested Events"
           entities={profile.suggestedEvents}
+          entityType="suggestedevents"
           editing={editing}
+          profileID={profile.id}
           clickOnEntityTag={this.props.clickOnEntityTag}
+          clickOnEntityDelete={this.props.clickOnEntityDelete}
+          clickOnEntity={this.props.clickOnEntity}
         />
       : null}
     </div>
@@ -162,8 +181,8 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
               { editing ?
                 <TagsInput
                   tags={tags}
-                  handleDelete={this.handleTagDelete}
-                  handleAddition={this.handleTagAddition}
+                  handleDelete={(tagIndex) => this.handleTagDelete(tagIndex, profile.id)}
+                  handleAddition={(text) => this.handleTagAddition(text, profile.id)}
                   classNames={{
                     tagInput: `${styles.profileTagsInput}`,
                     selected: `${styles.profileTagsSelected}`,
