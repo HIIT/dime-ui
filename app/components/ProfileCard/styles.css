@@ -1,3 +1,9 @@
+.cardHeader {
+  padding-top: 5px;
+  padding-left: 25px;
+  padding-right: 18px;
+}
+
 .cardHeaderEditWrapper,
 .cardHeaderDeleteWrapper,
 .cardHeaderCancelWrapper,
@@ -5,6 +11,7 @@
   display: inline-block;
   float: right;
   margin-left: 10px;
+  margin-top: 10px;
 }
 
 .cardHeaderInfoWrapper {
@@ -14,8 +21,12 @@
   color: rgba(0, 0, 0, 0.15);
 }
 
-.profileNameWrapper {
-  overflow: hidden;
+.cardHeaderTitleWrapper {
+  display: inline-block;
+}
+
+.profileCardBodyWrapper {
+  margin-top: 20px;
 }
 
 .profileTags {
