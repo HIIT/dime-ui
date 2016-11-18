@@ -19,6 +19,10 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
     clickOnEntityDelete: React.PropTypes.func,
     clickOnEntity: React.PropTypes.func,
   }
+  handleClickOnDelete = (entity, mouseEvent) => {
+    mouseEvent.stopPropagation();
+    this.props.clickOnEntity(entity);
+  }
   renderEvent(entityID, event, editing) {
     return (
       <li
@@ -121,7 +125,7 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
               color={grey300}
               hoverColor={red400}
               style={{ width: '15px' }}
-              onClick={() => { this.clickOnEntityDelete(entity); }}
+              onClick={(mouseEvent) => { this.handleClickOnDelete(entity, mouseEvent); }}
             />
           </div>
         : null }
