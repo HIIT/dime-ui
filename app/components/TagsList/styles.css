@@ -2,6 +2,7 @@
 }
 
 .tag {
+  position: relative;
   display: inline-block;
   font-size: 12px;
   font-weight: 300;
@@ -11,4 +12,8 @@
   padding: 1px 4px 2px;
   margin: 0 5px 5px 0;
   user-select: none;
+}
+
+.tag:hover {
+  z-index: 100000000;
 }

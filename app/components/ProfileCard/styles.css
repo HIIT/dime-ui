@@ -45,6 +45,7 @@
 }
 
 .profileTagsEditing {
+  position: relative;
   display: inline-block;
   font-size: 11px;
   font-weight: 100;
@@ -55,6 +56,10 @@
   color: rgba(0, 0, 0, 0.55);
   background-color: rgba(255, 255, 255, 1);
   border: 1px solid rgba(0, 0, 0, 0.085);
+}
+
+.profileTagsEditing:hover {
+  z-index: 100000000;
 }
 
 /* Styles for the input */
