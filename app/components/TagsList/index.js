@@ -11,15 +11,16 @@ import styles from './styles.css';
 class TagsList extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     entityID: React.PropTypes.number,
+    profileID: React.PropTypes.number,
     tags: React.PropTypes.array,
     clickOnTag: React.PropTypes.func,
     className: React.PropTypes.string,
   }
-  handleTagClick = (tag, entityID) => {
-    this.props.clickOnTag(tag, entityID);
+  handleTagClick = (tag, entityID, profileID) => {
+    this.props.clickOnTag(tag, entityID, profileID);
   }
   render() {
-    const { tags, entityID, className } = this.props;
+    const { tags, entityID, className, profileID } = this.props;
     const tagNodes = tags.map((tag, key) => {
       if (tag.text) {
         return (
@@ -27,7 +28,7 @@ class TagsList extends React.Component { // eslint-disable-line react/prefer-sta
             key={`tag ${key}`}
             onClick={(mouseEvent) => {
               mouseEvent.stopPropagation();
-              this.handleTagClick(tag, entityID);
+              this.handleTagClick(tag, entityID, profileID);
             }}
             className={`${styles.tag} ${className}`}
           >
