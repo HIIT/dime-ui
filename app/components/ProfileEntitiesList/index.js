@@ -12,23 +12,27 @@ import styles from './styles.css';
 class ProfileEntitiesList extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     entities: React.PropTypes.array,
+    entityType: React.PropTypes.string,
     listTitle: React.PropTypes.string,
     editing: React.PropTypes.bool,
+    profileID: React.PropTypes.number,
     clickOnEntityTag: React.PropTypes.func,
     clickOnEntityDelete: React.PropTypes.func,
     clickOnEntity: React.PropTypes.func,
   }
   render() {
-    const { entities, listTitle, editing, clickOnEntityTag, clickOnEntityDelete, clickOnEntity } = this.props;
+    const { entities, entityType, listTitle, editing, profileID, clickOnEntityTag, clickOnEntityDelete, clickOnEntity } = this.props;
     return (
       <div>
         <h4>{listTitle}</h4>
-        <ul className={styles.validatedentitiesUL}>
+        <ul className={styles.entitiesUL}>
         {entities.map((entity) =>
           <ProfileEntityCard
             key={entity.id}
             entity={entity}
+            entityType={entityType}
             editing={editing}
+            profileID={profileID}
             clickOnEntityTag={clickOnEntityTag}
             clickOnEntityDelete={clickOnEntityDelete}
             clickOnEntity={clickOnEntity}
