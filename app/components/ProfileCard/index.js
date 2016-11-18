@@ -10,8 +10,8 @@ import ModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import NavigationCancel from 'material-ui/svg-icons/navigation/cancel';
 import ContentSave from 'material-ui/svg-icons/content/save';
+import RaisedButton from 'material-ui/RaisedButton';
 import { Row, Col } from 'react-flexbox-grid/lib/index';
-import { grey300, blue500, green300, green500, red400, orange500 } from 'material-ui/styles/colors';
 import { WithContext as TagsInput } from 'react-tag-input';
 import TagsList from 'components/TagsList';
 import ProfileEntitiesList from 'components/ProfileEntitiesList';
@@ -55,13 +55,24 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
       <CardHeader
         title={title}
       >
+        <div
+          className={styles.cardHeaderDeleteWrapper}
+        >
+          <RaisedButton
+            label="DELETE"
+            secondary
+            icon={<ActionDelete />}
+            onClick={(mouseEvent) => { this.handleClickOnDelete(profile, mouseEvent); }}
+          />
+        </div>
         { editing ? null :
           <div
             className={styles.cardHeaderEditWrapper}
           >
-            <ModeEdit
-              color={grey300}
-              hoverColor={blue500}
+            <RaisedButton
+              label="EDIT"
+              primary
+              icon={<ModeEdit />}
               onClick={(mouseEvent) => { this.handleClickOnEdit(profile, mouseEvent); }}
             />
           </div>
@@ -70,9 +81,9 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
           <div
             className={styles.cardHeaderCancelWrapper}
           >
-            <NavigationCancel
-              color={grey300}
-              hoverColor={orange500}
+            <RaisedButton
+              label="CANCEL"
+              icon={<NavigationCancel />}
               onClick={(mouseEvent) => { this.handleClickOnCancelEdit(profile, mouseEvent); }}
             />
           </div>
@@ -81,22 +92,14 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
           <div
             className={styles.cardHeaderSaveWrapper}
           >
-            <ContentSave
-              color={green300}
-              hoverColor={green500}
+            <RaisedButton
+              label="SAVE"
+              primary
+              icon={<ContentSave />}
               onClick={(mouseEvent) => { this.handleClickOnSave(profile, mouseEvent); }}
             />
           </div>
         : null }
-        <div
-          className={styles.cardHeaderDeleteWrapper}
-        >
-          <ActionDelete
-            color={grey300}
-            hoverColor={red400}
-            onClick={(mouseEvent) => { this.handleClickOnDelete(profile, mouseEvent); }}
-          />
-        </div>
       </CardHeader>
     );
   }

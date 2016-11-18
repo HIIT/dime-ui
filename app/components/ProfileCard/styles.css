@@ -2,18 +2,9 @@
 .cardHeaderDeleteWrapper,
 .cardHeaderCancelWrapper,
 .cardHeaderSaveWrapper {
-  position: absolute;
-  top: 12px;
-  right: 40px;
-  cursor: pointer;
-}
-
-.cardHeaderDeleteWrapper {
-  right: 12px;
-}
-
-.cardHeaderSaveWrapper {
-  right: 68px;
+  display: inline-block;
+  float: right;
+  margin-left: 10px;
 }
 
 .cardHeaderInfoWrapper {
