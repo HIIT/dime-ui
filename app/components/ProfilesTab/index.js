@@ -8,56 +8,30 @@ import React from 'react';
 // import ReactList from 'react-list';
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import { Tabs, Tab } from 'material-ui/Tabs';
-import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Add from 'material-ui/svg-icons/content/add';
 import ProfileCard from 'components/ProfileCard';
 import styles from './styles.css';
 
-export class ProfilesList extends React.Component { // eslint-disable-line react/prefer-stateless-function
+export class ProfilesTab extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     initProfilesList: React.PropTypes.func,
-    createProfile: React.PropTypes.func,
-    deleteProfile: React.PropTypes.func,
-    editProfile: React.PropTypes.func,
-    clickOnEntityTag: React.PropTypes.func,
-    cancelEditProfile: React.PropTypes.func,
-    search: React.PropTypes.func,
     profiles: React.PropTypes.array,
-    clickOnEntitiy: React.PropTypes.func,
-  }
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: '',
-      profileName: '',
-    };
+    createProfile: React.PropTypes.func,
+    editProfile: React.PropTypes.func,
+    cancelEditProfile: React.PropTypes.func,
+    saveProfile: React.PropTypes.func,
+    deleteProfile: React.PropTypes.func,
+    clickOnProfileTag: React.PropTypes.func,
+    clickOnEntityTag: React.PropTypes.func,
+    clickOnEntityDelete: React.PropTypes.func,
+    clickOnEntity: React.PropTypes.func,
   }
   componentWillMount() {
     this.props.initProfilesList();
   }
-  handleChange = (event) => {
-    this.setState({
-      value: event.target.value,
-    });
-  };
-  handleProfileNameChange = (event) => {
-    this.setState({
-      profileName: event.target.value,
-    });
-  };
-  handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
-      this.props.createProfile(event.target.value);
-    }
-  }
   handeClickProfileCreate = () => {
-    this.props.createProfile(this.state.profileName);
-  }
-  handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
-      this.props.search(this.state.value);
-    }
+    this.props.createProfile('untitled');
   }
   renderProfile = (profile) => {
     const { id } = profile;
@@ -68,12 +42,15 @@ export class ProfilesList extends React.Component { // eslint-disable-line react
       >
         <Col xs={12}>
           <ProfileCard
-            profile={profile}
             editProfile={this.props.editProfile}
             cancelEditProfile={this.props.cancelEditProfile}
+            saveProfile={this.props.saveProfile}
             deleteProfile={this.props.deleteProfile}
+            profile={profile}
+            clickOnProfileTag={this.props.clickOnProfileTag}
             clickOnEntityTag={this.props.clickOnEntityTag}
-            clickOnEntitiy={this.props.clickOnEntitiy}
+            clickOnEntityDelete={this.props.clickOnEntityDelete}
+            clickOnEntity={this.props.clickOnEntity}
           />
         </Col>
       </Row>
@@ -81,20 +58,12 @@ export class ProfilesList extends React.Component { // eslint-disable-line react
   }
   renderCreateNewProfilePanel = () =>
     <div className={styles.createButtonWrapper}>
-      <TextField
-        hintText="name"
-        floatingLabelText="New Profile"
-        onChange={this.handleProfileNameChange}
-        onKeyPress={this.handleKeyPress}
-        fullWidth
-      />
       <div style={{ position: 'relative', left: '60%' }} >
         <RaisedButton
           labelPosition="after"
           primary
           icon={<Add />}
           style={{ minWidth: '34px' }}
-          disabled={this.state.profileName.length < 1}
           onClick={this.handeClickProfileCreate}
         />
       </div>
@@ -120,7 +89,7 @@ export class ProfilesList extends React.Component { // eslint-disable-line react
                     <Tab
                       key={profile.id}
                       label={profile.name}
-                      style={{ color: 'rgba(0, 0, 0, 0.65)' }}
+                      style={{ color: 'rgba(0, 0, 0, 0.75)' }}
                     >
                       {this.renderProfile(profile)}
                     </Tab>
@@ -135,4 +104,4 @@ export class ProfilesList extends React.Component { // eslint-disable-line react
   }
 }
 
-export default ProfilesList;
+export default ProfilesTab;
