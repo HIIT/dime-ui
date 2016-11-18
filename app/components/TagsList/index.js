@@ -25,7 +25,10 @@ class TagsList extends React.Component { // eslint-disable-line react/prefer-sta
         return (
           <span
             key={`tag ${key}`}
-            onClick={(mouseEvent) => this.handleTagClick(tag, entityID, mouseEvent)}
+            onClick={(mouseEvent) => {
+              mouseEvent.stopPropagation();
+              this.handleTagClick(tag, entityID);
+            }}
             className={`${styles.tag} ${className}`}
           >
             {tag.text}
