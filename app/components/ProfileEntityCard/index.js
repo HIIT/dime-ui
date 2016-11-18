@@ -123,7 +123,7 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
         {entity.event ?
           this.renderEvent(entity.id, entity.event, editing)
         : null}
-        { editing && entityType !== 'suggestedevents' && entityType !== 'suggestedinformationelements' ?
+        { editing && entityType.indexOf('suggested') === -1 ?
           <div className={styles.deleteButtonWrapper}>
             <ActionDelete
               color={grey300}
