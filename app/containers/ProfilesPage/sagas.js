@@ -5,7 +5,8 @@ import {
   LOAD_PROFILES,
   CREATE_PROFILE,
   DELETE_PROFILE,
-  CLICK_ON_ENTITY_TAG,
+  ADD_TAG_TO_PROFILE,
+  DELETE_TAG_FROM_PROFILE,
 } from './constants';
 import request from 'utils/request';
 import { selectAuth, selectAPI } from './selectors';
@@ -20,6 +21,8 @@ import {
   createProfileError,
   addTagToProfileSuccess,
   addTagToProfileError,
+  deleteTagFromProfileSuccess,
+  deleteTagFromProfileError,
 } from './actions';
 
 // Init ProfileList Sage (Load Profile Sage)
@@ -126,7 +129,9 @@ export function* addTagToProfile(action) {
     method: 'POST',
     headers: {
       Authorization: `Basic ${token}`,
+      'Content-Type': 'application/json',
     },
+    body: JSON.stringify(action.tag),
   };
   try {
     const respond = yield call(request, requestURL, options);
@@ -135,6 +140,26 @@ export function* addTagToProfile(action) {
     }
   } catch (error) {
     yield put(addTagToProfileError(error, action.profileID));
+  }
+}
+
+export function* deleteTagFromProfile(action) {
+  const { token } = yield select(selectAuth());
+  const { url } = yield select(selectAPI());
+  const requestURL = `http://${url}/api/profiles/${action.profileID}/tags/${action.tag.id}`;
+  const options = {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Basic ${token}`,
+    },
+  };
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(deleteTagFromProfileSuccess(respond, action.tag.id, action.profileID));
+    }
+  } catch (error) {
+    yield put(deleteTagFromProfileError(error, action.tag.id, action.profileID));
   }
 }
 
@@ -151,5 +176,6 @@ export default [
   cancelByLocationChange(LOAD_PROFILES, getProfiles),
   cancelByLocationChange(DELETE_PROFILE, deleteProfile),
   cancelByLocationChange(CREATE_PROFILE, createProfile),
-  cancelByLocationChange(CLICK_ON_ENTITY_TAG, addTagToProfile),
+  cancelByLocationChange(ADD_TAG_TO_PROFILE, addTagToProfile),
+  cancelByLocationChange(DELETE_TAG_FROM_PROFILE, deleteTagFromProfile),
 ];
