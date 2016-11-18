@@ -1,12 +1,15 @@
 import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
-import { takeLatest } from 'redux-saga';
+import { takeLatest, throttle } from 'redux-saga';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import {
   LOAD_PROFILES,
   CREATE_PROFILE,
   DELETE_PROFILE,
+  SAVE_PROFILE_NAME,
   ADD_TAG_TO_PROFILE,
+  CLICK_ON_ENTITY_TAG,
   DELETE_TAG_FROM_PROFILE,
+  CLICK_ON_ENTITY_DELETE,
 } from './constants';
 import request from 'utils/request';
 import { selectAuth, selectAPI } from './selectors';
@@ -19,10 +22,14 @@ import {
   deleteProfileError,
   createProfileSuccess,
   createProfileError,
+  saveProfileNameSuccess,
+  saveProfileNameError,
   addTagToProfileSuccess,
   addTagToProfileError,
   deleteTagFromProfileSuccess,
   deleteTagFromProfileError,
+  deleteEntityFromProfileSuccess,
+  deleteEntityFromProfileError,
 } from './actions';
 
 // Init ProfileList Sage (Load Profile Sage)
@@ -99,6 +106,34 @@ export function* createProfile(action) {
   }
 }
 
+// Save Profile Name Saga
+
+export function* saveProfileName(action) {
+  const { token } = yield select(selectAuth());
+  const { url } = yield select(selectAPI());
+  const requestURL = `http://${url}/api/profiles`;
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      '@type': 'Profile',
+      name: action.name,
+      id: action.profileID,
+    }),
+  };
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(saveProfileNameSuccess(respond, action.name, action.profileID));
+    }
+  } catch (error) {
+    yield put(saveProfileNameError(error, action.name, action.profileID));
+  }
+}
+
 // Delete Profile Saga
 
 export function* deleteProfile(action) {
@@ -163,6 +198,27 @@ export function* deleteTagFromProfile(action) {
   }
 }
 
+export function* deleteEntityFromProfile(action) {
+  const { token } = yield select(selectAuth());
+  const { url } = yield select(selectAPI());
+  const { entityID, entityType, profileID } = action;
+  const requestURL = `http://${url}/api/profiles/${profileID}/${entityType.toLowerCase()}/${entityID}`;
+  const options = {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Basic ${token}`,
+    },
+  };
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(deleteEntityFromProfileSuccess(respond, entityID, entityType, profileID));
+    }
+  } catch (error) {
+    yield put(deleteEntityFromProfileError(error, entityID, entityType, profileID));
+  }
+}
+
 export function cancelByLocationChange(watchingConstant, func) {
   return function* cancelByLocationChangeGenerater() {
     const watcherFork = yield fork(takeLatest, watchingConstant, func);
@@ -171,11 +227,23 @@ export function cancelByLocationChange(watchingConstant, func) {
   };
 }
 
+export function cancelByLocationChangeWithThrottle(watchingConstant, func, sec) {
+  return function* cancelByLocationChangeGenerater() {
+    const watcherFork = yield fork(throttle, sec, watchingConstant, func);
+    yield take(LOCATION_CHANGE);
+    yield cancel(watcherFork);
+  };
+}
+
+
 // All sagas to be loaded
 export default [
   cancelByLocationChange(LOAD_PROFILES, getProfiles),
   cancelByLocationChange(DELETE_PROFILE, deleteProfile),
   cancelByLocationChange(CREATE_PROFILE, createProfile),
+  cancelByLocationChangeWithThrottle(SAVE_PROFILE_NAME, saveProfileName, 2000),
   cancelByLocationChange(ADD_TAG_TO_PROFILE, addTagToProfile),
   cancelByLocationChange(DELETE_TAG_FROM_PROFILE, deleteTagFromProfile),
+  cancelByLocationChange(CLICK_ON_ENTITY_TAG, addTagToProfile),
+  cancelByLocationChange(CLICK_ON_ENTITY_DELETE, deleteEntityFromProfile),
 ];

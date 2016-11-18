@@ -14,7 +14,7 @@ import {
  createProfile,
  editProfile,
  cancelEditProfile,
- saveProfile,
+ saveProfileName,
  deleteProfile,
  clickOnProfileTag,
  addTagToProfile,
@@ -33,7 +33,7 @@ export class ProfilesPage extends React.Component { // eslint-disable-line react
     createProfile: React.PropTypes.func,
     editProfile: React.PropTypes.func,
     cancelEditProfile: React.PropTypes.func,
-    saveProfile: React.PropTypes.func,
+    saveProfileName: React.PropTypes.func,
     deleteProfile: React.PropTypes.func,
     clickOnProfileTag: React.PropTypes.func,
     addTagToProfile: React.PropTypes.func,
@@ -50,7 +50,7 @@ export class ProfilesPage extends React.Component { // eslint-disable-line react
         createProfile={this.props.createProfile}
         editProfile={this.props.editProfile}
         cancelEditProfile={this.props.cancelEditProfile}
-        saveProfile={this.props.saveProfile}
+        saveProfileName={this.props.saveProfileName}
         deleteProfile={this.props.deleteProfile}
         clickOnProfileTag={this.props.clickOnProfileTag}
         addTagToProfile={this.props.addTagToProfile}
@@ -73,7 +73,7 @@ function mapDispatchToProps(dispatch) {
     createProfile: bindActionCreators(createProfile, dispatch),
     editProfile: bindActionCreators(editProfile, dispatch),
     cancelEditProfile: bindActionCreators(cancelEditProfile, dispatch),
-    saveProfile: bindActionCreators(saveProfile, dispatch),
+    saveProfileName: bindActionCreators(saveProfileName, dispatch),
     deleteProfile: bindActionCreators(deleteProfile, dispatch),
     clickOnProfileTag: bindActionCreators(clickOnProfileTag, dispatch),
     addTagToProfile: bindActionCreators(addTagToProfile, dispatch),

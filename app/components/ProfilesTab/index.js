@@ -20,7 +20,7 @@ export class ProfilesTab extends React.Component { // eslint-disable-line react/
     createProfile: React.PropTypes.func,
     editProfile: React.PropTypes.func,
     cancelEditProfile: React.PropTypes.func,
-    saveProfile: React.PropTypes.func,
+    saveProfileName: React.PropTypes.func,
     deleteProfile: React.PropTypes.func,
     clickOnProfileTag: React.PropTypes.func,
     addTagToProfile: React.PropTypes.func,
@@ -46,7 +46,7 @@ export class ProfilesTab extends React.Component { // eslint-disable-line react/
           <ProfileCard
             editProfile={this.props.editProfile}
             cancelEditProfile={this.props.cancelEditProfile}
-            saveProfile={this.props.saveProfile}
+            saveProfileName={this.props.saveProfileName}
             deleteProfile={this.props.deleteProfile}
             profile={profile}
             clickOnProfileTag={this.props.clickOnProfileTag}

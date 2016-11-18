@@ -13,9 +13,9 @@ import {
  CREATE_PROFILE_ERROR,
  EDIT_PROFILE,
  CANCEL_EDIT_PROFILE,
- SAVE_PROFILE,
- SAVE_PROFILE_SUCCESS,
- SAVE_PROFILE_ERROR,
+ SAVE_PROFILE_NAME,
+ SAVE_PROFILE_NAME_SUCCESS,
+ SAVE_PROFILE_NAME_ERROR,
  DELETE_PROFILE,
  DELETE_PROFILE_SUCCESS,
  DELETE_PROFILE_ERROR,
@@ -107,24 +107,28 @@ export function cancelEditProfile(profileID) {
 *
 */
 
-export function saveProfile(profile) {
+export function saveProfileName(name, profileID) {
   return {
-    type: SAVE_PROFILE,
-    profile,
-  };
-}
-
-export function saveProfileSucess(respond, profileID) {
-  return {
-    type: SAVE_PROFILE_SUCCESS,
+    type: SAVE_PROFILE_NAME,
+    name,
     profileID,
   };
 }
 
-export function saveProfileError(error) {
+export function saveProfileNameSuccess(respond, name, profileID) {
   return {
-    type: SAVE_PROFILE_ERROR,
+    type: SAVE_PROFILE_NAME_SUCCESS,
+    name,
+    profileID,
+  };
+}
+
+export function saveProfileNameError(error, name, profileID) {
+  return {
+    type: SAVE_PROFILE_NAME_ERROR,
     error,
+    name,
+    profileID,
   };
 }
 
@@ -254,7 +258,10 @@ export function searchProfileError(error) {
 export function clickOnEntityTag(tag, entityID, profileID) {
   return {
     type: CLICK_ON_ENTITY_TAG,
-    tag,
+    tag: {
+      '@type': 'Tag',
+      text: tag.text,
+    },
     entityID,
     profileID,
   };
@@ -274,7 +281,7 @@ export function clickOnEntityDelete(entityID, entityType, profileID) {
   };
 }
 
-export function deleteEntityFromProfileSuccess(respond, entityType, entityID, profileID) {
+export function deleteEntityFromProfileSuccess(respond, entityID, entityType, profileID) {
   return {
     type: DELETE_ENTITY_FROM_PROFILE_SUCCESS,
     respond,
@@ -284,7 +291,7 @@ export function deleteEntityFromProfileSuccess(respond, entityType, entityID, pr
   };
 }
 
-export function deleteEntityFromProfileError(error, entityType, entityID, profileID) {
+export function deleteEntityFromProfileError(error, entityID, entityType, profileID) {
   return {
     type: DELETE_ENTITY_FROM_PROFILE_ERROR,
     error,

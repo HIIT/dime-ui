@@ -19,6 +19,9 @@
    CREATE_PROFILE_ERROR,
    EDIT_PROFILE,
    CANCEL_EDIT_PROFILE,
+   SAVE_PROFILE_NAME,
+   SAVE_PROFILE_NAME_SUCCESS,
+   SAVE_PROFILE_NAME_ERROR,
    ADD_TAG_TO_PROFILE,
    ADD_TAG_TO_PROFILE_SUCCESS,
    ADD_TAG_TO_PROFILE_ERROR,
@@ -85,6 +88,20 @@
      case CANCEL_EDIT_PROFILE:
        return state
          .setIn(['data', state.get('data').findIndex((item) => item.get('id') === action.profileID), 'editing'], false);
+     case SAVE_PROFILE_NAME:
+       return state
+         .set('loading', true);
+     case SAVE_PROFILE_NAME_SUCCESS: {
+       const profileIndex = state.get('data').findIndex((item) => item.get('id') === action.profileID);
+       return state
+         .setIn(['data', profileIndex, 'name'], action.name)
+         .set('loading', false)
+         .set('error', {});
+     }
+     case SAVE_PROFILE_NAME_ERROR:
+       return state
+         .set('loading', false)
+         .set('error', fromJS(action.error));
      case ADD_TAG_TO_PROFILE:
        return state.set('loading', true);
      case ADD_TAG_TO_PROFILE_SUCCESS: {
@@ -110,13 +127,22 @@
          .set('error', {})
          .deleteIn(['data', profileIndex, 'tags', tagIndex]);
      }
+     case DELETE_TAG_FROM_PROFILE_ERROR:
+       return state
+         .set('loading', false)
+         .set('error', action.error);
      case CLICK_ON_ENTITY_DELETE:
        return state.set('loading', true);
-     case DELETE_ENTITY_FROM_PROFILE_SUCCESS:
-       return state.set('loading', true);
+     case DELETE_ENTITY_FROM_PROFILE_SUCCESS: {
+       const { profileID, entityType, entityID } = action;
+       const profileIndex = state.get('data').findIndex((item) => item.get('id') === profileID);
+       const entityIndex = state.getIn(['data', profileIndex, entityType]).findIndex((item) => item.get('id') === entityID);
+       return state
+         .deleteIn(['data', profileIndex, entityType, entityIndex])
+         .set('error', {})
+         .set('loading', false);
+     }
      case DELETE_ENTITY_FROM_PROFILE_ERROR:
-       return state.set('loading', true);
-     case DELETE_TAG_FROM_PROFILE_ERROR:
        return state
          .set('loading', false)
          .set('error', action.error);
