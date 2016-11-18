@@ -5,6 +5,7 @@
  */
 
  import { fromJS } from 'immutable';
+ import unionBy from 'lodash/unionBy';
  import { LOCATION_CHANGE } from 'react-router-redux';
  import {
    LOAD_PROFILES,
@@ -18,6 +19,15 @@
    CREATE_PROFILE_ERROR,
    EDIT_PROFILE,
    CANCEL_EDIT_PROFILE,
+   ADD_TAG_TO_PROFILE,
+   ADD_TAG_TO_PROFILE_SUCCESS,
+   ADD_TAG_TO_PROFILE_ERROR,
+   DELETE_TAG_FROM_PROFILE,
+   DELETE_TAG_FROM_PROFILE_SUCCESS,
+   DELETE_TAG_FROM_PROFILE_ERROR,
+   CLICK_ON_ENTITY_DELETE,
+   DELETE_ENTITY_FROM_PROFILE_SUCCESS,
+   DELETE_ENTITY_FROM_PROFILE_ERROR,
    DELETE_PROFILE,
    DELETE_PROFILE_SUCCESS,
    DELETE_PROFILE_ERROR,
@@ -75,6 +85,41 @@
      case CANCEL_EDIT_PROFILE:
        return state
          .setIn(['data', state.get('data').findIndex((item) => item.get('id') === action.profileID), 'editing'], false);
+     case ADD_TAG_TO_PROFILE:
+       return state.set('loading', true);
+     case ADD_TAG_TO_PROFILE_SUCCESS: {
+       const profileIndex = state.get('data').findIndex((item) => item.get('id') === action.profileID);
+       const tag = fromJS(action.respond);
+       return state
+         .set('loading', false)
+         .set('error', {})
+         .updateIn(['data', profileIndex, 'tags'], tags => fromJS(unionBy(tags.toJS(), [tag], 'id')));
+     }
+     case ADD_TAG_TO_PROFILE_ERROR:
+       return state
+         .set('loading', false)
+         .set('error', action.error);
+     case DELETE_TAG_FROM_PROFILE:
+       return state.set('loading', true);
+     case DELETE_TAG_FROM_PROFILE_SUCCESS: {
+       const profileIndex = state.get('data').findIndex((item) => item.get('id') === action.profileID);
+       const tagID = fromJS(action.tagID);
+       const tagIndex = state.getIn(['data', profileIndex, 'tags']).findIndex((item) => item.get('id') === tagID);
+       return state
+         .set('loading', false)
+         .set('error', {})
+         .deleteIn(['data', profileIndex, 'tags', tagIndex]);
+     }
+     case CLICK_ON_ENTITY_DELETE:
+       return state.set('loading', true);
+     case DELETE_ENTITY_FROM_PROFILE_SUCCESS:
+       return state.set('loading', true);
+     case DELETE_ENTITY_FROM_PROFILE_ERROR:
+       return state.set('loading', true);
+     case DELETE_TAG_FROM_PROFILE_ERROR:
+       return state
+         .set('loading', false)
+         .set('error', action.error);
      case DELETE_PROFILE:
        return state
          .set('loading', true);
