@@ -17,6 +17,8 @@ import {
  saveProfile,
  deleteProfile,
  clickOnProfileTag,
+ addTagToProfile,
+ deleteTagFromProfile,
  clickOnEntityTag,
  clickOnEntityDelete,
  clickOnEntity,
@@ -34,6 +36,8 @@ export class ProfilesPage extends React.Component { // eslint-disable-line react
     saveProfile: React.PropTypes.func,
     deleteProfile: React.PropTypes.func,
     clickOnProfileTag: React.PropTypes.func,
+    addTagToProfile: React.PropTypes.func,
+    deleteTagFromProfile: React.PropTypes.func,
     clickOnEntityTag: React.PropTypes.func,
     clickOnEntityDelete: React.PropTypes.func,
     clickOnEntity: React.PropTypes.func,
@@ -49,6 +53,8 @@ export class ProfilesPage extends React.Component { // eslint-disable-line react
         saveProfile={this.props.saveProfile}
         deleteProfile={this.props.deleteProfile}
         clickOnProfileTag={this.props.clickOnProfileTag}
+        addTagToProfile={this.props.addTagToProfile}
+        deleteTagFromProfile={this.props.deleteTagFromProfile}
         clickOnEntityTag={this.props.clickOnEntityTag}
         clickOnEntityDelete={this.props.clickOnEntityDelete}
         clickOnEntity={this.props.clickOnEntity}
@@ -70,6 +76,8 @@ function mapDispatchToProps(dispatch) {
     saveProfile: bindActionCreators(saveProfile, dispatch),
     deleteProfile: bindActionCreators(deleteProfile, dispatch),
     clickOnProfileTag: bindActionCreators(clickOnProfileTag, dispatch),
+    addTagToProfile: bindActionCreators(addTagToProfile, dispatch),
+    deleteTagFromProfile: bindActionCreators(deleteTagFromProfile, dispatch),
     clickOnEntityTag: bindActionCreators(clickOnEntityTag, dispatch),
     clickOnEntityDelete: bindActionCreators(clickOnEntityDelete, dispatch),
     clickOnEntity: bindActionCreators(clickOnEntity, dispatch),
