@@ -14,11 +14,12 @@ class ProfileEntitiesList extends React.Component { // eslint-disable-line react
     entities: React.PropTypes.array,
     listTitle: React.PropTypes.string,
     editing: React.PropTypes.bool,
-    clickOnEntitiyTag: React.PropTypes.func,
-    clickOnDelete: React.PropTypes.func,
+    clickOnEntityTag: React.PropTypes.func,
+    clickOnEntityDelete: React.PropTypes.func,
+    clickOnEntity: React.PropTypes.func,
   }
   render() {
-    const { entities, listTitle, editing, clickOnEntitiyTag, clickOnDelete } = this.props;
+    const { entities, listTitle, editing, clickOnEntityTag, clickOnEntityDelete, clickOnEntity } = this.props;
     return (
       <div>
         <h4>{listTitle}</h4>
@@ -28,8 +29,9 @@ class ProfileEntitiesList extends React.Component { // eslint-disable-line react
             key={entity.id}
             entity={entity}
             editing={editing}
-            clickOnEntitiyTag={clickOnEntitiyTag}
-            clickOnDelete={clickOnDelete}
+            clickOnEntityTag={clickOnEntityTag}
+            clickOnEntityDelete={clickOnEntityDelete}
+            clickOnEntity={clickOnEntity}
           />
         )}
         </ul>

@@ -7,7 +7,8 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
 import TagsList from 'components/TagsList';
-
+import ActionDelete from 'material-ui/svg-icons/action/delete';
+import { grey300, red400 } from 'material-ui/styles/colors';
 import styles from './styles.css';
 
 class ProfileEntityCard extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -15,7 +16,8 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
     entity: React.PropTypes.object,
     editing: React.PropTypes.bool,
     clickOnEntityTag: React.PropTypes.func,
-    clickOnEntitiy: React.PropTypes.func,
+    clickOnEntityDelete: React.PropTypes.func,
+    clickOnEntity: React.PropTypes.func,
   }
   renderEvent(entityID, event, editing) {
     return (
@@ -100,18 +102,31 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
   render() {
     const { entity, editing } = this.props;
     return (
-      <Paper
-        key={entity.id}
-        rounded={false}
-        className={styles.profileEntityCardWrapper}
-      >
-      {entity.informationElement ?
-        this.renderDocument(entity.id, entity.informationElement, editing)
-      : null}
-      {entity.event ?
-        this.renderEvent(entity.id, entity.event, editing)
-      : null}
-      </Paper>
+      <div style={{ position: 'relative' }}>
+        <Paper
+          key={entity.id}
+          rounded={false}
+          className={styles.profileEntityCardWrapper}
+          onClick={() => this.props.clickOnEntity(entity)}
+        >
+        {entity.informationElement ?
+          this.renderDocument(entity.id, entity.informationElement, editing)
+        : null}
+        {entity.event ?
+          this.renderEvent(entity.id, entity.event, editing)
+        : null}
+        { editing ?
+          <div className={styles.deleteButtonWrapper}>
+            <ActionDelete
+              color={grey300}
+              hoverColor={red400}
+              style={{ width: '15px' }}
+              onClick={() => { this.clickOnEntityDelete(entity); }}
+            />
+          </div>
+        : null }
+        </Paper>
+      </div>
     );
   }
 }

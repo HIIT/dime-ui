@@ -58,3 +58,10 @@
   background: rgba(0, 0, 0, 0.015);
   color: rgba(0, 0, 0, 0.85);
 }
+
+.deleteButtonWrapper {
+  position: absolute;
+  top: 1px;
+  right: 4px;
+  cursor: pointer;
+}
