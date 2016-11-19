@@ -49,14 +49,15 @@ export default function createRoutes(store) {
 
         const importModules = Promise.all([
           System.import('containers/EventsPage/reducer'),
+          System.import('containers/App/sagas'),
           System.import('containers/EventsPage/sagas'),
           System.import('containers/EventsPage'),
         ]);
         const renderRoute = loadModule(cb);
 
-        importModules.then(([reducer, sagas, component]) => {
+        importModules.then(([reducer, appSagas, sagas, component]) => {
           injectReducer('eventsPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas([...appSagas.default, ...sagas.default]);
           renderRoute(component);
         });
 
@@ -74,15 +75,16 @@ export default function createRoutes(store) {
 
         const importModules = Promise.all([
           System.import('containers/DocumentsPage/reducer'),
+          System.import('containers/App/sagas'),
           System.import('containers/DocumentsPage/sagas'),
           System.import('containers/DocumentsPage'),
         ]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([reducer, sagas, component]) => {
+        importModules.then(([reducer, appSagas, sagas, component]) => {
           injectReducer('documentsPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas([...appSagas.default, ...sagas.default]);
           renderRoute(component);
         });
 
@@ -100,15 +102,16 @@ export default function createRoutes(store) {
 
         const importModules = Promise.all([
           System.import('containers/ProfilesPage/reducer'),
+          System.import('containers/App/sagas'),
           System.import('containers/ProfilesPage/sagas'),
           System.import('containers/ProfilesPage'),
         ]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([reducer, sagas, component]) => {
+        importModules.then(([reducer, appSagas, sagas, component]) => {
           injectReducer('profilesPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas([...appSagas.default, ...sagas.default]);
           renderRoute(component);
         });
 
@@ -126,15 +129,16 @@ export default function createRoutes(store) {
 
         const importModules = Promise.all([
           System.import('containers/TimelinePage/reducer'),
+          System.import('containers/App/sagas'),
           System.import('containers/TimelinePage/sagas'),
           System.import('containers/TimelinePage'),
         ]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([reducer, sagas, component]) => {
+        importModules.then(([reducer, appSagas, sagas, component]) => {
           injectReducer('timelinePage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas([...appSagas.default, ...sagas.default]);
           renderRoute(component);
         });
 
