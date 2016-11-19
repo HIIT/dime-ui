@@ -18,7 +18,6 @@ import RaisedButton from 'material-ui/RaisedButton';
 export class SignInPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     submitSignIn: React.PropTypes.func,
-    locationBeforeSignIn: React.PropTypes.string,
   }
   contextTypes: {
     router: React.PropTypes.object
@@ -70,7 +69,7 @@ export class SignInPage extends React.Component { // eslint-disable-line react/p
   }
   handleSubmit = () => {
     const { username, password, rememberMe } = this.state;
-    this.props.submitSignIn(username, password, rememberMe, this.props.locationBeforeSignIn);
+    this.props.submitSignIn(username, password, rememberMe);
     // this.props.router.goBack();
   }
   checkUserNameAndPassword = () => {

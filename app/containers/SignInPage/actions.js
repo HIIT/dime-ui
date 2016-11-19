@@ -10,13 +10,12 @@ import {
   SIGNIN_ERROR,
 } from './constants';
 
-export function submitSignIn(username, password, rememberMe, previousLocation) {
+export function submitSignIn(username, password, rememberMe) {
   return {
     type: SUBMIT_SIGNIN,
     username,
     password,
     rememberMe,
-    previousLocation,
   };
 }
 
