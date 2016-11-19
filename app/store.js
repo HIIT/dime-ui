@@ -41,11 +41,19 @@ export default function configureStore(initialState = {}, history) {
   ];
 
   const persistanState = loadState();
-  const store = createStore(
-    createReducer(),
-    fromJS(persistanState),
-    compose(...enhancers)
-  );
+  let store;
+  if (persistanState) {
+    store = createStore(
+      createReducer(),
+      fromJS(persistanState),
+      compose(...enhancers)
+    );
+  } else {
+    store = createStore(
+      createReducer(),
+      compose(...enhancers)
+    );
+  }
 
   // Create hook for async sagas
   store.runSaga = sagaMiddleware.run;
