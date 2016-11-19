@@ -7,9 +7,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { createStructuredSelector } from 'reselect';
 import { submitSignIn } from './actions';
-import { selectLocationBeforeSignIn } from './selecters';
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
@@ -128,9 +126,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-const mapStateToProps = createStructuredSelector({
-  locationBeforeSignIn: selectLocationBeforeSignIn(),
-});
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignInPage);
+export default connect(null, mapDispatchToProps)(SignInPage);
