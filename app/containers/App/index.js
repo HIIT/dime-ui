@@ -56,7 +56,6 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
   }
   clickOnAccountIcon = () => {
     this.props.clearCredentials();
-    this.props.changeRoute('/signin');
   }
   clickOnSendToLeaderboard = () => {
     const options = {
