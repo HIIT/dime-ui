@@ -18,10 +18,10 @@ class ProfileEntitiesList extends React.Component { // eslint-disable-line react
     profileID: React.PropTypes.number,
     clickOnEntityTag: React.PropTypes.func,
     clickOnEntityDelete: React.PropTypes.func,
-    clickOnEntity: React.PropTypes.func,
+    clickOnEntityStateToggle: React.PropTypes.func,
   }
   render() {
-    const { entities, entityType, listTitle, editing, profileID, clickOnEntityTag, clickOnEntityDelete, clickOnEntity } = this.props;
+    const { entities, entityType, listTitle, editing, profileID, clickOnEntityTag, clickOnEntityDelete, clickOnEntityStateToggle } = this.props;
     return (
       <div>
         <h4>{listTitle}</h4>
@@ -35,7 +35,7 @@ class ProfileEntitiesList extends React.Component { // eslint-disable-line react
             profileID={profileID}
             clickOnEntityTag={clickOnEntityTag}
             clickOnEntityDelete={clickOnEntityDelete}
-            clickOnEntity={clickOnEntity}
+            clickOnEntityStateToggle={clickOnEntityStateToggle}
           />
         )}
         </ul>

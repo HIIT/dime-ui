@@ -34,6 +34,9 @@
    DELETE_PROFILE,
    DELETE_PROFILE_SUCCESS,
    DELETE_PROFILE_ERROR,
+   ENTITY_STATE_TOGGLE,
+   ENTITY_STATE_TOGGLE_SUCCESS,
+   ENTITY_STATE_TOGGLE_ERROR,
  } from './constants';
 
  const initialState = fromJS({
@@ -158,6 +161,23 @@
        return state
          .set('loading', false)
          .set('error', fromJS(action.error));
+     case ENTITY_STATE_TOGGLE:
+       return state
+         .set('loading', true);
+     case ENTITY_STATE_TOGGLE_SUCCESS: {
+       const { respond, entityID, preEntityType, afterEntityType, profileID } = action;
+       const profileIndex = state.get('data').findIndex((item) => item.get('id') === profileID);
+       const entityIndex = state.getIn(['data', profileIndex, preEntityType]).findIndex((item) => item.get('id') === entityID);
+       return state
+         .deleteIn(['data', profileIndex, preEntityType, entityIndex])
+         .setIn(['data', profileIndex, afterEntityType], state.getIn(['data', profileIndex, afterEntityType]).unshift(fromJS(respond)))
+         .set('error', {})
+         .set('loading', false);
+     }
+     case ENTITY_STATE_TOGGLE_ERROR:
+       return state
+         .set('error', action.error)
+         .set('loading', false);
      case LOCATION_CHANGE:
        return state
          .set('error', {});

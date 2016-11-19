@@ -7,8 +7,11 @@
 import React from 'react';
 import Paper from 'material-ui/Paper';
 import TagsList from 'components/TagsList';
+import Checkbox from 'material-ui/Checkbox';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
-import { grey300, red400 } from 'material-ui/styles/colors';
+import Star from 'material-ui/svg-icons/toggle/star';
+import StarBorder from 'material-ui/svg-icons/toggle/star-border';
+import { grey300, red400, yellow500 } from 'material-ui/styles/colors';
 import styles from './styles.css';
 
 class ProfileEntityCard extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -19,16 +22,19 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
     profileID: React.PropTypes.number,
     clickOnEntityTag: React.PropTypes.func,
     clickOnEntityDelete: React.PropTypes.func,
-    clickOnEntity: React.PropTypes.func,
+    clickOnEntityStateToggle: React.PropTypes.func,
   }
   handleClickOnDelete = (entityID, entityType, mouseEvent) => {
     mouseEvent.stopPropagation();
     this.props.clickOnEntityDelete(entityID, entityType, this.props.profileID);
   }
+  handleClickOnToogle = (mouseEvent, isInputChecked, entity, entityType, profileID) => {
+    this.props.clickOnEntityStateToggle(entity, entityType, profileID);
+  }
   renderEvent(entityID, event, editing) {
     return (
-      <li
-        className={styles.validatedEventsLI}
+      <div
+        className={styles.entityWrapper}
       >
         <div className={styles.profileNameWrapper}>
           {event.title || event.type.substring(event.type.indexOf('#') + 1, event.type.length || event['@type'])}
@@ -48,13 +54,13 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
             className={styles.entityTags}
           />
         : null}
-      </li>
+      </div>
     );
   }
   renderDocument(entityID, informationElement, editing) {
     return (
-      <li
-        className={styles.validatedInformationElementsLI}
+      <div
+        className={styles.entityWrapper}
       >
         <div className={styles.profileNameWrapper} >
           {informationElement.title || informationElement.type.substring(informationElement.type.indexOf('#') + 1, informationElement.type.length || informationElement['@type'])}
@@ -74,7 +80,7 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
             className={styles.entityTags}
           />
         : null}
-      </li>
+      </div>
     );
   }
   renderType(type) {
@@ -115,7 +121,6 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
           key={entity.id}
           rounded={false}
           className={styles.profileEntityCardWrapper}
-          onClick={() => this.props.clickOnEntity(entity, entityType, profileID)}
         >
         {entity.informationElement ?
           this.renderDocument(entity.id, entity.informationElement, editing)
@@ -128,8 +133,28 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
             <ActionDelete
               color={grey300}
               hoverColor={red400}
-              style={{ width: '15px' }}
+              style={{ width: '19px' }}
               onClick={(mouseEvent) => { this.handleClickOnDelete(entity.id, entityType, mouseEvent); }}
+            />
+          </div>
+        : null }
+        { editing ?
+          <div
+            className={entityType.indexOf('suggested') === -1 ? styles.devalidateButtonWrapper : styles.confirmSuggestedButtonWrapper}
+          >
+            <Checkbox
+              checkedIcon={
+                <Star
+                  style={{ width: '19px', fill: `${yellow500}`, stroke: `${yellow500}` }}
+                />
+              }
+              uncheckedIcon={
+                <StarBorder
+                  style={{ width: '22px', fill: `${yellow500}` }}
+                />
+              }
+              defaultChecked={entityType.indexOf('suggested') === -1}
+              onCheck={(event, isInputChecked) => this.handleClickOnToogle(event, isInputChecked, entity, entityType, profileID)}
             />
           </div>
         : null }

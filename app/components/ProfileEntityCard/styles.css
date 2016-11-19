@@ -45,23 +45,37 @@
   color: rgba(0, 0, 0, 0.75);
 }
 
-.validatedInformationElementsLI,
-.validatedEventsLI {
+.entityWrapper {
   margin-bottom: 10px;
   list-style: none;
   padding: 10px;
   color: rgba(0, 0, 0, 0.6);
 }
 
-.validatedInformationElementsLI:hover,
-.validatedEventsLI:hover {
+.entityWrapper:hover {
   background: rgba(0, 0, 0, 0.015);
   color: rgba(0, 0, 0, 0.85);
 }
 
 .deleteButtonWrapper {
   position: absolute;
-  top: 1px;
+  top: 2.5px;
   right: 4px;
   cursor: pointer;
+}
+
+.confirmSuggestedButtonWrapper {
+  position: absolute;
+  top: 2.5px;
+  right: 8px;
+  width: 19px;
+  overflow: hidden;
+}
+
+.devalidateButtonWrapper {
+  position: absolute;
+  top: 2.5px;
+  right: 24px;
+  width: 19px;
+  overflow: hidden;
 }

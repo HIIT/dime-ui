@@ -34,6 +34,9 @@ import {
  CLICK_ON_ENTITY_DELETE,
  DELETE_ENTITY_FROM_PROFILE_SUCCESS,
  DELETE_ENTITY_FROM_PROFILE_ERROR,
+ ENTITY_STATE_TOGGLE,
+ ENTITY_STATE_TOGGLE_SUCCESS,
+ ENTITY_STATE_TOGGLE_ERROR,
 } from './constants';
 
 export function loadProfiles() {
@@ -301,6 +304,32 @@ export function deleteEntityFromProfileError(error, entityID, entityType, profil
   };
 }
 
+export function clickOnEntityStateToggle(entity, entityType, profileID) {
+  return {
+    type: ENTITY_STATE_TOGGLE,
+    entity,
+    entityType,
+    profileID,
+  };
+}
+
+export function entityStateToggleScuess(respond, entityID, preEntityType, afterEntityType, profileID) {
+  return {
+    type: ENTITY_STATE_TOGGLE_SUCCESS,
+    respond,
+    entityID,
+    preEntityType,
+    afterEntityType,
+    profileID,
+  };
+}
+
+export function entityStateToggleError(error) {
+  return {
+    type: ENTITY_STATE_TOGGLE_ERROR,
+    error,
+  };
+}
 /*
 *
 * Click on Entity

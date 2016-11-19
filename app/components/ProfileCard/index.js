@@ -30,7 +30,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
     deleteTagFromProfile: React.PropTypes.func,
     clickOnEntityTag: React.PropTypes.func,
     clickOnEntityDelete: React.PropTypes.func,
-    clickOnEntity: React.PropTypes.func,
+    clickOnEntityStateToggle: React.PropTypes.func,
   }
   handleClickOnEdit = (profile) => {
     this.props.editProfile(profile.id);
@@ -121,7 +121,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
           profileID={profile.id}
           clickOnEntityTag={this.props.clickOnEntityTag}
           clickOnEntityDelete={this.props.clickOnEntityDelete}
-          clickOnEntity={this.props.clickOnEntity}
+          clickOnEntityStateToggle={this.props.clickOnEntityStateToggle}
         />
       : null}
       { profile.validatedEvents.length > 0 ?
@@ -133,7 +133,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
           profileID={profile.id}
           clickOnEntityTag={this.props.clickOnEntityTag}
           clickOnEntityDelete={this.props.clickOnEntityDelete}
-          clickOnEntity={this.props.clickOnEntity}
+          clickOnEntityStateToggle={this.props.clickOnEntityStateToggle}
         />
       : null}
     </div>
@@ -148,7 +148,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
           profileID={profile.id}
           clickOnEntityTag={this.props.clickOnEntityTag}
           clickOnEntityDelete={this.props.clickOnEntityDelete}
-          clickOnEntity={this.props.clickOnEntity}
+          clickOnEntityStateToggle={this.props.clickOnEntityStateToggle}
         />
       : null}
       { profile.suggestedEvents.length > 0 ?
@@ -160,7 +160,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
           profileID={profile.id}
           clickOnEntityTag={this.props.clickOnEntityTag}
           clickOnEntityDelete={this.props.clickOnEntityDelete}
-          clickOnEntity={this.props.clickOnEntity}
+          clickOnEntityStateToggle={this.props.clickOnEntityStateToggle}
         />
       : null}
     </div>

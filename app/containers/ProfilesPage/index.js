@@ -21,7 +21,7 @@ import {
  deleteTagFromProfile,
  clickOnEntityTag,
  clickOnEntityDelete,
- clickOnEntity,
+ clickOnEntityStateToggle,
 } from './actions';
 import requiresAuth from 'containers/RequiresAuth';
 import ProfilesTab from 'components/ProfilesTab';
@@ -40,7 +40,7 @@ export class ProfilesPage extends React.Component { // eslint-disable-line react
     deleteTagFromProfile: React.PropTypes.func,
     clickOnEntityTag: React.PropTypes.func,
     clickOnEntityDelete: React.PropTypes.func,
-    clickOnEntity: React.PropTypes.func,
+    clickOnEntityStateToggle: React.PropTypes.func,
   }
   render() {
     return (
@@ -57,7 +57,7 @@ export class ProfilesPage extends React.Component { // eslint-disable-line react
         deleteTagFromProfile={this.props.deleteTagFromProfile}
         clickOnEntityTag={this.props.clickOnEntityTag}
         clickOnEntityDelete={this.props.clickOnEntityDelete}
-        clickOnEntity={this.props.clickOnEntity}
+        clickOnEntityStateToggle={this.props.clickOnEntityStateToggle}
       />
    );
   }
@@ -80,7 +80,7 @@ function mapDispatchToProps(dispatch) {
     deleteTagFromProfile: bindActionCreators(deleteTagFromProfile, dispatch),
     clickOnEntityTag: bindActionCreators(clickOnEntityTag, dispatch),
     clickOnEntityDelete: bindActionCreators(clickOnEntityDelete, dispatch),
-    clickOnEntity: bindActionCreators(clickOnEntity, dispatch),
+    clickOnEntityStateToggle: bindActionCreators(clickOnEntityStateToggle, dispatch),
   };
 }
 
