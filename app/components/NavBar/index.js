@@ -64,6 +64,7 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
         </div>
         { this.props.pathName === '/signin' ? null :
           <div className={styles.navBarRightWrapper}>
+            <div className={styles.username}><span>{this.props.auth.username}</span></div>
             <div className={styles.navBarAccountWrapper}>
               <IconButton
                 tooltip="Log Out"
