@@ -1,0 +1,1 @@
+export const SAVE_LOCATION_BEFORE_SIGN_IN = 'app/requiresAuth/SAVE_LOCATION_BEFORE_SIGN_IN';
