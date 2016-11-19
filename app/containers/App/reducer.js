@@ -3,7 +3,8 @@
  */
 
 import { fromJS } from 'immutable';
-import { SAVE_CREDENTIALS, CLEAR_CREDENTIALS, SAVE_LOCATION_BEFORE_SIGN_IN } from './constants';
+import { SAVE_CREDENTIALS, CLEAR_CREDENTIALS } from './constants';
+import { SAVE_LOCATION_BEFORE_SIGN_IN } from 'containers/RequiresAuth/constants';
 
 // The initial state of the App
 
@@ -46,7 +47,7 @@ function appReducer(state = initialState, action) {
         .setIn(['auth', 'username'], undefined)
         .setIn(['auth', 'rememberMe'], undefined);
     case SAVE_LOCATION_BEFORE_SIGN_IN:
-      return state.setIn(['auth', 'locationBeforeSignIn'], fromJS(action.location));
+      return state.setIn(['auth', 'locationBeforeSignIn'], action.location);
     default:
       return state;
   }
