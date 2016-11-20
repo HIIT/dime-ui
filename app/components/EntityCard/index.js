@@ -5,14 +5,13 @@
 */
 
 import React from 'react';
-import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
+import { Card, CardHeader, CardText } from 'material-ui/Card';
 import { Row, Col } from 'react-flexbox-grid/lib/index';
 import { Tabs, Tab } from 'material-ui/Tabs';
 import JSONTree from 'leonaves-react-json-tree';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import EpandedMore from 'material-ui/svg-icons/navigation/expand-more';
 import EpandedLess from 'material-ui/svg-icons/navigation/expand-less';
-import FlatButton from 'material-ui/FlatButton';
 import { grey300, blue300, red400 } from 'material-ui/styles/colors';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
@@ -79,7 +78,6 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
         >
           <span>
             Type {this.renderType(entity.type)} Actor {this.renderActor(entity.actor)} <br />
-            {this.renderTime(entity.timeCreated)}
           </span>
         </div>
         <div
@@ -94,24 +92,16 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
       </CardHeader>
     );
   }
-  renderEntityCardBody = (entity) => {
-    const label = 'REDUCE';
-    return (
+  renderEntityCardBody = (entity) =>
+    <div className={styles.entityBodyWrapper} >
+      {this.renderTagsList(entity)}
       <CardText
         expandable
       >
-        <FlatButton
-          onTouchTap={this.handleReduce}
-          label={label}
-          icon={<EpandedLess />}
-          style={{ marginLeft: '-7px', marginTop: '-8px', marginBottom: '15px' }}
-        />
         <Tabs
           tabItemContainerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.02)' }}
           inkBarStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
         >
-
-
           <Tab
             label="JSON (tree-view)"
             style={{ color: 'rgba(0, 0, 0, 0.25)' }}
@@ -137,20 +127,41 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
           </Tab>
         </Tabs>
       </CardText>
-    );
+    </div>
+  renderEntityCardExpandReduce = () => {
+    if (this.state.entity_details_expanded) {
+      return (
+        <div className={styles.clearfix}>
+          <div
+            className={styles.entityCardReducenWrapper}
+            onClick={this.handleReduce}
+          >
+            <EpandedLess
+              style={{ color: '#9E9E9E', cursor: 'pointer' }}
+            />
+          </div>
+        </div>
+      );
+    }
+    return null;
   }
-  renderEntityCardActions = () => {
-    const label = 'EXPAND';
-    return (
-      <CardActions>
-        <FlatButton
-          icon={<EpandedMore />}
-          label={label}
-          onTouchTap={this.handleExpand}
-          style={{ color: this.state.expanded ? '#9E9E9E' : '#CCCCCC' }}
-        />
-      </CardActions>
-    );
+  renderEntityCardExpandButton = () => {
+    if (!this.state.entity_details_expanded) {
+      return (
+        <div className={styles.clearfix}>
+          <div
+            className={styles.entityCardExpandWrapper}
+            onClick={this.handleExpand}
+            style={{ cursor: 'pointer' }}
+          >
+            <EpandedMore
+              style={{ color: '#9E9E9E' }}
+            />
+          </div>
+        </div>
+      );
+    }
+    return null;
   }
   renderType(type) {
     return (
@@ -173,40 +184,50 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
   }
   renderTime(time) {
     const timeObject = new Date(time);
+    function dayOfWeekAsString(dayIndex) {
+      return ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][dayIndex];
+    }
     return (
-      <span
-        className={styles.entityTime}
+      <div
+        className={styles.entityTimeWrapper}
       >
-        {timeObject.toUTCString()}
-      </span>
+        <div className={styles.entityTime} >{timeObject.toLocaleTimeString()} </div>
+        <div className={styles.entityDay}>{dayOfWeekAsString(timeObject.getDay())} </div>
+        <div className={styles.entityDate}>{timeObject.toLocaleDateString()}</div>
+      </div>
+    );
+  }
+  renderTagsList = (entity) => {
+    const notAutoTags = entity.tags.filter((tag) => !tag.auto);
+    const autoTags = entity.tags.filter((tag) => tag.auto);
+    return (
+      <div
+        className={styles.entityTagsListWrapper}
+      >
+        <TagsList
+          entityID={entity.id}
+          tags={autoTags}
+          clickOnTag={this.props.clickOnEntityTag}
+          className={styles.autoTag}
+        />
+        <TagsList
+          entityID={entity.id}
+          tags={notAutoTags}
+          clickOnTag={this.props.clickOnEntityTag}
+          className={styles.notAutoTag}
+        />
+      </div>
     );
   }
   render() {
     const { entity } = this.props;
-    const notAutoTags = entity.tags.filter((tag) => !tag.auto);
-    const autoTags = entity.tags.filter((tag) => tag.auto);
     return (
       <Row
         key={entity.id}
         className={styles.entityWrapper}
       >
         <Col xsOffset={0} xs={1} smOffset={2} sm={2} >
-          <div
-            className={styles.entityWrapper}
-          >
-            <TagsList
-              entityID={entity.id}
-              tags={autoTags}
-              clickOnTag={this.props.clickOnEntityTag}
-              className={styles.autoTag}
-            />
-            <TagsList
-              entityID={entity.id}
-              tags={notAutoTags}
-              clickOnTag={this.props.clickOnEntityTag}
-              className={styles.notAutoTag}
-            />
-          </div>
+          {this.renderTime(entity.timeCreated)}
         </Col>
         <Col xsOffset={1} xs={8} smOffset={0} sm={6} >
           <Card
@@ -214,8 +235,9 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
             onExpandChange={this.handleExpandChange}
           >
             {this.renderEntityCardHeader(entity)}
+            {this.renderEntityCardExpandReduce()}
             {this.state.entity_details_expanded ? this.renderEntityCardBody(entity) : null}
-            {this.renderEntityCardActions(entity)}
+            {this.renderEntityCardExpandButton(entity)}
           </Card>
         </Col>
         <Col xs={2} >

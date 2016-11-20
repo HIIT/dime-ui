@@ -1,6 +1,9 @@
 .entityWrapper {
-  margin-top: 15px;
-  word-wrap: break-word;
+  margin-bottom: 15px;
+}
+
+.entityBodyWrapper {
+  margin-bottom: 0;
 }
 
 .cardHeaderInfoWrapper {
@@ -8,6 +11,84 @@
   margin-top: 5px;
   font-size: 10px;
   color: rgba(0, 0, 0, 0.18);
+}
+
+.entityType {
+  display: inline-block;
+  padding: 0 4px 0 5px;
+  font-size: 12px;
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.entityActor {
+  display: inline-block;
+  padding: 0 3px 0 4px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.entityTimeWrapper {
+  margin-top: 17px;
+  opacity: 0.45;
+}
+
+.entityTimeWrapper:hover {
+  opacity: 1;
+}
+
+.entityTime,
+.entityDay,
+.entityDate {
+  text-align: right;
+  font-family: 'Roboto Mono', monospace;
+}
+
+.entityTime {
+  font-size: 13px;
+  color: rgba(0, 0, 0, 1);
+}
+
+.entityDay {
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.5);
+}
+
+.entityDate {
+  font-size: 10px;
+  color: rgba(0, 0, 0, 0.45);
+}
+
+.entityCardExpandWrapper {
+  position: relative;
+  margin-top: -14px;
+  margin-left: 8px;
+  z-index: 100000;
+  cursor: pointer;
+}
+
+.entityCardReducenWrapper {
+  position: relative;
+  margin-top: -14px;
+  margin-left: 8px;
+  z-index: 100000;
+  cursor: pointer;
+}
+
+.clearfix::after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: '';
+  clear: both;
+  height: 0;
+}
+
+.entityTagsListWrapper {
+  margin-top: 10px;
+  margin-left: 18px;
+  margin-bottom: 10px;
+  word-wrap: break-word;
 }
 
 .profileListUL {
@@ -36,29 +117,6 @@
   color: rgba(255, 0, 0, 0.35);
   border-top: 1px solid rgba(0, 0, 0, 0);
   background-color: rgba(255, 0, 0, 0.02);
-}
-
-.entityType {
-  display: inline-block;
-  padding: 0 4px 0 5px;
-  font-size: 12px;
-  text-decoration: none;
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.entityActor {
-  display: inline-block;
-  padding: 0 3px 0 4px;
-  font-size: 12px;
-  color: rgba(0, 0, 0, 0.5);
-}
-
-.entityTime {
-  display: inline-block;
-  margin-top: 6px;
-  font-size: 8px;
-  font-weight: 300;
-  color: rgba(0, 0, 0, 0.5);
 }
 
 .cardHeaderDeleteWrapper {
