@@ -9,7 +9,12 @@ const addDevMiddlewares = (app, webpackConfig) => {
   const webpack = require('webpack');
   const webpackDevMiddleware = require('webpack-dev-middleware');
   const webpackHotMiddleware = require('webpack-hot-middleware');
-  const compiler = webpack(webpackConfig);
+  let compiler;
+  try {
+    compiler = webpack(webpackConfig);
+  } catch (e) {
+    console.error(e); // eslint-disable-line no-console
+  }
   const middleware = webpackDevMiddleware(compiler, {
     noInfo: true,
     publicPath: webpackConfig.output.publicPath,
