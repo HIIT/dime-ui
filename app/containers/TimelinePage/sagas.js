@@ -13,10 +13,14 @@ import {
 
 // Load Event Sage
 
-export function* getEvents() {
+export function* getEvents(action) {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/data/events`;
+  const today = new Date();
+  const oneWeekBefore = new Date(new Date().setDate(today.getDate() - 7));
+  const before = action.before ? action.before : today;
+  const after = action.after ? action.after : oneWeekBefore;
+  const requestURL = `http://${url}/api/data/events?before=${before.getTime()}after=${after.getTime()}`;
   const options = {
     method: 'GET',
     headers: {
@@ -45,10 +49,14 @@ export function* eventsData() {
 
 // Load Document sagas
 
-export function* getDocuments() {
+export function* getDocuments(action) {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/data/informationelements`;
+  const today = new Date();
+  const oneWeekBefore = new Date(new Date().setDate(today.getDate() - 7));
+  const before = action.before ? action.before : today;
+  const after = action.after ? action.after : oneWeekBefore;
+  const requestURL = `http://${url}/api/data/informationelements?before=${before.getTime()}after=${after.getTime()}`;
   const options = {
     method: 'GET',
     headers: {
