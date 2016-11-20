@@ -7,15 +7,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { submitSignIn } from './actions';
+import { submitSignIn, submitCreate } from './actions';
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import TextField from 'material-ui/TextField';
 import Checkbox from 'material-ui/Checkbox';
 import RaisedButton from 'material-ui/RaisedButton';
+import styles from './styles.css';
 
 export class SignInPage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     submitSignIn: React.PropTypes.func,
+    submitCreate: React.PropTypes.func,
   }
   contextTypes: {
     router: React.PropTypes.object
@@ -25,9 +27,11 @@ export class SignInPage extends React.Component { // eslint-disable-line react/p
     this.state = {
       username: null,
       password: null,
+      email: null,
       rememberMe: true,
       userNameError: null,
       passwordError: null,
+      emailError: null,
     };
   }
   handleRememberMeChecked = (event, rememberMe) => {
@@ -38,6 +42,9 @@ export class SignInPage extends React.Component { // eslint-disable-line react/p
   }
   handlePasswordChange = (event, password) => {
     this.setState({ password });
+  }
+  handleEmailChange = (event, email) => {
+    this.setState({ email });
   }
   displayErrors = () => {
     if (!this.state.username) {
@@ -70,6 +77,10 @@ export class SignInPage extends React.Component { // eslint-disable-line react/p
     this.props.submitSignIn(username, password, rememberMe);
     // this.props.router.goBack();
   }
+  handleClickOnCreateButton = () => {
+    const { username, password, email, rememberMe } = this.state;
+    this.props.submitCreate(username, password, email, rememberMe);
+  }
   checkUserNameAndPassword = () => {
     if (this.state.username && this.state.password) {
       return false;
@@ -98,19 +109,36 @@ export class SignInPage extends React.Component { // eslint-disable-line react/p
               fullWidth
               autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false"
             />
+            <TextField
+              floatingLabelText={'Email (Optional)'}
+              onKeyDown={this.handleEnterKeyDown}
+              onChange={this.handleEmailChange}
+              type="email"
+              fullWidth
+              autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck="false"
+            />
             <Checkbox
               defaultChecked={this.state.rememberMe}
               label="Remember Me"
               style={{ marginTop: '20px' }}
               onCheck={this.handleRememberMeChecked}
             />
-            <RaisedButton
-              primary
-              label="Submit"
-              style={{ float: 'right' }}
-              onClick={this.handleClickOnSubmitButton}
-              disabled={this.checkUserNameAndPassword()}
-            />
+            <div className={styles.signInActionWrapper}>
+              <RaisedButton
+                secondary
+                label="Create"
+                style={{ float: 'left' }}
+                onClick={this.handleClickOnCreateButton}
+                disabled={this.checkUserNameAndPassword()}
+              />
+              <RaisedButton
+                primary
+                label="Sign In"
+                style={{ float: 'right' }}
+                onClick={this.handleClickOnSubmitButton}
+                disabled={this.checkUserNameAndPassword()}
+              />
+            </div>
           </Col>
           <Col xs={2} >
           </Col>
@@ -123,6 +151,7 @@ export class SignInPage extends React.Component { // eslint-disable-line react/p
 function mapDispatchToProps(dispatch) {
   return {
     submitSignIn: bindActionCreators(submitSignIn, dispatch),
+    submitCreate: bindActionCreators(submitCreate, dispatch),
   };
 }
 

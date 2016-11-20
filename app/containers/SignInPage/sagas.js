@@ -3,12 +3,18 @@ import { takeLatest } from 'redux-saga';
 import { browserHistory } from 'react-router';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import request from 'utils/request';
-import { SUBMIT_SIGNIN } from './constants';
+import { SUBMIT_SIGNIN, SUBMIT_CREATE } from './constants';
 import { saveCredentials } from 'containers/App/actions';
-import { signInSucess, signInError } from './actions';
+import {
+  signInSucess,
+  signInError,
+  createSucess,
+  createError,
+  submitSignIn as submitSignInAction,
+} from './actions';
 import { selectAPI, selectLocationBeforeSignIn } from './selecters';
 
-export function* saveSignIn({ username, password, rememberMe }) {
+export function* submitSignIn({ username, password, rememberMe }) {
   const { url } = yield select(selectAPI());
   const previousLocation = yield select(selectLocationBeforeSignIn());
   const token = window.btoa(`${username}:${password}`);
@@ -42,6 +48,29 @@ export function* saveSignIn({ username, password, rememberMe }) {
   }
 }
 
+export function* submitCreate({ username, password, email, rememberMe }) {
+  const { url } = yield select(selectAPI());
+  const requestURL = `http://${url}/api/users`;
+  const options = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      username,
+      password,
+      email,
+    }),
+  };
+  try {
+    const respond = yield call(request, requestURL, options);
+    yield put(createSucess(respond));
+    yield put(submitSignInAction(username, password, rememberMe));
+  } catch (error) {
+    yield put(createError(error));
+  }
+}
+
 export function cancelByLocationChange(watchingConstant, func) {
   return function* cancelByLocationChangeGenerater() {
     const watcherFork = yield fork(takeLatest, watchingConstant, func);
@@ -52,5 +81,6 @@ export function cancelByLocationChange(watchingConstant, func) {
 
 // All sagas to be loaded
 export default [
-  cancelByLocationChange(SUBMIT_SIGNIN, saveSignIn),
+  cancelByLocationChange(SUBMIT_SIGNIN, submitSignIn),
+  cancelByLocationChange(SUBMIT_CREATE, submitCreate),
 ];
