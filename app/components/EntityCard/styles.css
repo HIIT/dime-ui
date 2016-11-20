@@ -1,5 +1,6 @@
 .entityWrapper {
   margin-bottom: 15px;
+  word-wrap: break-word;
 }
 
 .entityBodyWrapper {
@@ -88,7 +89,6 @@
   margin-top: 10px;
   margin-left: 18px;
   margin-bottom: 10px;
-  word-wrap: break-word;
 }
 
 .profileListUL {
