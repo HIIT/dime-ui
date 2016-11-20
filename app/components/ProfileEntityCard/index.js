@@ -122,42 +122,42 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
           rounded={false}
           className={styles.profileEntityCardWrapper}
         >
-        {entity.informationElement ?
-          this.renderDocument(entity.id, entity.informationElement, editing)
-        : null}
-        {entity.event ?
-          this.renderEvent(entity.id, entity.event, editing)
-        : null}
-        { editing && entityType.indexOf('suggested') === -1 ?
-          <div className={styles.deleteButtonWrapper}>
-            <ActionDelete
-              color={grey300}
-              hoverColor={red400}
-              style={{ width: '19px' }}
-              onClick={(mouseEvent) => { this.handleClickOnDelete(entity.id, entityType, mouseEvent); }}
-            />
-          </div>
-        : null }
-        { editing ?
-          <div
-            className={entityType.indexOf('suggested') === -1 ? styles.devalidateButtonWrapper : styles.confirmSuggestedButtonWrapper}
-          >
-            <Checkbox
-              checkedIcon={
-                <Star
-                  style={{ width: '19px', fill: `${yellow500}`, stroke: `${yellow500}` }}
-                />
-              }
-              uncheckedIcon={
-                <StarBorder
-                  style={{ width: '22px', fill: `${yellow500}` }}
-                />
-              }
-              defaultChecked={entityType.indexOf('suggested') === -1}
-              onCheck={(event, isInputChecked) => this.handleClickOnToogle(event, isInputChecked, entity, entityType, profileID)}
-            />
-          </div>
-        : null }
+          {entity.informationElement ?
+            this.renderDocument(entity.id, entity.informationElement, editing)
+          : null}
+          {entity.event ?
+            this.renderEvent(entity.id, entity.event, editing)
+          : null}
+          { editing && entityType.indexOf('suggested') === -1 ?
+            <div className={styles.deleteButtonWrapper}>
+              <ActionDelete
+                color={grey300}
+                hoverColor={red400}
+                style={{ width: '19px' }}
+                onClick={(mouseEvent) => { this.handleClickOnDelete(entity.id, entityType, mouseEvent); }}
+              />
+            </div>
+          : null }
+          { editing ?
+            <div
+              className={entityType.indexOf('suggested') === -1 ? styles.devalidateButtonWrapper : styles.confirmSuggestedButtonWrapper}
+            >
+              <Checkbox
+                checkedIcon={
+                  <Star
+                    style={{ width: '19px', fill: `${yellow500}`, stroke: `${yellow500}` }}
+                  />
+                }
+                uncheckedIcon={
+                  <StarBorder
+                    style={{ width: '22px', fill: `${yellow500}` }}
+                  />
+                }
+                defaultChecked={entityType.indexOf('suggested') === -1}
+                onCheck={(event, isInputChecked) => this.handleClickOnToogle(event, isInputChecked, entity, entityType, profileID)}
+              />
+            </div>
+          : null }
         </Paper>
       </div>
     );

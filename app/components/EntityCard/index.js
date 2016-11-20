@@ -29,7 +29,6 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
     profiles: React.PropTypes.array,
     loadProfiles: React.PropTypes.func,
     addToProfile: React.PropTypes.func,
-    removeFromProfile: React.PropTypes.func,
     entity: React.PropTypes.object,
   }
   constructor(props) {
@@ -109,7 +108,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
             <JSONTree
               data={entity}
               shouldExpandNode={() => false}
-              valueRenderer={raw => (raw.length > 1000 ? <em>text lenth > 3000, hiden</em> : raw)}
+              valueRenderer={(raw) => (raw.length > 1000 ? <em>text lenth &gt; 3000, hiden</em> : raw)}
               hideRoot
             />
           </Tab>
@@ -240,15 +239,15 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
           <ul
             className={styles.profileListUL}
           >
-           {this.props.profiles.map((profile) =>
-             <li
-               className={styles.profileListLI}
-               key={profile.id}
-               onTouchTap={(mouseEvent) => this.handleAddToProfile(entity, profile.id, mouseEvent)}
-             >
+            {this.props.profiles.map((profile) =>
+              <li
+                className={styles.profileListLI}
+                key={profile.id}
+                onTouchTap={(mouseEvent) => this.handleAddToProfile(entity, profile.id, mouseEvent)}
+              >
                 {profile.name}
-             </li>)
-           }
+              </li>)
+            }
             <li
               className={styles.profileListLICancel}
               onTouchTap={(mouseEvent) => this.handleClickCancelAdd(mouseEvent)}
@@ -281,7 +280,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
           </Card>
         </Col>
         <Col xs={2} >
-            {this.renderAddToProfile(entity)}
+          {this.renderAddToProfile(entity)}
         </Col>
       </Row>
     );

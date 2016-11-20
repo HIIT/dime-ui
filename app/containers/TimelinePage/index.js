@@ -23,7 +23,7 @@ function getFrequentWords(keywords, maxNumber) {
   const frequencies = {};
   for (const word of keywords) {
     frequencies[word] = frequencies[word] || 0;
-    frequencies[word]++;
+    frequencies[word] += 1;
   }
   const words = Object.keys(frequencies);
   const wordsRankedByFrequent = words.sort((a, b) => frequencies[b] - frequencies[a]).slice(0, maxNumber);
@@ -33,8 +33,6 @@ function getFrequentWords(keywords, maxNumber) {
 export class TimelinePage extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     events: React.PropTypes.array,
-    documents: React.PropTypes.array,
-    loadDocuments: React.PropTypes.func,
     loadEvents: React.PropTypes.func,
   }
   componentWillMount() {

@@ -26,18 +26,18 @@ class ProfileEntitiesList extends React.Component { // eslint-disable-line react
       <div>
         <h4>{listTitle}</h4>
         <ul className={styles.entitiesUL}>
-        {entities.map((entity) =>
-          <ProfileEntityCard
-            key={entity.id}
-            entity={entity}
-            entityType={entityType}
-            editing={editing}
-            profileID={profileID}
-            clickOnEntityTag={clickOnEntityTag}
-            clickOnEntityDelete={clickOnEntityDelete}
-            clickOnEntityStateToggle={clickOnEntityStateToggle}
-          />
-        )}
+          {entities.map((entity) =>
+            <ProfileEntityCard
+              key={entity.id}
+              entity={entity}
+              entityType={entityType}
+              editing={editing}
+              profileID={profileID}
+              clickOnEntityTag={clickOnEntityTag}
+              clickOnEntityDelete={clickOnEntityDelete}
+              clickOnEntityStateToggle={clickOnEntityStateToggle}
+            />
+          )}
         </ul>
       </div>
     );

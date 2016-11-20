@@ -59,7 +59,7 @@ export class ProfilesPage extends React.Component { // eslint-disable-line react
         clickOnEntityDelete={this.props.clickOnEntityDelete}
         clickOnEntityStateToggle={this.props.clickOnEntityStateToggle}
       />
-   );
+    );
   }
 }
 
