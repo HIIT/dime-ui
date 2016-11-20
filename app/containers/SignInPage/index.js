@@ -89,7 +89,7 @@ export class SignInPage extends React.Component { // eslint-disable-line react/p
   }
   render() {
     return (
-      <Grid style={{ marginTop: '26vh' }}>
+      <Grid className={styles.signInFormWrapper}>
         <Row>
           <Col xsOffset={2} xs={8} smOffset={3} sm={6} >
             <TextField
@@ -125,17 +125,17 @@ export class SignInPage extends React.Component { // eslint-disable-line react/p
             />
             <div className={styles.signInActionWrapper}>
               <RaisedButton
-                secondary
-                label="Create"
-                style={{ float: 'left' }}
-                onClick={this.handleClickOnCreateButton}
-                disabled={this.checkUserNameAndPassword()}
-              />
-              <RaisedButton
                 primary
                 label="Sign In"
                 style={{ float: 'right' }}
                 onClick={this.handleClickOnSubmitButton}
+                disabled={this.checkUserNameAndPassword()}
+              />
+              <RaisedButton
+                secondary
+                label="Create"
+                style={{ float: 'left' }}
+                onClick={this.handleClickOnCreateButton}
                 disabled={this.checkUserNameAndPassword()}
               />
             </div>
