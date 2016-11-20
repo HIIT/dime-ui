@@ -219,6 +219,46 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
       </div>
     );
   }
+  renderAddToProfile = (entity) =>
+    <div className={styles.addToProfileWrapper}>
+      { this.state.profile_list_expanded ? null :
+        <FloatingActionButton
+          zDepth={0}
+          backgroundColor={blue300}
+          mini
+          onTouchTap={(mouseEvent) => this.handleClickAdd(entity, mouseEvent)}
+          style={{ marginLeft: '-3px' }}
+          iconStyle={{ width: '25px', height: '25px' }}
+        >
+          <ContentAdd style={{ width: '18px' }} />
+        </FloatingActionButton>
+      }
+      { this.state.profile_list_expanded ?
+        <Paper
+          style={{ display: 'inline-block' }}
+        >
+          <ul
+            className={styles.profileListUL}
+          >
+           {this.props.profiles.map((profile) =>
+             <li
+               className={styles.profileListLI}
+               key={profile.id}
+               onTouchTap={(mouseEvent) => this.handleAddToProfile(entity, profile.id, mouseEvent)}
+             >
+                {profile.name}
+             </li>)
+           }
+            <li
+              className={styles.profileListLICancel}
+              onTouchTap={(mouseEvent) => this.handleClickCancelAdd(mouseEvent)}
+            >
+              Cancel
+            </li>
+          </ul>
+        </Paper>
+      : null }
+    </div>
   render() {
     const { entity } = this.props;
     return (
@@ -241,41 +281,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
           </Card>
         </Col>
         <Col xs={2} >
-          { this.state.profile_list_expanded ? null :
-            <FloatingActionButton
-              zDepth={0}
-              backgroundColor={blue300}
-              mini
-              onTouchTap={(mouseEvent) => this.handleClickAdd(entity, mouseEvent)}
-            >
-              <ContentAdd />
-            </FloatingActionButton>
-          }
-          { this.state.profile_list_expanded ?
-            <Paper
-              style={{ display: 'inline-block' }}
-            >
-              <ul
-                className={styles.profileListUL}
-              >
-               {this.props.profiles.map((profile) =>
-                 <li
-                   className={styles.profileListLI}
-                   key={profile.id}
-                   onTouchTap={(mouseEvent) => this.handleAddToProfile(entity, profile.id, mouseEvent)}
-                 >
-                    {profile.name}
-                 </li>)
-               }
-                <li
-                  className={styles.profileListLICancel}
-                  onTouchTap={(mouseEvent) => this.handleClickCancelAdd(mouseEvent)}
-                >
-                  Cancel
-                </li>
-              </ul>
-            </Paper>
-          : null }
+            {this.renderAddToProfile(entity)}
         </Col>
       </Row>
     );
