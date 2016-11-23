@@ -24,11 +24,7 @@ const selectProfilesPageLoading = () => state => state.getIn(['profilesPage', 'l
 const selectTimelinePageLoading = () => state => state.getIn(['timelinePage', 'loading']);
 const selectSignInPageLoading = () => state => state.getIn(['signInPage', 'loading']);
 
-const selectDocumentsPageError = () => state => state.getIn(['documentsPage', 'error']);
-const selectEventsPageError = () => state => state.getIn(['eventsPage', 'error']);
-const selectProfilesPageError = () => state => state.getIn(['profilesPage', 'error']);
-const selectTimelinePageError = () => state => state.getIn(['timelinePage', 'error']);
-const selectSignInPageError = () => state => state.getIn(['signInPage', 'error']);
+const selectAppError = () => state => state.getIn(['app', 'error']);
 
 export default selectLocationState;
 export {
@@ -40,9 +36,5 @@ export {
   selectProfilesPageLoading,
   selectTimelinePageLoading,
   selectSignInPageLoading,
-  selectDocumentsPageError,
-  selectEventsPageError,
-  selectProfilesPageError,
-  selectTimelinePageError,
-  selectSignInPageError,
+  selectAppError,
 };

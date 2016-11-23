@@ -26,11 +26,7 @@ import {
   selectProfilesPageLoading,
   selectTimelinePageLoading,
   selectSignInPageLoading,
-  selectDocumentsPageError,
-  selectEventsPageError,
-  selectProfilesPageError,
-  selectTimelinePageError,
-  selectSignInPageError,
+  selectAppError,
 } from './selectors';
 import { clearCredentials } from './actions';
 import { createStructuredSelector } from 'reselect';
@@ -47,11 +43,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     profilesPageLoading: React.PropTypes.bool,
     timelinePageLoading: React.PropTypes.bool,
     signInPageLoading: React.PropTypes.bool,
-    documentsPageError: React.PropTypes.object,
-    eventsPageError: React.PropTypes.object,
-    profilesPageError: React.PropTypes.object,
-    timelinePageError: React.PropTypes.object,
-    signInPageError: React.PropTypes.object,
+    appError: React.PropTypes.object,
     clearCredentials: React.PropTypes.func,
   }
   clickOnAccountIcon = () => {
@@ -76,9 +68,8 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
   }
   render() {
     const { documentsPageLoading, eventsPageLoading, profilesPageLoading, timelinePageLoading, signInPageLoading } = this.props;
-    const { documentsPageError, eventsPageError, profilesPageError, timelinePageError, signInPageError } = this.props;
-    const error = Object.assign({}, documentsPageError, eventsPageError, profilesPageError, timelinePageError, signInPageError);
-    const hasError = !(Object.keys(error).length === 0 && error.constructor === Object);
+    const { appError } = this.props;
+    const hasError = !(Object.keys(appError).length === 0 && appError.constructor === Object);
     return (
       <MuiThemeProvider>
         <div className={styles.container}>
@@ -93,12 +84,12 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
             <ProgressBar intervalTime={40} autoIncrement percent={(documentsPageLoading || eventsPageLoading || profilesPageLoading || timelinePageLoading || signInPageLoading) === true ? 30 : 100} />
           </div>
           {React.Children.toArray(this.props.children)}
-          {error.response ?
+          {appError.response ?
             <Snackbar
               style={{ left: '57%' }}
               bodyStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
               open={hasError}
-              message={`HTTP Status Code ${get(error, ['response', 'status']) ? error.response.status : null}, ${get(error, ['response', 'statusText']) ? error.response.statusText : null}`}
+              message={`HTTP Status Code ${appError.status ? appError.status : 'unknown'}: ${appError.message ? appError.message : get(appError, ['response', 'statusText'])}`}
             />
           : null}
         </div>
@@ -121,11 +112,7 @@ const mapStateToProps = createStructuredSelector({
   profilesPageLoading: selectProfilesPageLoading(),
   timelinePageLoading: selectTimelinePageLoading(),
   signInPageLoading: selectSignInPageLoading(),
-  documentsPageError: selectDocumentsPageError(),
-  eventsPageError: selectEventsPageError(),
-  profilesPageError: selectProfilesPageError(),
-  timelinePageError: selectTimelinePageError(),
-  signInPageError: selectSignInPageError(),
+  appError: selectAppError(),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
