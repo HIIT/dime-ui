@@ -8,7 +8,7 @@ import { SAVE_LOCATION_BEFORE_SIGN_IN } from 'containers/RequiresAuth/constants'
 
 // The initial state of the App
 
-let initialState = fromJS({
+const initialState = fromJS({
   API: {
     url: `${window.location.hostname}:${window.location.port}`,
   },
@@ -21,22 +21,7 @@ let initialState = fromJS({
   error: {},
 });
 
-if (process.env.NODE_ENV !== 'production') {
-  initialState = fromJS({
-    API: {
-      url: 'localhost:8080',
-    },
-    auth: {
-      token: undefined, // window.btoa('testuser:testuser123')
-      rememberMe: undefined,
-      username: undefined,
-      locationBeforeSignIn: undefined,
-    },
-    error: {},
-  });
-}
-
-function appReducer(state = initialState, action) {
+function appReducer(state = (process.env.NODE_ENV !== 'production' ? initialState.setIn(['API', 'url'], 'localhost:8080') : initialState), action) {
   switch (action.type) {
     case SAVE_CREDENTIALS:
       return state
