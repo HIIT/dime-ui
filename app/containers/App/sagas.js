@@ -42,7 +42,10 @@ export function* cleanUpLocalStorage() {
 }
 
 export function* receiveAppError({ error }) {
-  const response = yield error.response.json();
+  let response = {};
+  if (error.response.json) {
+    response = yield error.response.json();
+  }
   yield put(showError(Object.assign(error, response)));
 }
 
