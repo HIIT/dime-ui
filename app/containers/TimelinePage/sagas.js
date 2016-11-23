@@ -4,11 +4,10 @@ import { LOCATION_CHANGE } from 'react-router-redux';
 import { LOAD_EVENTS, LOAD_DOCUMENTS } from './constants';
 import request from 'utils/request';
 import { selectAuth, selectAPI } from './selectors';
+import { receiveAppError } from 'containers/App/actions';
 import {
   eventsLoaded,
-  eventsLoadingError,
   documentsLoaded,
-  documentsLoadingError,
 } from './actions';
 
 // Load Event Sage
@@ -33,7 +32,7 @@ export function* getEvents(action) {
       yield put(eventsLoaded(respond));
     }
   } catch (error) {
-    yield put(eventsLoadingError(error));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -69,7 +68,7 @@ export function* getDocuments(action) {
       yield put(documentsLoaded(respond));
     }
   } catch (error) {
-    yield put(documentsLoadingError(error));
+    yield put(receiveAppError(error));
   }
 }
 
