@@ -13,26 +13,18 @@ import {
   ENTITY_STATE_TOGGLE,
 } from './constants';
 import request from 'utils/request';
+import { receiveAppError } from 'containers/App/actions';
 import { selectAuth, selectAPI } from './selectors';
 import {
   profilesLoaded,
-  profilesLoadingError,
   searchProfileLoaded,
-  searchProfileError,
   deleteProfileSuccess,
-  deleteProfileError,
   createProfileSuccess,
-  createProfileError,
   saveProfileNameSuccess,
-  saveProfileNameError,
   addTagToProfileSuccess,
-  addTagToProfileError,
   deleteTagFromProfileSuccess,
-  deleteTagFromProfileError,
   deleteEntityFromProfileSuccess,
-  deleteEntityFromProfileError,
   entityStateToggleScuess,
-  entityStateToggleError,
 } from './actions';
 
 // Init ProfileList Sage (Load Profile Sage)
@@ -53,7 +45,7 @@ export function* getProfiles() {
       yield put(profilesLoaded(respond));
     }
   } catch (error) {
-    yield put(profilesLoadingError(error));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -76,7 +68,7 @@ export function* searchProfile(action) {
       yield put(searchProfileLoaded(keyword.length > 0 ? respond.docs : respond));
     }
   } catch (error) {
-    yield put(searchProfileError(error));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -105,7 +97,7 @@ export function* createProfile(action) {
       yield put(createProfileSuccess(respond, action.profileID));
     }
   } catch (error) {
-    yield put(createProfileError(error, action.profileID));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -133,7 +125,7 @@ export function* saveProfileName(action) {
       yield put(saveProfileNameSuccess(respond, action.name, action.profileID));
     }
   } catch (error) {
-    yield put(saveProfileNameError(error, action.name, action.profileID));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -155,7 +147,7 @@ export function* deleteProfile(action) {
       yield put(deleteProfileSuccess(respond, action.profileID));
     }
   } catch (error) {
-    yield put(deleteProfileError(error, action.profileID));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -177,7 +169,7 @@ export function* addTagToProfile(action) {
       yield put(addTagToProfileSuccess(respond, action.profileID));
     }
   } catch (error) {
-    yield put(addTagToProfileError(error, action.profileID));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -197,7 +189,7 @@ export function* deleteTagFromProfile(action) {
       yield put(deleteTagFromProfileSuccess(respond, action.tag.id, action.profileID));
     }
   } catch (error) {
-    yield put(deleteTagFromProfileError(error, action.tag.id, action.profileID));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -218,7 +210,7 @@ export function* deleteEntityFromProfile(action) {
       yield put(deleteEntityFromProfileSuccess(respond, entityID, entityType, profileID));
     }
   } catch (error) {
-    yield put(deleteEntityFromProfileError(error, entityID, entityType, profileID));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -265,11 +257,11 @@ export function* entityStateToggle(action) {
           yield put(entityStateToggleScuess(addEntityBackToProfileRespond, entity.id, preEntityType, afterEntitytype, profileID));
         }
       } catch (error) {
-        yield put(entityStateToggleError(error));
+        yield put(receiveAppError(error));
       }
     }
   } catch (error) {
-    yield put(entityStateToggleError(error));
+    yield put(receiveAppError(error));
   }
 }
 

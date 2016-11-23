@@ -6,20 +6,15 @@ import {
   LOAD_PROFILES, ADD_EVENT_TO_PROFILE,
  } from './constants';
 import request from 'utils/request';
+import { receiveAppError } from 'containers/App/actions';
 import { selectAuth, selectAPI } from './selectors';
 import {
   eventsLoaded,
-  eventsLoadingError,
   searchEventLoaded,
-  searchEventError,
   deleteEventSucess,
-  deleteEventError,
   toogleEventTagScuess,
-  toogleEventTagError,
   profilesLoaded,
-  profilesLoadingError,
   addEventToProfileSucess,
-  addEventToProfileError,
 } from './actions';
 
 // Init EventList Sage (Load Event Sage)
@@ -43,7 +38,7 @@ export function* getEvents(action) {
       yield put(eventsLoaded(respond));
     }
   } catch (error) {
-    yield put(eventsLoadingError(error));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -66,7 +61,7 @@ export function* searchEvent(action) {
       yield put(searchEventLoaded(keyword.length > 0 ? respond.docs : respond));
     }
   } catch (error) {
-    yield put(searchEventError(error));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -88,7 +83,7 @@ export function* deleteEvent(action) {
       yield put(deleteEventSucess(respond, action.eventID));
     }
   } catch (error) {
-    yield put(deleteEventError(error, action.eventID));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -131,11 +126,11 @@ export function* toogleEventTagAutoLabel(action) {
           yield put(toogleEventTagScuess(addTagRespond, tag, eventID));
         }
       } catch (error) {
-        yield put(toogleEventTagError(error));
+        yield put(receiveAppError(error));
       }
     }
   } catch (error) {
-    yield put(toogleEventTagError(error));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -157,7 +152,7 @@ export function* getProfiles() {
       yield put(profilesLoaded(respond));
     }
   } catch (error) {
-    yield put(profilesLoadingError(error));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -185,7 +180,7 @@ export function* addToProfile(action) {
       yield put(addEventToProfileSucess(addToProfieRespond, profileID));
     }
   } catch (error) {
-    yield put(addEventToProfileError(error, profileID));
+    yield put(receiveAppError(error));
   }
 }
 

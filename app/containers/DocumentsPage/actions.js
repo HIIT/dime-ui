@@ -8,27 +8,20 @@ import {
  LOAD_DOCUMENTS,
  LOAD_MORE_DOCUMENTS,
  LOAD_DOCUMENTS_SUCCESS,
- LOAD_DOCUMENTS_ERROR,
  SEARCH_DOCUMENTS,
  SEARCH_DOCUMENTS_SUCCESS,
- SEARCH_DOCUMENTS_ERROR,
  CLICK_DOCUMENT_CARD,
  DELETE_DOCUMENT,
  DELETE_DOCUMENT_SUCESS,
- DELETE_DOCUMENT_ERROR,
  CLICK_DOCUMENT_TAG,
  REMOVE_DOCUMENT_TAG_SUCESS,
  TOOGLE_DOCUMENT_TAG_SUCESS,
- TOOGLE_DOCUMENT_TAG_ERROR,
  LOAD_PROFILES,
  LOAD_PROFILES_SUCCESS,
- LOAD_PROFILES_ERROR,
  ADD_DOCUMENT_TO_PROFILE,
  ADD_DOCUMENT_TO_PROFILE_SUCCESS,
- ADD_DOCUMENT_TO_PROFILE_ERROR,
  REMOVE_DOCUMENT_FROM_PROFILE,
  REMOVE_DOCUMENT_FROM_PROFILE_SUCCESS,
- REMOVE_DOCUMENT_FROM_PROFILE_ERROR,
 } from './constants';
 
 export function loadDocuments() {
@@ -51,13 +44,6 @@ export function documentsLoaded(documents) {
   };
 }
 
-export function documentsLoadingError(error) {
-  return {
-    type: LOAD_DOCUMENTS_ERROR,
-    error,
-  };
-}
-
 /*
 *
 * Search actions
@@ -77,13 +63,6 @@ export function searchDocumentLoaded(documents) {
   };
 }
 
-export function searchDocumentError(error) {
-  return {
-    type: SEARCH_DOCUMENTS_ERROR,
-    error,
-  };
-}
-
 /*
 *
 * DocumentCard actions
@@ -100,14 +79,6 @@ export function clickOnDocumentCard(document) {
 export function deleteDocument(documentID) {
   return {
     type: DELETE_DOCUMENT,
-    documentID,
-  };
-}
-
-export function deleteDocumentError(error, documentID) {
-  return {
-    type: DELETE_DOCUMENT_ERROR,
-    error,
     documentID,
   };
 }
@@ -152,13 +123,6 @@ export function toogleDocumentTagScuess(respond, tag, documentID) {
   };
 }
 
-export function toogleDocumentTagError(error) {
-  return {
-    type: TOOGLE_DOCUMENT_TAG_ERROR,
-    error,
-  };
-}
-
 /*
 *
 * Documents Profiles Actions
@@ -178,13 +142,6 @@ export function profilesLoaded(profiles) {
   };
 }
 
-export function profilesLoadingError(error) {
-  return {
-    type: LOAD_PROFILES_ERROR,
-    error,
-  };
-}
-
 export function addDocumentToProfile(document, profileID) {
   return {
     type: ADD_DOCUMENT_TO_PROFILE,
@@ -196,14 +153,6 @@ export function addDocumentToProfile(document, profileID) {
 export function addDocumentToProfileSucess(respond, profileID) {
   return {
     type: ADD_DOCUMENT_TO_PROFILE_SUCCESS,
-    profileID,
-  };
-}
-
-export function addDocumentToProfileError(error, profileID) {
-  return {
-    type: ADD_DOCUMENT_TO_PROFILE_ERROR,
-    error,
     profileID,
   };
 }
@@ -220,14 +169,6 @@ export function removeDocumentFromProfileSucess(respond, profileID) {
   return {
     type: REMOVE_DOCUMENT_FROM_PROFILE_SUCCESS,
     document,
-    profileID,
-  };
-}
-
-export function removeDocumentFromProfileError(error, profileID) {
-  return {
-    type: REMOVE_DOCUMENT_FROM_PROFILE_ERROR,
-    error,
     profileID,
   };
 }

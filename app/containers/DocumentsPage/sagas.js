@@ -6,20 +6,15 @@ import {
   LOAD_PROFILES, ADD_DOCUMENT_TO_PROFILE,
 } from './constants';
 import request from 'utils/request';
+import { receiveAppError } from 'containers/App/actions';
 import { selectAuth, selectAPI } from './selectors';
 import {
   documentsLoaded,
-  documentsLoadingError,
   searchDocumentLoaded,
-  searchDocumentError,
   deleteDocumentSucess,
-  deleteDocumentError,
   toogleDocumentTagScuess,
-  toogleDocumentTagError,
   profilesLoaded,
-  profilesLoadingError,
   addDocumentToProfileSucess,
-  addDocumentToProfileError,
 } from './actions';
 
 // Init DocumentList Sage (Load Document Sage)
@@ -43,7 +38,7 @@ export function* getDocuments(action) {
       yield put(documentsLoaded(respond));
     }
   } catch (error) {
-    yield put(documentsLoadingError(error));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -66,7 +61,7 @@ export function* searchDocument(action) {
       yield put(searchDocumentLoaded(keyword.length > 0 ? respond.docs : respond));
     }
   } catch (error) {
-    yield put(searchDocumentError(error));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -94,7 +89,7 @@ export function* deleteDocument(action) {
       yield put(deleteDocumentSucess(respond, action.documentID));
     }
   } catch (error) {
-    yield put(deleteDocumentError(error, action.documentID));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -137,11 +132,11 @@ export function* toogleDocumentTagAutoLabel(action) {
           yield put(toogleDocumentTagScuess(addTagRespond, tag, documentID));
         }
       } catch (error) {
-        yield put(toogleDocumentTagError(error));
+        yield put(receiveAppError(error));
       }
     }
   } catch (error) {
-    yield put(toogleDocumentTagError(error));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -163,7 +158,7 @@ export function* getProfiles() {
       yield put(profilesLoaded(respond));
     }
   } catch (error) {
-    yield put(profilesLoadingError(error));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -191,7 +186,7 @@ export function* addToProfile(action) {
       yield put(addDocumentToProfileSucess(respond, profileID));
     }
   } catch (error) {
-    yield put(addDocumentToProfileError(error, profileID));
+    yield put(receiveAppError(error));
   }
 }
 

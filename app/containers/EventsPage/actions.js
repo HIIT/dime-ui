@@ -14,26 +14,19 @@ import {
   LOAD_EVENTS,
   LOAD_MORE_EVENTS,
   LOAD_EVENTS_SUCCESS,
-  LOAD_EVENTS_ERROR,
   SEARCH_EVENTS,
   SEARCH_EVENTS_SUCCESS,
-  SEARCH_EVENTS_ERROR,
   CLICK_EVENT_CARD,
   DELETE_EVENT,
   DELETE_EVENT_SUCESS,
-  DELETE_EVENT_ERROR,
   CLICK_EVENT_TAG,
   TOOGLE_EVENT_TAG_SUCESS,
-  TOOGLE_EVENT_TAG_ERROR,
   LOAD_PROFILES,
   LOAD_PROFILES_SUCCESS,
-  LOAD_PROFILES_ERROR,
   ADD_EVENT_TO_PROFILE,
   ADD_EVENT_TO_PROFILE_SUCCESS,
-  ADD_EVENT_TO_PROFILE_ERROR,
   REMOVE_EVENT_FROM_PROFILE,
   REMOVE_EVENT_FROM_PROFILE_SUCCESS,
-  REMOVE_EVENT_FROM_PROFILE_ERROR,
 } from './constants';
 
 export function loadEvents() {
@@ -56,13 +49,6 @@ export function eventsLoaded(events) {
   };
 }
 
-export function eventsLoadingError(error) {
-  return {
-    type: LOAD_EVENTS_ERROR,
-    error,
-  };
-}
-
 /*
  *
  * Search actions
@@ -82,13 +68,6 @@ export function searchEventLoaded(events) { // DiMe EventSearch will return docu
   };
 }
 
-export function searchEventError(error) {
-  return {
-    type: SEARCH_EVENTS_ERROR,
-    error,
-  };
-}
-
 /*
  *
  * EventCard actions
@@ -105,14 +84,6 @@ export function clickOnEventCard(event) {
 export function deleteEvent(eventID) {
   return {
     type: DELETE_EVENT,
-    eventID,
-  };
-}
-
-export function deleteEventError(error, eventID) {
-  return {
-    type: DELETE_EVENT_ERROR,
-    error,
     eventID,
   };
 }
@@ -148,13 +119,6 @@ export function toogleEventTagScuess(respond, tag, eventID) {
   };
 }
 
-export function toogleEventTagError(error) {
-  return {
-    type: TOOGLE_EVENT_TAG_ERROR,
-    error,
-  };
-}
-
 /*
  *
  * Documents Profiles Actions
@@ -174,13 +138,6 @@ export function profilesLoaded(profiles) {
   };
 }
 
-export function profilesLoadingError(error) {
-  return {
-    type: LOAD_PROFILES_ERROR,
-    error,
-  };
-}
-
 export function addEventToProfile(event, profileID) {
   return {
     type: ADD_EVENT_TO_PROFILE,
@@ -192,14 +149,6 @@ export function addEventToProfile(event, profileID) {
 export function addEventToProfileSucess(respond, profileID) {
   return {
     type: ADD_EVENT_TO_PROFILE_SUCCESS,
-    profileID,
-  };
-}
-
-export function addEventToProfileError(error, profileID) {
-  return {
-    type: ADD_EVENT_TO_PROFILE_ERROR,
-    error,
     profileID,
   };
 }
@@ -216,14 +165,6 @@ export function removeEventFromProfileSucess(respond, profileID) {
   return {
     type: REMOVE_EVENT_FROM_PROFILE_SUCCESS,
     event,
-    profileID,
-  };
-}
-
-export function removeEventFromProfileError(error, profileID) {
-  return {
-    type: REMOVE_EVENT_FROM_PROFILE_ERROR,
-    error,
     profileID,
   };
 }
