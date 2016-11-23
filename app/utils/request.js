@@ -8,7 +8,7 @@ import 'whatwg-fetch';
  */
 function parseJSON(response) {
   if (response.status === 204) {
-    return {};
+    return {}; // fore DELETE API that return null;
   }
   return response.json();
 }
