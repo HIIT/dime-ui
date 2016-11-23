@@ -4,12 +4,10 @@ import { browserHistory } from 'react-router';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import request from 'utils/request';
 import { SUBMIT_SIGNIN, SUBMIT_CREATE } from './constants';
-import { saveCredentials } from 'containers/App/actions';
+import { saveCredentials, receiveAppError } from 'containers/App/actions';
 import {
   signInSucess,
-  signInError,
   createSucess,
-  createError,
   submitSignIn as submitSignInAction,
 } from './actions';
 import { selectAPI, selectLocationBeforeSignIn } from './selecters';
@@ -37,14 +35,15 @@ export function* submitSignIn({ username, password, rememberMe }) {
       }
     }
   } catch (e) {
-    // This is an ugly fix should be avoided. It was intend to disaply corret(but fake) info 401 for the user but currently /api/ping does not return corrent response.
+    // This is an ugly fix should be avoided. It was intend to fake 401 Error
+    // since /api/ping does not return readable response.
     const fakeResponse = {
       status: 401,
       statusText: 'Unauthorized',
     };
     const error = new Error(fakeResponse.statusText);
     error.response = fakeResponse;
-    yield put(signInError(error));
+    yield put(receiveAppError(error));
   }
 }
 
@@ -67,7 +66,7 @@ export function* submitCreate({ username, password, email, rememberMe }) {
     yield put(createSucess(respond));
     yield put(submitSignInAction(username, password, rememberMe));
   } catch (error) {
-    yield put(createError(error));
+    yield put(receiveAppError(error));
   }
 }
 
