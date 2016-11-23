@@ -156,15 +156,16 @@ export default function createRoutes(store) {
 
         const importModules = Promise.all([
           System.import('containers/SignInPage/reducer'),
+          System.import('containers/App/sagas'),
           System.import('containers/SignInPage/sagas'),
           System.import('containers/SignInPage'),
         ]);
 
         const renderRoute = loadModule(cb);
 
-        importModules.then(([reducer, sagas, component]) => {
+        importModules.then(([reducer, appSagas, sagas, component]) => {
           injectReducer('signInPage', reducer.default);
-          injectSagas(sagas.default);
+          injectSagas([...appSagas.default, ...sagas.default]);
           renderRoute(component);
         });
 
