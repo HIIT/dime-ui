@@ -84,22 +84,24 @@ export class ProfilesTab extends React.Component { // eslint-disable-line react/
               {this.renderCreateNewProfilePanel()}
             </Col>
             <Col xs={10}>
-              <Tabs
-                tabItemContainerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.035)' }}
-                inkBarStyle={{ backgroundColor: 'rgba(0, 255, 180, 0.7)' }}
-              >
-                {
-                  this.props.profiles.map((profile) =>
-                    <Tab
-                      key={profile.id}
-                      label={profile.name}
-                      style={{ color: 'rgba(0, 0, 0, 0.75)' }}
-                    >
-                      {this.renderProfile(profile)}
-                    </Tab>
-                  )
-                }
-              </Tabs>
+              {this.props.profiles.length > 0 ?
+                <Tabs
+                  tabItemContainerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.035)' }}
+                  inkBarStyle={{ backgroundColor: 'rgba(0, 255, 180, 0.7)' }}
+                >
+                  {
+                    this.props.profiles.map((profile) =>
+                      <Tab
+                        key={profile.id}
+                        label={profile.name}
+                        style={{ color: 'rgba(0, 0, 0, 0.75)' }}
+                      >
+                        {this.renderProfile(profile)}
+                      </Tab>
+                    )
+                  }
+                </Tabs>
+              : null }
             </Col>
           </Row>
         </Grid>
