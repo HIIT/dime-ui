@@ -6,7 +6,6 @@
 
 import { fromJS } from 'immutable';
 import unionBy from 'lodash/unionBy';
-import { LOCATION_CHANGE } from 'react-router-redux';
 import {
   LOAD_EVENTS,
   LOAD_MORE_EVENTS,
@@ -86,9 +85,6 @@ function eventsPageReducer(state = initialState, action) {
       return state.set('loading', true);
     case ADD_EVENT_TO_PROFILE_SUCCESS:
       return state.set('loading', false);
-    case LOCATION_CHANGE:
-      return state
-        .set('error', {});
     default:
       return state;
   }
