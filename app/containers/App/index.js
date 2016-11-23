@@ -86,10 +86,10 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
           {React.Children.toArray(this.props.children)}
           {appError.response ?
             <Snackbar
-              style={{ left: '57%' }}
+              style={{ left: '50%' }}
               bodyStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
               open={hasError}
-              message={`HTTP Status Code ${appError.status ? appError.status : 'unknown'}: ${appError.message ? appError.message : get(appError, ['response', 'statusText'])}`}
+              message={`HTTP Status Code ${appError.status ? appError.status : get(appError, ['response', 'status'])}: ${appError.message ? appError.message : get(appError, ['response', 'statusText'])}`}
             />
           : null}
         </div>
