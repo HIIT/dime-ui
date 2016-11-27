@@ -12,6 +12,8 @@ import {
   RECEIVE_APP_ERROR,
   SHOW_APP_ERROR,
   CLEAR_APP_ERROR,
+  CLICK_ON_SEND_TO_LEADERBOARD,
+  SEND_TO_LEADER_BOARD_SUCCESS,
 } from './constants';
 
 export function saveCredentials(username, password, rememberMe) {
@@ -59,5 +61,18 @@ export function showError(error) {
 export function clearAppError() {
   return {
     type: CLEAR_APP_ERROR,
+  };
+}
+
+export function clickOnSendToLeaderBoard() {
+  return {
+    type: CLICK_ON_SEND_TO_LEADERBOARD,
+  };
+}
+
+export function sendtoLeaderSuccess(respond) {
+  return {
+    type: SEND_TO_LEADER_BOARD_SUCCESS,
+    respond,
   };
 }

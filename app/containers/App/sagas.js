@@ -1,9 +1,32 @@
-import { take, call, put, fork, cancel } from 'redux-saga/effects';
+import { take, call, put, fork, cancel, select } from 'redux-saga/effects';
 import { takeLatest, throttle } from 'redux-saga';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { browserHistory } from 'react-router';
-import { CLEAR_CREDENTIALS, RECEIVE_APP_ERROR } from './constants';
-import { cleanUpLocalStorageSuccess, cleanUpLocalStorageError, showError } from './actions';
+import request from 'utils/request';
+import { CLEAR_CREDENTIALS, RECEIVE_APP_ERROR, CLICK_ON_SEND_TO_LEADERBOARD } from './constants';
+import { cleanUpLocalStorageSuccess, cleanUpLocalStorageError, showError, sendtoLeaderSuccess, clearAppError } from './actions';
+import { selectAuthDomain, selectAPI } from './selectors';
+
+export function* sendtoLeaderBoard() {
+  const { token } = yield select(selectAuthDomain());
+  const { url } = yield select(selectAPI());
+  const requestURL = `http://${url}/api/updateleaderboard`;
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${token}`,
+    },
+  };
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(sendtoLeaderSuccess(respond));
+      yield put(clearAppError());
+    }
+  } catch (error) {
+    yield put(receiveAppError(error));
+  }
+}
 
 function removeState() {
   try {
@@ -69,5 +92,6 @@ export function cancelByLocationChangeWithThrottle(watchingConstant, func, sec) 
 // All sagas to be loaded
 export default [
   cancelByLocationChange(CLEAR_CREDENTIALS, cleanUpLocalStorage),
+  cancelByLocationChange(CLICK_ON_SEND_TO_LEADERBOARD, sendtoLeaderBoard),
   cancelByLocationChange(RECEIVE_APP_ERROR, receiveAppError),
 ];

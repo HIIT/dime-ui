@@ -16,8 +16,10 @@ const selectLocationState = () => {
 };
 
 const selectAuthDomain = () => state => state.getIn(['app', 'auth']).toJS();
-const selectAPI = () => state => state.getIn(['app', 'API', 'url']);
+const selectAPI = () => state => state.getIn(['app', 'API']).toJS();
 
+const selectAppLoading = () => state => state.getIn(['app', 'loading']);
+const selectEventCount = () => state => state.getIn(['app', 'eventCount']);
 const selectDocumentsPageLoading = () => state => state.getIn(['eventsPage', 'loading']);
 const selectEventsPageLoading = () => state => state.getIn(['documentsPage', 'loading']);
 const selectProfilesPageLoading = () => state => state.getIn(['profilesPage', 'loading']);
@@ -31,6 +33,8 @@ export {
   selectLocationState,
   selectAuthDomain,
   selectAPI,
+  selectAppLoading,
+  selectEventCount,
   selectDocumentsPageLoading,
   selectEventsPageLoading,
   selectProfilesPageLoading,

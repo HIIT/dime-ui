@@ -20,7 +20,8 @@ import ProgressBar from 'react-progress-bar-plus';
 import 'react-progress-bar-plus/lib/progress-bar.css';
 import {
   selectAuthDomain,
-  selectAPI,
+  selectAppLoading,
+  selectEventCount,
   selectDocumentsPageLoading,
   selectEventsPageLoading,
   selectProfilesPageLoading,
@@ -28,16 +29,17 @@ import {
   selectSignInPageLoading,
   selectAppError,
 } from './selectors';
-import { clearCredentials } from './actions';
+import { clearCredentials, clickOnSendToLeaderBoard } from './actions';
 import { createStructuredSelector } from 'reselect';
 
 class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     children: React.PropTypes.node,
     auth: React.PropTypes.object,
-    API: React.PropTypes.string,
     changeRoute: React.PropTypes.func,
     location: React.PropTypes.object,
+    appLoading: React.PropTypes.bool,
+    eventCount: React.PropTypes.number,
     documentsPageLoading: React.PropTypes.bool,
     eventsPageLoading: React.PropTypes.bool,
     profilesPageLoading: React.PropTypes.bool,
@@ -45,29 +47,13 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     signInPageLoading: React.PropTypes.bool,
     appError: React.PropTypes.object,
     clearCredentials: React.PropTypes.func,
+    clickOnSendToLeaderBoard: React.PropTypes.func,
   }
   clickOnAccountIcon = () => {
     this.props.clearCredentials();
   }
-  clickOnSendToLeaderboard = () => {
-    const options = {
-      method: 'POST',
-      headers: {
-        Authorization: `Basic ${this.props.auth.token}`,
-      },
-    };
-    function checkStatus(response) {
-      if (response.status >= 200 && response.status < 300) {
-        return;
-      }
-      const error = new Error(response.statusText);
-      error.response = response;
-      throw error;
-    }
-    fetch(`http://${this.props.API}/api/updateleaderboard`, options).then(checkStatus);
-  }
   render() {
-    const { documentsPageLoading, eventsPageLoading, profilesPageLoading, timelinePageLoading, signInPageLoading } = this.props;
+    const { documentsPageLoading, appLoading, eventsPageLoading, profilesPageLoading, timelinePageLoading, signInPageLoading } = this.props;
     const { appError } = this.props;
     const hasError = !(Object.keys(appError).length === 0 && appError.constructor === Object);
     return (
@@ -78,10 +64,11 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
             auth={this.props.auth}
             pathName={this.props.location.pathname}
             clickOnAccountIcon={this.clickOnAccountIcon}
-            clickOnSendToLeaderboard={this.clickOnSendToLeaderboard}
+            clickOnSendToLeaderboard={this.props.clickOnSendToLeaderBoard}
+            eventCount={this.props.eventCount}
           />
           <div style={{ opacity: 0.65 }}>
-            <ProgressBar intervalTime={40} autoIncrement percent={(documentsPageLoading || eventsPageLoading || profilesPageLoading || timelinePageLoading || signInPageLoading) === true ? 30 : 100} />
+            <ProgressBar intervalTime={40} autoIncrement percent={(appLoading || documentsPageLoading || eventsPageLoading || profilesPageLoading || timelinePageLoading || signInPageLoading) === true ? 30 : 100} />
           </div>
           {React.Children.toArray(this.props.children)}
           {appError.response ?
@@ -102,11 +89,13 @@ function mapDispatchToProps(dispatch) {
   return {
     changeRoute: (url) => dispatch(push(url)),
     clearCredentials: bindActionCreators(clearCredentials, dispatch),
+    clickOnSendToLeaderBoard: bindActionCreators(clickOnSendToLeaderBoard, dispatch),
   };
 }
 const mapStateToProps = createStructuredSelector({
   auth: selectAuthDomain(),
-  API: selectAPI(),
+  appLoading: selectAppLoading(),
+  eventCount: selectEventCount(),
   documentsPageLoading: selectDocumentsPageLoading(),
   eventsPageLoading: selectEventsPageLoading(),
   profilesPageLoading: selectProfilesPageLoading(),

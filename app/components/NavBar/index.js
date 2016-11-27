@@ -19,6 +19,7 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
     auth: React.PropTypes.object,
     changeRoute: React.PropTypes.func,
     pathName: React.PropTypes.string,
+    eventCount: React.PropTypes.number,
     clickOnAccountIcon: React.PropTypes.func,
     clickOnSendToLeaderboard: React.PropTypes.func,
   };
@@ -33,7 +34,7 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
           { this.props.pathName === '/signin' ? null :
             <div className={styles.navBarSendToLeaderboardWrapper}>
               <IconButton
-                tooltip="Send to Leaderboard"
+                tooltip={this.props.eventCount === 0 ? 'Send to Leaderboard' : `${this.props.eventCount} Counts`}
                 onClick={this.props.clickOnSendToLeaderboard}
               >
                 <CloudCircle
