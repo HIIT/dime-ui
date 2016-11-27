@@ -26,7 +26,9 @@ function checkStatus(response) {
   }
   if (response.status === 500) {
     const error = new Error(response.statusText);
-    error.response = {};
+    error.response = {
+      status: response.status,
+    };
     throw error;
   }
   const error = new Error(response.statusText);
