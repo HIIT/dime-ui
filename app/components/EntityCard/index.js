@@ -70,6 +70,10 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
     mouseEvent.preventDefault();
     this.props.addToProfile(entity, profileID);
   }
+  openInNewTab(url) {
+    const win = window.open(url, '_blank');
+    win.focus();
+  }
   rednerAbstract(entity) {
     if (entity.targettedResource || entity.plainTextContent) {
       const plainTextContent = entity.targettedResource ? entity.targettedResource.plainTextContent : entity.plainTextContent;
@@ -79,31 +83,41 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
     }
     return null;
   }
-  renderEntityCardHeader = (entity) => {
+  renderTitle = (entity) => {
     const title = entity.targettedResource ? entity.targettedResource.title : entity.title;
     return (
-      <CardHeader
-        title={title || entity.type.substring(entity.type.indexOf('#') + 1, entity.type.length || entity['@type'])}
+      <a
+        href={entity.targettedResource ? entity.targettedResource.uri : entity.uri}
+        target="_blank"
+        className={styles.entityTitleLink}
       >
-        <div
-          className={styles.cardHeaderInfoWrapper}
-        >
-          <span>
-            Type {this.renderType(entity.type)} Actor {this.renderActor(entity.actor)} <br />
-          </span>
-        </div>
-        <div
-          className={styles.cardHeaderDeleteWrapper}
-        >
-          <ActionDelete
-            color={grey300}
-            hoverColor={red400}
-            onClick={(mouseEvent) => { this.handleClickOnDelete(entity, mouseEvent); }}
-          />
-        </div>
-      </CardHeader>
+        <span className={styles.entityTitle}>
+          {title || entity.type.substring(entity.type.indexOf('#') + 1, entity.type.length || entity['@type'])}
+        </span>
+      </a>
     );
   }
+  renderEntityCardHeader = (entity) =>
+    <CardHeader
+      title={this.renderTitle(entity)}
+    >
+      <div
+        className={styles.cardHeaderInfoWrapper}
+      >
+        <span>
+          Type {this.renderType(entity.type)} Actor {this.renderActor(entity.actor)} <br />
+        </span>
+      </div>
+      <div
+        className={styles.cardHeaderDeleteWrapper}
+      >
+        <ActionDelete
+          color={grey300}
+          hoverColor={red400}
+          onClick={(mouseEvent) => { this.handleClickOnDelete(entity, mouseEvent); }}
+        />
+      </div>
+    </CardHeader>
   renderJSONViewer = (entity) =>
     <Tabs
       tabItemContainerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.02)' }}
