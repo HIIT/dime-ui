@@ -66,6 +66,15 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
     mouseEvent.preventDefault();
     this.props.addToProfile(entity, profileID);
   }
+  rednerAbstract(entity) {
+    if (entity.targettedResource || entity.plainTextContent) {
+      const plainTextContent = entity.targettedResource ? entity.targettedResource.plainTextContent : entity.plainTextContent;
+      return (
+        <p>{plainTextContent.substring(0, 300)}</p>
+      );
+    }
+    return null;
+  }
   renderEntityCardHeader = (entity) => {
     const title = entity.targettedResource ? entity.targettedResource.title : entity.title;
     return (
@@ -93,10 +102,11 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
   }
   renderEntityCardBody = (entity) =>
     <div className={styles.entityBodyWrapper} >
-      {this.renderTagsList(entity)}
       <CardText
         expandable
       >
+        {this.renderTagsList(entity)}
+        {this.rednerAbstract(entity)}
         <Tabs
           tabItemContainerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.02)' }}
           inkBarStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
@@ -199,6 +209,9 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
   renderTagsList = (entity) => {
     const notAutoTags = entity.tags.filter((tag) => !tag.auto);
     const autoTags = entity.tags.filter((tag) => tag.auto);
+    if (entity.tags.length <= 0) {
+      return null;
+    }
     return (
       <div
         className={styles.entityTagsListWrapper}
