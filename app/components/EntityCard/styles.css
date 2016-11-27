@@ -18,13 +18,14 @@
 .entityTitleLink:visited {
   color: rgba(0, 0, 0, 0.75);
   text-decoration: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0);
   transition: 0.3s;
 }
 
 .entityTitleLink:hover {
   color: rgba(0, 0, 90, 0.75);
   cursor: pointer;
-  border-bottom: 1px solid rgba(0, 0, 220, 0.75);
+  border-bottom: 1px solid rgba(0, 0, 220, 0.45);
 }
 
 .entityType {
