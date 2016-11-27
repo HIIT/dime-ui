@@ -1,12 +1,11 @@
-import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
-import { takeLatest } from 'redux-saga';
-import { LOCATION_CHANGE } from 'react-router-redux';
+import { call, put, select } from 'redux-saga/effects';
 import {
   LOAD_EVENTS, LOAD_MORE_EVENTS, SEARCH_EVENTS, CLICK_EVENT_TAG, DELETE_EVENT,
   LOAD_PROFILES, ADD_EVENT_TO_PROFILE,
  } from './constants';
 import request from 'utils/request';
-import { receiveAppError } from 'containers/App/actions';
+import { receiveAppError, clearAppError } from 'containers/App/actions';
+import { cancelByLocationChange } from 'containers/App/sagas';
 import { selectAuth, selectAPI } from './selectors';
 import {
   eventsLoaded,
@@ -36,6 +35,7 @@ export function* getEvents(action) {
     const respond = yield call(request, requestURL, options);
     if (respond) {
       yield put(eventsLoaded(respond));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
@@ -59,6 +59,7 @@ export function* searchEvent(action) {
     const respond = yield call(request, requestURL, options);
     if (respond) {
       yield put(searchEventLoaded(keyword.length > 0 ? respond.docs : respond));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
@@ -81,6 +82,7 @@ export function* deleteEvent(action) {
     const respond = yield call(request, requestURL, options);
     if (respond) {
       yield put(deleteEventSucess(respond, action.eventID));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
@@ -124,6 +126,7 @@ export function* toogleEventTagAutoLabel(action) {
         const addTagRespond = yield call(request, addTagRequestURL, addTagRequestOptions);
         if (addTagRespond) {
           yield put(toogleEventTagScuess(addTagRespond, tag, eventID));
+          yield put(clearAppError());
         }
       } catch (error) {
         yield put(receiveAppError(error));
@@ -150,6 +153,7 @@ export function* getProfiles() {
     const respond = yield call(request, requestURL, options);
     if (respond) {
       yield put(profilesLoaded(respond));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
@@ -178,18 +182,11 @@ export function* addToProfile(action) {
     const addToProfieRespond = yield call(request, addToProfileRequestURL, addToProfileRequestOptions);
     if (addToProfieRespond) {
       yield put(addEventToProfileSucess(addToProfieRespond, profileID));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
   }
-}
-
-export function cancelByLocationChange(watchingConstant, func) {
-  return function* cancelByLocationChangeGenerater() {
-    const watcherFork = yield fork(takeLatest, watchingConstant, func);
-    yield take(LOCATION_CHANGE);
-    yield cancel(watcherFork);
-  };
 }
 
 // All sagas to be loaded

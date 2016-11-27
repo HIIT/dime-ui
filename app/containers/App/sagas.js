@@ -1,5 +1,5 @@
 import { take, call, put, fork, cancel } from 'redux-saga/effects';
-import { takeLatest } from 'redux-saga';
+import { takeLatest, throttle } from 'redux-saga';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 import { CLEAR_CREDENTIALS, RECEIVE_APP_ERROR } from './constants';
@@ -56,6 +56,15 @@ export function cancelByLocationChange(watchingConstant, func) {
     yield cancel(watcherFork);
   };
 }
+
+export function cancelByLocationChangeWithThrottle(watchingConstant, func, sec) {
+  return function* cancelByLocationChangeGenerater() {
+    const watcherFork = yield fork(throttle, sec, watchingConstant, func);
+    yield take(LOCATION_CHANGE);
+    yield cancel(watcherFork);
+  };
+}
+
 
 // All sagas to be loaded
 export default [

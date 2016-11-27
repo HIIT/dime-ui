@@ -21,7 +21,6 @@
    ADD_DOCUMENT_TO_PROFILE,
    ADD_DOCUMENT_TO_PROFILE_SUCCESS,
  } from './constants';
- import { RECEIVE_APP_ERROR } from 'containers/App/constants';
 
  const initialState = fromJS({
    loading: false,
@@ -49,9 +48,6 @@
        return state
          .set('data', fromJS(action.documents))
          .set('loading', false);
-     case RECEIVE_APP_ERROR:
-       return state
-         .set('data', fromJS([]));
      case DELETE_DOCUMENT:
        return state
          .set('loading', true);

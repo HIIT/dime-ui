@@ -21,7 +21,6 @@ import {
   ADD_EVENT_TO_PROFILE,
   ADD_EVENT_TO_PROFILE_SUCCESS,
 } from './constants';
-import { RECEIVE_APP_ERROR } from 'containers/App/constants';
 
 const initialState = fromJS({
   loading: false,
@@ -42,9 +41,6 @@ function eventsPageReducer(state = initialState, action) {
       return state
         .updateIn(['data'], data => fromJS(unionBy(data.toJS(), action.events, 'id')))
         .set('loading', false);
-    case RECEIVE_APP_ERROR:
-      return state
-        .set('data', fromJS([]));
     case SEARCH_EVENTS:
       return state
         .set('loading', true);

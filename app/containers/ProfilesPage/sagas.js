@@ -1,6 +1,4 @@
-import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
-import { takeLatest, throttle } from 'redux-saga';
-import { LOCATION_CHANGE } from 'react-router-redux';
+import { call, put, select } from 'redux-saga/effects';
 import {
   LOAD_PROFILES,
   CREATE_PROFILE,
@@ -13,7 +11,8 @@ import {
   ENTITY_STATE_TOGGLE,
 } from './constants';
 import request from 'utils/request';
-import { receiveAppError } from 'containers/App/actions';
+import { receiveAppError, clearAppError } from 'containers/App/actions';
+import { cancelByLocationChange, cancelByLocationChangeWithThrottle } from 'containers/App/sagas';
 import { selectAuth, selectAPI } from './selectors';
 import {
   profilesLoaded,
@@ -43,6 +42,7 @@ export function* getProfiles() {
     const respond = yield call(request, requestURL, options);
     if (respond) {
       yield put(profilesLoaded(respond));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
@@ -66,6 +66,7 @@ export function* searchProfile(action) {
     const respond = yield call(request, requestURL, options);
     if (respond) {
       yield put(searchProfileLoaded(keyword.length > 0 ? respond.docs : respond));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
@@ -95,6 +96,7 @@ export function* createProfile(action) {
     if (respond) {
       respond.editing = true;
       yield put(createProfileSuccess(respond, action.profileID));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
@@ -123,6 +125,7 @@ export function* saveProfileName(action) {
     const respond = yield call(request, requestURL, options);
     if (respond) {
       yield put(saveProfileNameSuccess(respond, action.name, action.profileID));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
@@ -145,6 +148,7 @@ export function* deleteProfile(action) {
     const respond = yield call(request, requestURL, options);
     if (respond) {
       yield put(deleteProfileSuccess(respond, action.profileID));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
@@ -167,6 +171,7 @@ export function* addTagToProfile(action) {
     const respond = yield call(request, requestURL, options);
     if (respond) {
       yield put(addTagToProfileSuccess(respond, action.profileID));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
@@ -187,6 +192,7 @@ export function* deleteTagFromProfile(action) {
     const respond = yield call(request, requestURL, options);
     if (respond) {
       yield put(deleteTagFromProfileSuccess(respond, action.tag.id, action.profileID));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
@@ -208,6 +214,7 @@ export function* deleteEntityFromProfile(action) {
     const respond = yield call(request, requestURL, options);
     if (respond) {
       yield put(deleteEntityFromProfileSuccess(respond, entityID, entityType, profileID));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
@@ -255,6 +262,7 @@ export function* entityStateToggle(action) {
         const addEntityBackToProfileRespond = yield call(request, addEntityBackToProfileRequestURL, addEntityBackToProfileOptions);
         if (addEntityBackToProfileRespond) {
           yield put(entityStateToggleScuess(addEntityBackToProfileRespond, entity.id, preEntityType, afterEntitytype, profileID));
+          yield put(clearAppError());
         }
       } catch (error) {
         yield put(receiveAppError(error));
@@ -264,23 +272,6 @@ export function* entityStateToggle(action) {
     yield put(receiveAppError(error));
   }
 }
-
-export function cancelByLocationChange(watchingConstant, func) {
-  return function* cancelByLocationChangeGenerater() {
-    const watcherFork = yield fork(takeLatest, watchingConstant, func);
-    yield take(LOCATION_CHANGE);
-    yield cancel(watcherFork);
-  };
-}
-
-export function cancelByLocationChangeWithThrottle(watchingConstant, func, sec) {
-  return function* cancelByLocationChangeGenerater() {
-    const watcherFork = yield fork(throttle, sec, watchingConstant, func);
-    yield take(LOCATION_CHANGE);
-    yield cancel(watcherFork);
-  };
-}
-
 
 // All sagas to be loaded
 export default [

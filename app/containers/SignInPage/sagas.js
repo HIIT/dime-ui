@@ -1,10 +1,9 @@
-import { put, call, select, take, fork, cancel } from 'redux-saga/effects';
-import { takeLatest } from 'redux-saga';
+import { put, call, select } from 'redux-saga/effects';
 import { browserHistory } from 'react-router';
-import { LOCATION_CHANGE } from 'react-router-redux';
 import request from 'utils/request';
 import { SUBMIT_SIGNIN, SUBMIT_CREATE } from './constants';
-import { saveCredentials, receiveAppError } from 'containers/App/actions';
+import { saveCredentials, receiveAppError, clearAppError } from 'containers/App/actions';
+import { cancelByLocationChange } from 'containers/App/sagas';
 import {
   signInSucess,
   createSucess,
@@ -28,6 +27,7 @@ export function* submitSignIn({ username, password, rememberMe }) {
     if (respond) {
       yield put(signInSucess(respond));
       yield put(saveCredentials(username, password, rememberMe, respond.userId));
+      yield put(clearAppError());
       if (previousLocation) {
         yield call(browserHistory.push, previousLocation);
       } else {
@@ -65,17 +65,10 @@ export function* submitCreate({ username, password, email, rememberMe }) {
     const respond = yield call(request, requestURL, options);
     yield put(createSucess(respond));
     yield put(submitSignInAction(username, password, rememberMe));
+    yield put(clearAppError());
   } catch (error) {
     yield put(receiveAppError(error));
   }
-}
-
-export function cancelByLocationChange(watchingConstant, func) {
-  return function* cancelByLocationChangeGenerater() {
-    const watcherFork = yield fork(takeLatest, watchingConstant, func);
-    yield take(LOCATION_CHANGE);
-    yield cancel(watcherFork);
-  };
 }
 
 // All sagas to be loaded

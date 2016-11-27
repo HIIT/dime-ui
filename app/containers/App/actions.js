@@ -11,6 +11,7 @@ import {
   CLEAR_CREDENTIALS_ERROR,
   RECEIVE_APP_ERROR,
   SHOW_APP_ERROR,
+  CLEAR_APP_ERROR,
 } from './constants';
 
 export function saveCredentials(username, password, rememberMe) {
@@ -52,5 +53,11 @@ export function showError(error) {
   return {
     type: SHOW_APP_ERROR,
     error,
+  };
+}
+
+export function clearAppError() {
+  return {
+    type: CLEAR_APP_ERROR,
   };
 }

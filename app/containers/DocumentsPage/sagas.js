@@ -1,12 +1,11 @@
-import { take, call, put, select, fork, cancel } from 'redux-saga/effects';
-import { takeLatest } from 'redux-saga';
-import { LOCATION_CHANGE } from 'react-router-redux';
+import { call, put, select } from 'redux-saga/effects';
 import {
   LOAD_DOCUMENTS, LOAD_MORE_DOCUMENTS, SEARCH_DOCUMENTS, CLICK_DOCUMENT_TAG, DELETE_DOCUMENT,
   LOAD_PROFILES, ADD_DOCUMENT_TO_PROFILE,
 } from './constants';
 import request from 'utils/request';
-import { receiveAppError } from 'containers/App/actions';
+import { receiveAppError, clearAppError } from 'containers/App/actions';
+import { cancelByLocationChange } from 'containers/App/sagas';
 import { selectAuth, selectAPI } from './selectors';
 import {
   documentsLoaded,
@@ -59,6 +58,7 @@ export function* searchDocument(action) {
     const respond = yield call(request, requestURL, options);
     if (respond) {
       yield put(searchDocumentLoaded(keyword.length > 0 ? respond.docs : respond));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
@@ -87,6 +87,7 @@ export function* deleteDocument(action) {
     const respond = yield call(request, requestURL, options);
     if (respond) {
       yield put(deleteDocumentSucess(respond, action.documentID));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
@@ -130,6 +131,7 @@ export function* toogleDocumentTagAutoLabel(action) {
         const addTagRespond = yield call(request, addTagRequestURL, addTagRequestOptions);
         if (addTagRespond) {
           yield put(toogleDocumentTagScuess(addTagRespond, tag, documentID));
+          yield put(clearAppError());
         }
       } catch (error) {
         yield put(receiveAppError(error));
@@ -156,6 +158,7 @@ export function* getProfiles() {
     const respond = yield call(request, requestURL, options);
     if (respond) {
       yield put(profilesLoaded(respond));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
@@ -184,18 +187,11 @@ export function* addToProfile(action) {
     const respond = yield call(request, addToProfileRequestURL, addToProfileRequestOptions);
     if (respond) {
       yield put(addDocumentToProfileSucess(respond, profileID));
+      yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
   }
-}
-
-export function cancelByLocationChange(watchingConstant, func) {
-  return function* cancelByLocationChangeGenerater() {
-    const watcherFork = yield fork(takeLatest, watchingConstant, func);
-    yield take(LOCATION_CHANGE);
-    yield cancel(watcherFork);
-  };
 }
 
 // All sagas to be loaded
