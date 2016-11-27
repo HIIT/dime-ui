@@ -56,6 +56,9 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
   handleReduce = () => {
     this.setState({ entity_details_expanded: false });
   }
+  handleClickOnShowJSON = () => {
+    this.setState({ json_view_expanded: true });
+  }
   handleClickAdd = () => {
     this.props.loadProfiles();
     this.setState({ profile_list_expanded: true });
@@ -101,6 +104,35 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
       </CardHeader>
     );
   }
+  renderJSONViewer = (entity) =>
+    <Tabs
+      tabItemContainerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.02)' }}
+      inkBarStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
+    >
+      <Tab
+        label="JSON (tree-view)"
+        style={{ color: 'rgba(0, 0, 0, 0.25)' }}
+      >
+        <JSONTree
+          data={entity}
+          shouldExpandNode={() => false}
+          valueRenderer={(raw) => (raw.length > 1000 ? <em>text lenth &gt; 3000, hiden</em> : raw)}
+          hideRoot
+        />
+      </Tab>
+      <Tab
+        label="JSON (raw)"
+        style={{ color: 'rgba(0, 0, 0, 0.25)' }}
+      >
+        <SyntaxHighlighter
+          language="javascript"
+          style={tomorrow}
+          customStyle={{ wordWrap: 'break-word', whiteSpace: 'pre-wrap', fontSize: '12px', fontFamily: "'Roboto Mono', monospace !important" }}
+        >
+          {JSON.stringify(entity, null, 4)}
+        </SyntaxHighlighter>
+      </Tab>
+    </Tabs>
   renderEntityCardBody = (entity) =>
     <div className={styles.entityBodyWrapper} >
       <CardText
@@ -108,34 +140,8 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
       >
         {this.renderTagsList(entity)}
         {this.rednerAbstract(entity)}
-        <Tabs
-          tabItemContainerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.02)' }}
-          inkBarStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
-        >
-          <Tab
-            label="JSON (tree-view)"
-            style={{ color: 'rgba(0, 0, 0, 0.25)' }}
-          >
-            <JSONTree
-              data={entity}
-              shouldExpandNode={() => false}
-              valueRenderer={(raw) => (raw.length > 1000 ? <em>text lenth &gt; 3000, hiden</em> : raw)}
-              hideRoot
-            />
-          </Tab>
-          <Tab
-            label="JSON (raw)"
-            style={{ color: 'rgba(0, 0, 0, 0.25)' }}
-          >
-            <SyntaxHighlighter
-              language="javascript"
-              style={tomorrow}
-              customStyle={{ wordWrap: 'break-word', whiteSpace: 'pre-wrap', fontSize: '12px', fontFamily: "'Roboto Mono', monospace !important" }}
-            >
-              {JSON.stringify(entity, null, 4)}
-            </SyntaxHighlighter>
-          </Tab>
-        </Tabs>
+        {this.state.json_view_expanded ? null : <span className={styles.fullJSONButton} onClick={this.handleClickOnShowJSON} >Full JSON</span> }
+        {this.state.json_view_expanded ? this.renderJSONViewer(entity) : null}
       </CardText>
     </div>
   renderEntityCardExpandReduce = () => {
