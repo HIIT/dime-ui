@@ -36,6 +36,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
     this.state = {
       entity_details_expanded: false,
       profile_list_expanded: false,
+      json_view_expanded: false,
     };
   }
   handleClickOnEntity = (entity, mouseEvent) => {
@@ -70,7 +71,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
     if (entity.targettedResource || entity.plainTextContent) {
       const plainTextContent = entity.targettedResource ? entity.targettedResource.plainTextContent : entity.plainTextContent;
       return (
-        <p>{plainTextContent.substring(0, 300)}</p>
+        <p className={styles.abstractP}>{plainTextContent.substring(0, 300)}</p>
       );
     }
     return null;
