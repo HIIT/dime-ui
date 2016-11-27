@@ -21,9 +21,9 @@ import {
 export function* getEvents(action) {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  let requestURL = `http://${url}/api/data/events?limit=24&page=0`;
+  let requestURL = `http://${url}/api/data/events?includePlainTextContent=1&limit=24&page=0`;
   if (action.nextPageNumber) {
-    requestURL = `http://${url}/api/data/events?limit=24&page=${action.nextPageNumber}`;
+    requestURL = `http://${url}/api/data/events?includePlainTextContent=1&limit=24&page=${action.nextPageNumber}`;
   }
   const options = {
     method: 'GET',
@@ -95,7 +95,7 @@ export function* toogleEventTagAutoLabel(action) {
   const { tag, eventID } = action;
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const removeTagRequestURL = `http://${url}/api/data/informationelement/${eventID}/removetag`;
+  const removeTagRequestURL = `http://${url}/api/data/event/${eventID}/removetag`;
   const removeTagRequestOptions = {
     method: 'POST',
     headers: {
@@ -104,7 +104,7 @@ export function* toogleEventTagAutoLabel(action) {
     },
     body: JSON.stringify(tag),
   };
-  const addTagRequestURL = `http://${url}/api/data/informationelement/${eventID}/addtag`;
+  const addTagRequestURL = `http://${url}/api/data/event/${eventID}/addtag`;
   const addTagRequestOptions = {
     method: 'POST',
     headers: {

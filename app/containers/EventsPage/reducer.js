@@ -47,26 +47,22 @@ function eventsPageReducer(state = initialState, action) {
     case SEARCH_EVENTS_SUCCESS:
       return state
         .set('data', fromJS(action.events))
-        .set('loading', false)
-        .set('error', {});
+        .set('loading', false);
     case DELETE_EVENT:
       return state
         .set('loading', true);
     case DELETE_EVENT_SUCESS:
       return state
         .set('loading', false)
-        .set('error', {})
         .deleteIn(['data', state.get('data').findIndex((item) => item.get('id') === action.eventID)]);
     case CLICK_EVENT_TAG:
       return state
-        .set('loading', true)
-        .set('error', {});
+        .set('loading', true);
     case TOOGLE_EVENT_TAG_SUCESS: {
-      const eventIndex = state.get('data').findIndex((item) => item.get('id') === action.respond.eventID);
+      const eventIndex = state.get('data').findIndex((item) => item.get('id') === action.respond.id);
       const newEventWithNewTags = fromJS(action.respond);
       return state
         .set('loading', false)
-        .set('error', {})
         .setIn(['data', eventIndex, 'tags'], newEventWithNewTags.getIn(['tags']));
     }
     case LOAD_PROFILES:
@@ -75,8 +71,7 @@ function eventsPageReducer(state = initialState, action) {
     case LOAD_PROFILES_SUCCESS:
       return state
         .set('profiles', fromJS(action.profiles))
-        .set('loading', false)
-        .set('error', {});
+        .set('loading', false);
     case ADD_EVENT_TO_PROFILE:
       return state.set('loading', true);
     case ADD_EVENT_TO_PROFILE_SUCCESS:
