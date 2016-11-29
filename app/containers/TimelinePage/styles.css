@@ -1,48 +1,99 @@
 /*
- modify from https://codepen.io/yohanbaillet/pen/MaKGWQ
+ Container of TimeLine
 */
+
 .timelineContainer {
   margin: 100px 20px 0;
   display: flex;
-  height: 45vh;
+  height: 55vh;
   background: rgba(0, 0, 0, 0);
-  border: 1px solid rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  flex-direction: column;
+  align-content: stretch;
 }
 
-.timeline {
-  position: relative;
-  display: flex;
-  flex: 1;
-  top: 80%;
+/*
+ A horizontal line
+*/
+
+.line {
+  position: absolute;
+  top: 150px;
   height: 1px;
-  padding: 0 10px;
-  background: rgba(0, 0, 0, 0);
+  background: rgba(255, 0, 0, 1);
 }
+
+/*
+ Foot Step Event Styles
+*/
+
+.stepEventsWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.stepEventUnit {
+  position: relative;
+  transition: 0.5s;
+}
+
+.stepEventUnit:hover {
+  transform: scale(1.5);
+}
+
+.stepEventBar {
+  background: rgba(0, 0, 0, 0.1);
+}
+
+.stepEventInfo {
+  position: absolute;
+  top: -20px;
+  font-family: 'Roboto Mono', monospace;
+  font-size: 0.6vw;
+  color: rgba(0, 0, 0, 0);
+  cursor: default;
+  transition: 0.3s;
+}
+
+.stepEventInfo:hover {
+  color: rgba(0, 0, 0, 0.65);
+}
+
+.stepUnit {
+  display: inline-block;
+  margin-top: -10vw;
+  opacity: 0.2;
+  font-size: 0.5vw;
+}
+
+/*
+ Heart Beats Event Styles
+*/
+
+.heartEventsWrapper {
+  width: 100%;
+  display: flex;
+}
+
+.heartEventUnit {
+  position: relative;
+  transform: scaleX(50);
+  opacity: 0.3;
+  height: 10px;
+}
+
+/*
+ Heart Beats Event Styles End
+*/
 
 .timePointsWrapper {
-  position: relative;
-  top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-0.8vh);
   height: 15px;
   display: flex;
   justify-content: space-around;
   flex: 1;
-}
-
-.period {
-  position: absolute;
-  height: 15px;
-  background: rgba(0, 0, 0, 0.15);
-  width: 10%;
-  border-radius: 0;
-}
-
-.stepsValue {
-  display: block;
-  font-family: 'Roboto Mono', monospace;
-  position: relative;
-  font-size: 9px;
-  top: -20px;
 }
 
 .point {
@@ -69,16 +120,21 @@
   top: -130px;
 }
 
-.workingKeywordWrapper {
+.timeSegmentKeywords {
+  cursor: default;
+  width: 3vw;
   position: relative;
   font-family: 'Roboto Mono', monospace;
-  top: -105px;
+  top: -7vh;
+  display: block;
+  font-size: 0.5vw;
+  line-height: 0.75vw;
+  color: rgba(0, 0, 0, 0.25);
 }
 
-.workingKeyword {
-  display: block;
-  font-size: 7px;
-  line-height: 12px;
+.timeSegmentKeywords:hover {
+  font-size: 0.8vw;
+  color: rgba(0, 0, 0, 0.75);
 }
 
 .timeStamp {
