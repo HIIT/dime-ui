@@ -149,6 +149,7 @@ export function addEventToProfile(event, profileID) {
 export function addEventToProfileSucess(respond, profileID) {
   return {
     type: ADD_EVENT_TO_PROFILE_SUCCESS,
+    respond,
     profileID,
   };
 }
