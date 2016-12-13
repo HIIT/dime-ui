@@ -12,6 +12,7 @@ import ActionDelete from 'material-ui/svg-icons/action/delete';
 import Star from 'material-ui/svg-icons/toggle/star';
 import StarBorder from 'material-ui/svg-icons/toggle/star-border';
 import { grey300, red400, yellow500 } from 'material-ui/styles/colors';
+import get from 'lodash/get';
 import styles from './styles.css';
 
 class ProfileEntityCard extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -32,24 +33,25 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
     this.props.clickOnEntityStateToggle(entity, entityType, profileID);
   }
   renderEvent(entityID, event, editing) {
+    const type = get(event, 'type', '');
     return (
       <div
         className={styles.entityWrapper}
       >
         <div className={styles.profileNameWrapper}>
-          {event.title || event.type.substring(event.type.indexOf('#') + 1, event.type.length || event['@type'])}
+          {get(event, 'title') || type.substring(type.indexOf('#') + 1, type.length || event['@type'])}
         </div>
         <div className={styles.cardHeaderInfoWrapper} >
           <span>
-            {this.renderType(event.type)} {this.renderActor(event.actor)} <br />
-            {this.renderTime(event.timeCreated)}
+            {this.renderType(type)} {this.renderActor(get(event, 'actor', ''))} <br />
+            {this.renderTime(get(event, 'timeCreated', ''))}
           </span>
         </div>
         { editing && event.targettedResource ?
           <TagsList
             entityID={entityID}
             profileID={this.props.profileID}
-            tags={event.targettedResource.tags}
+            tags={get(event, 'targettedResource.tags')}
             clickOnTag={this.props.clickOnEntityTag}
             className={styles.entityTags}
           />
@@ -58,24 +60,25 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
     );
   }
   renderDocument(entityID, informationElement, editing) {
+    const type = get(informationElement, 'type', '');
     return (
       <div
         className={styles.entityWrapper}
       >
         <div className={styles.profileNameWrapper} >
-          {informationElement.title || informationElement.type.substring(informationElement.type.indexOf('#') + 1, informationElement.type.length || informationElement['@type'])}
+          {get(informationElement, 'title') || type.substring(type.indexOf('#') + 1, type.length || informationElement['@type'])}
         </div>
         <div className={styles.cardHeaderInfoWrapper} >
           <span>
-            {this.renderType(informationElement.type)} {this.renderActor(informationElement.actor)} <br />
-            {this.renderTime(informationElement.timeCreated)}
+            {this.renderType(type)} {this.renderActor(get(informationElement, 'actor'))} <br />
+            {this.renderTime(get(informationElement, 'timeCreated'))}
           </span>
         </div>
         { editing ?
           <TagsList
             entityID={entityID}
             profileID={this.props.profileID}
-            tags={informationElement.tags}
+            tags={get(informationElement, 'tags')}
             clickOnTag={this.props.clickOnEntityTag}
             className={styles.entityTags}
           />

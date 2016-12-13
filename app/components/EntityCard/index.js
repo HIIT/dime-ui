@@ -15,6 +15,7 @@ import EpandedLess from 'material-ui/svg-icons/navigation/expand-less';
 import { grey300, blue300, red400 } from 'material-ui/styles/colors';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
+import get from 'lodash/get';
 import Paper from 'material-ui/Paper';
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { tomorrow } from 'react-syntax-highlighter/dist/styles';
@@ -76,7 +77,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
   }
   rednerAbstract(entity) {
     if (entity.targettedResource || entity.plainTextContent) {
-      const plainTextContent = entity.targettedResource ? entity.targettedResource.plainTextContent : entity.plainTextContent;
+      const plainTextContent = entity.targettedResource ? get(entity, 'targettedResource.plainTextContent') : entity.plainTextContent;
       return (
         <p className={styles.abstractP}>{plainTextContent.substring(0, 300)}</p>
       );
@@ -84,15 +85,16 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
     return null;
   }
   renderTitle = (entity) => {
-    const title = entity.targettedResource ? entity.targettedResource.title : entity.title;
+    const title = entity.targettedResource ? get(entity, 'targettedResource.title') : entity.title;
+    const type = get(entity, 'type', '');
     return (
       <a
-        href={entity.targettedResource ? entity.targettedResource.uri : entity.uri}
+        href={entity.targettedResource ? get(entity, 'targettedResource.uri') : entity.uri}
         target="_blank"
         className={styles.entityTitleLink}
       >
         <span className={styles.entityTitle}>
-          {title || entity.type.substring(entity.type.indexOf('#') + 1, entity.type.length || entity['@type'])}
+          {title || type.substring(type.indexOf('#') + 1, type.length || entity['@type'])}
         </span>
       </a>
     );
@@ -104,11 +106,9 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
       <div
         className={styles.cardHeaderInfoWrapper}
       >
-        {entity.type ?
-          <span>
-            Type {this.renderType(entity.type)} Actor {this.renderActor(entity.actor)} <br />
-          </span>
-        : null }
+        <span>
+          Type {this.renderType(get(entity, 'type', ''))} Actor {this.renderActor(get(entity, 'actor', ''))} <br />
+        </span>
       </div>
       <div
         className={styles.cardHeaderDeleteWrapper}
@@ -230,11 +230,11 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
     );
   }
   renderTagsList = (entity) => {
-    const notAutoTags = entity.tags.filter((tag) => !tag.auto);
-    const autoTags = entity.tags.filter((tag) => tag.auto);
-    if (entity.tags.length <= 0) {
+    if (!entity.tags || entity.tags.length <= 0) {
       return null;
     }
+    const notAutoTags = entity.tags.filter((tag) => !tag.auto);
+    const autoTags = entity.tags.filter((tag) => tag.auto);
     return (
       <div
         className={styles.entityTagsListWrapper}
