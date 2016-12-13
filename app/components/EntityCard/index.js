@@ -104,9 +104,11 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
       <div
         className={styles.cardHeaderInfoWrapper}
       >
-        <span>
-          Type {this.renderType(entity.type)} Actor {this.renderActor(entity.actor)} <br />
-        </span>
+        {entity.type ?
+          <span>
+            Type {this.renderType(entity.type)} Actor {this.renderActor(entity.actor)} <br />
+          </span>
+        : null }
       </div>
       <div
         className={styles.cardHeaderDeleteWrapper}
