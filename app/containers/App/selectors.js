@@ -17,6 +17,7 @@ const selectLocationState = () => {
 
 const selectAuthDomain = () => state => state.getIn(['app', 'auth']).toJS();
 const selectAPI = () => state => state.getIn(['app', 'API']).toJS();
+const selectVersionNumber = () => state => state.getIn(['app', 'versionNumber']);
 
 const selectAppLoading = () => state => state.getIn(['app', 'loading']);
 const selectEventCount = () => state => state.getIn(['app', 'eventCount']);
@@ -33,6 +34,7 @@ export {
   selectLocationState,
   selectAuthDomain,
   selectAPI,
+  selectVersionNumber,
   selectAppLoading,
   selectEventCount,
   selectDocumentsPageLoading,
