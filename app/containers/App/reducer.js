@@ -10,6 +10,7 @@ import {
   CLEAR_APP_ERROR,
   CLICK_ON_SEND_TO_LEADERBOARD,
   SEND_TO_LEADER_BOARD_SUCCESS,
+  GET_VERSION_NUMBER_SUCCESS,
 } from './constants';
 import { SAVE_LOCATION_BEFORE_SIGN_IN } from 'containers/RequiresAuth/constants';
 // The initial state of the App
@@ -24,6 +25,7 @@ const initialState = fromJS({
     username: undefined,
     locationBeforeSignIn: undefined,
   },
+  versionNumber: '',
   error: {},
   loading: false,
   eventCount: 0,
@@ -53,6 +55,9 @@ function appReducer(state = (process.env.NODE_ENV !== 'production' ? initialStat
       return state
         .setIn(['loading'], false)
         .setIn(['eventCount'], action.respond.eventCount);
+    case GET_VERSION_NUMBER_SUCCESS:
+      return state
+        .setIn(['versionNumber'], action.version);
     default:
       return state;
   }

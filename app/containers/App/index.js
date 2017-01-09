@@ -30,7 +30,7 @@ import {
   selectSignInPageLoading,
   selectAppError,
 } from './selectors';
-import { clearCredentials, clickOnSendToLeaderBoard } from './actions';
+import { clearCredentials, clickOnSendToLeaderBoard, getVersionNumber } from './actions';
 import { createStructuredSelector } from 'reselect';
 
 class App extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -50,6 +50,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     clearCredentials: React.PropTypes.func,
     clickOnSendToLeaderBoard: React.PropTypes.func,
     versionNumber: React.PropTypes.string,
+    getVersionNumber: React.PropTypes.func,
   }
   clickOnAccountIcon = () => {
     this.props.clearCredentials();
@@ -69,6 +70,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
             clickOnSendToLeaderboard={this.props.clickOnSendToLeaderBoard}
             eventCount={this.props.eventCount}
             versionNumber={this.props.versionNumber}
+            getVersionNumber={this.props.getVersionNumber}
           />
           <div style={{ opacity: 0.65 }}>
             <ProgressBar intervalTime={40} autoIncrement percent={(appLoading || documentsPageLoading || eventsPageLoading || profilesPageLoading || timelinePageLoading || signInPageLoading) === true ? 30 : 100} />
@@ -93,6 +95,7 @@ function mapDispatchToProps(dispatch) {
     changeRoute: (url) => dispatch(push(url)),
     clearCredentials: bindActionCreators(clearCredentials, dispatch),
     clickOnSendToLeaderBoard: bindActionCreators(clickOnSendToLeaderBoard, dispatch),
+    getVersionNumber: bindActionCreators(getVersionNumber, dispatch),
   };
 }
 const mapStateToProps = createStructuredSelector({

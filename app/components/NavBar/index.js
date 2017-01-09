@@ -24,6 +24,7 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
     clickOnAccountIcon: React.PropTypes.func,
     clickOnSendToLeaderboard: React.PropTypes.func,
     versionNumber: React.PropTypes.string,
+    getVersionNumber: React.PropTypes.func,
   };
   handleChange = (event, key, payload) => {
     event.preventDefault();
@@ -54,7 +55,7 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
               </span>
             </div>
           </Link>
-          <VersionNumber value={this.props.versionNumber} />
+          <VersionNumber value={this.props.versionNumber} getVersionNumber={this.props.getVersionNumber} />
           { this.props.pathName === '/signin' ? null :
             <div className={styles.navBarMenuWrapper}>
               <DropDownMenu value={this.props.pathName} onChange={this.handleChange}>

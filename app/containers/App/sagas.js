@@ -3,8 +3,8 @@ import { takeLatest, throttle } from 'redux-saga';
 import { LOCATION_CHANGE } from 'react-router-redux';
 import { browserHistory } from 'react-router';
 import request from 'utils/request';
-import { CLEAR_CREDENTIALS, RECEIVE_APP_ERROR, CLICK_ON_SEND_TO_LEADERBOARD } from './constants';
-import { cleanUpLocalStorageSuccess, cleanUpLocalStorageError, showError, sendtoLeaderSuccess, clearAppError } from './actions';
+import { CLEAR_CREDENTIALS, RECEIVE_APP_ERROR, CLICK_ON_SEND_TO_LEADERBOARD, GET_VERSION_NUMBER } from './constants';
+import { cleanUpLocalStorageSuccess, cleanUpLocalStorageError, showError, sendtoLeaderSuccess, clearAppError, getVersionNumberSuccess } from './actions';
 import { selectAuthDomain, selectAPI } from './selectors';
 
 export function* sendtoLeaderBoard() {
@@ -72,6 +72,23 @@ export function* receiveAppError({ error }) {
   yield put(showError(Object.assign(error, response)));
 }
 
+export function* getVersionNumberWatcher() {
+  const { url } = yield select(selectAPI());
+  const requestURL = `http://${url}/api/ping`;
+  const options = {
+    method: 'GET',
+  };
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(getVersionNumberSuccess(respond));
+      yield put(clearAppError());
+    }
+  } catch (error) {
+    yield put(receiveAppError(error));
+  }
+}
+
 export function cancelByLocationChange(watchingConstant, func) {
   return function* cancelByLocationChangeGenerater() {
     const watcherFork = yield fork(takeLatest, watchingConstant, func);
@@ -94,4 +111,5 @@ export default [
   cancelByLocationChange(CLEAR_CREDENTIALS, cleanUpLocalStorage),
   cancelByLocationChange(CLICK_ON_SEND_TO_LEADERBOARD, sendtoLeaderBoard),
   cancelByLocationChange(RECEIVE_APP_ERROR, receiveAppError),
+  cancelByLocationChange(GET_VERSION_NUMBER, getVersionNumberWatcher),
 ];

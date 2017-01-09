@@ -14,6 +14,8 @@ import {
   CLEAR_APP_ERROR,
   CLICK_ON_SEND_TO_LEADERBOARD,
   SEND_TO_LEADER_BOARD_SUCCESS,
+  GET_VERSION_NUMBER,
+  GET_VERSION_NUMBER_SUCCESS,
 } from './constants';
 
 export function saveCredentials(username, password, rememberMe) {
@@ -74,5 +76,18 @@ export function sendtoLeaderSuccess(respond) {
   return {
     type: SEND_TO_LEADER_BOARD_SUCCESS,
     respond,
+  };
+}
+
+export function getVersionNumber() {
+  return {
+    type: GET_VERSION_NUMBER,
+  };
+}
+
+export function getVersionNumberSuccess({ version }) {
+  return {
+    type: GET_VERSION_NUMBER_SUCCESS,
+    version,
   };
 }
