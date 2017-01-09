@@ -12,11 +12,9 @@ React-based user interface for [dime-server](https://github.com/HIIT/dime-server
 
 The architure of dime-ui is based on a solid boilerplate [react-boilerplate](https://github.com/mxstbr/react-boilerplate). The introdution of [react-boilerplate](https://github.com/mxstbr/react-boilerplate/tree/master/docs/general) is a good read if you don't have previous knowlage on ReactJS + Redux project.
 
-There are many well-written articles on ReactJS and Redux. In this section, I will focus on explaining how to creaste an new UI compoment named 'VersionNumer'. As its name suggested, 'VersionNumer' is a React-rendering HTML text node (``<span>v1.2</span>``) showing the version number of dime-server. I will show how to develope the compoment and how to inject the compoment into the current UI codebase.
+There are many well-written articles on ReactJS and Redux. I will focus on explaining how to creaste an new UI compoment ``<VersionNumber />``. As its name suggested, ``<VersionNumber />`` is a HTML text node (``<span>v1.2</span>``) showing the version number of dime-server. I will demonstrate how to create the compoment and how to put the compoment into the current UI codebase.
 
-'VersionNumer' is composed by a pair of HTML tags (``<span></span>``) and the text(``v1.2``) showing data gotten from dimer-server by one API call. This is a common pattern for any UI compment. The visiable UI element represets some information and it needs to where and how to get the information.
-
-To make this happend, we firstly need to creat the ``VersionNumber`` compoment.
+``<VersionNumber />`` is composed by a pair of HTML tags (``<span></span>``) and the text(v1.2) showing data gotten from dimer-server by one API call. This is a common pattern for any UI compment. The visiable UI element represets some information and the application needs to know where and how to get that information(often done by an API call). This scenario should apply to any futher UI compoemnt developments.
 
 ## Create a React Component (see source code in [this commit](https://github.com/HIIT/dime-ui/commit/404aa7bc486e3bd031facf555816543ad371f090))
 1. Go to the root of the project, type ``npm run geneate`` and follow:
