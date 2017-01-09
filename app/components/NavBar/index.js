@@ -12,7 +12,6 @@ import AccountCircle from 'material-ui/svg-icons/action/account-circle';
 import CloudCircle from 'material-ui/svg-icons/file/cloud-circle';
 import IconButton from 'material-ui/IconButton';
 import { indigoA700, lightBlue300 } from 'material-ui/styles/colors';
-import VersionNumber from 'components/VersionNumber';
 import styles from './styles.css';
 
 class NavBar extends React.Component { // eslint-disable-line react/prefer-stateless-function
@@ -23,7 +22,6 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
     eventCount: React.PropTypes.number,
     clickOnAccountIcon: React.PropTypes.func,
     clickOnSendToLeaderboard: React.PropTypes.func,
-    versionNumber: React.PropTypes.number,
   };
   handleChange = (event, key, payload) => {
     event.preventDefault();
@@ -54,7 +52,6 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
               </span>
             </div>
           </Link>
-          <VersionNumber value={this.props.versionNumber} />
           { this.props.pathName === '/signin' ? null :
             <div className={styles.navBarMenuWrapper}>
               <DropDownMenu value={this.props.pathName} onChange={this.handleChange}>

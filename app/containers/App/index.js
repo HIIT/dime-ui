@@ -20,7 +20,6 @@ import ProgressBar from 'react-progress-bar-plus';
 import 'react-progress-bar-plus/lib/progress-bar.css';
 import {
   selectAuthDomain,
-  selectVersionNumber,
   selectAppLoading,
   selectEventCount,
   selectDocumentsPageLoading,
@@ -49,7 +48,6 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     appError: React.PropTypes.object,
     clearCredentials: React.PropTypes.func,
     clickOnSendToLeaderBoard: React.PropTypes.func,
-    versionNumber: React.PropTypes.number,
   }
   clickOnAccountIcon = () => {
     this.props.clearCredentials();
@@ -68,7 +66,6 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
             clickOnAccountIcon={this.clickOnAccountIcon}
             clickOnSendToLeaderboard={this.props.clickOnSendToLeaderBoard}
             eventCount={this.props.eventCount}
-            versionNumber={this.props.versionNumber}
           />
           <div style={{ opacity: 0.65 }}>
             <ProgressBar intervalTime={40} autoIncrement percent={(appLoading || documentsPageLoading || eventsPageLoading || profilesPageLoading || timelinePageLoading || signInPageLoading) === true ? 30 : 100} />
@@ -105,7 +102,6 @@ const mapStateToProps = createStructuredSelector({
   timelinePageLoading: selectTimelinePageLoading(),
   signInPageLoading: selectSignInPageLoading(),
   appError: selectAppError(),
-  versionNumber: selectVersionNumber(),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
