@@ -69,6 +69,7 @@ case GET_VERSION_NUMBER_SUCCESS:
 Note that we are using [Immutable](https://facebook.github.io/immutable-js/) to process the changes of Redux state. See the [full API of Immutable](https://facebook.github.io/immutable-js/docs/#/).
 
 Let's review the business logic describe in step one and their the implementations.
+
 	1. Fire a HTTP GET request. (implemented in ``compomentWillMount()`` of ``<VersionNumber />``)
 	2. Recive responded data, check if there is error, handle the error. (implemented as ``getVersionNumberWatcher()`` saga in ``app/containers/App/sagas.js``)
 	3. If no error, dispatch an Redux action. (implemented as ``getVersionNumberWatcher()`` saga in ``app/containers/App/sagas.js``)
