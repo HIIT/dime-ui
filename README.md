@@ -39,7 +39,7 @@ To make this happend, we firstly need to creat the ``VersionNumber`` compoment.
 ```
 Note there is a ``{this.props.value}`` in the ``<span>`` tag. If you are familar with [JSX syntax](https://facebook.github.io/react/docs/jsx-in-depth.html) , you will know the ``{this.props.value}`` should render the value of ``this.props.value``.
 
-7. Now, we have a compoment ``<VersionNumber />`` and it has been included in anther upper-level compoment ``<NavBar />``. The ``<App />`` container then includes ``<NavBar />``. The  value of version will be passed from ``<App />`` to ``<NavBar />`` and then to ``<VersionNumber />`` by the PropTypes(this.props.value). You may wonder what is the [difference between compoment and why we need tp pass PropTypes like this](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0#.muim22gny).
+Now, we have a compoment ``<VersionNumber />`` and it has been included in anther upper-level compoment ``<NavBar />``. The ``<App />`` container then includes ``<NavBar />``. The  value of version will be passed from ``<App />`` to ``<NavBar />`` and then to ``<VersionNumber />`` by the PropTypes(this.props.value). You may wonder what is the [difference between compoment and why we need tp pass PropTypes like this](https://medium.com/@dan_abramov/smart-and-dumb-components-7ca2f9a7c7d0#.muim22gny).
 
 ## Connect React-Redux (see source code in [this commit](https://github.com/HIIT/dime-ui/commit/404aa7bc486e3bd031facf555816543ad371f090))
 1. The next thing we will do is to 'connect' the state storing in Redux and pass it to the PropTypes of ``<App />`` container. By doing so, when the state in Redux store has been changed, the 'connection' will pass the new value to PropTypes and, the UI will then changes accrodingly.
@@ -68,7 +68,7 @@ case GET_VERSION_NUMBER_SUCCESS:
 ```
 Note that we are using [Immutable](https://facebook.github.io/immutable-js/) to process the changes of Redux state. See the [full API of Immutable](https://facebook.github.io/immutable-js/docs/#/).
 
-7. Let's review the business logic describe in step one and their the implementations.
+Let's review the business logic describe in step one and their the implementations.
 	1. Fire a HTTP GET request. (implemented in ``compomentWillMount()`` of ``<VersionNumber />``)
 	2. Recive responded data, check if there is error, handle the error. (implemented as ``getVersionNumberWatcher()`` saga in ``app/containers/App/sagas.js``)
 	3. If no error, dispatch an Redux action. (implemented as ``getVersionNumberWatcher()`` saga in ``app/containers/App/sagas.js``)
