@@ -28,6 +28,8 @@ import {
  DELETE_ENTITY_FROM_PROFILE_SUCCESS,
  ENTITY_STATE_TOGGLE,
  ENTITY_STATE_TOGGLE_SUCCESS,
+ CLICK_ON_SEND_TO_PEOPLE_FINDER,
+ SEND_TO_PEOPLE_FINDER_SUCCESS,
 } from './constants';
 
 export function loadProfiles() {
@@ -77,6 +79,20 @@ export function editProfile(profileID) {
 export function cancelEditProfile(profileID) {
   return {
     type: CANCEL_EDIT_PROFILE,
+    profileID,
+  };
+}
+
+export function clickOnSendToPeopleFinder(profileID) {
+  return {
+    type: CLICK_ON_SEND_TO_PEOPLE_FINDER,
+    profileID,
+  };
+}
+
+export function sendToPeopleFinderSuccess(profileID) {
+  return {
+    type: SEND_TO_PEOPLE_FINDER_SUCCESS,
     profileID,
   };
 }

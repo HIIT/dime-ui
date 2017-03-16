@@ -9,6 +9,7 @@ import {
   DELETE_TAG_FROM_PROFILE,
   CLICK_ON_ENTITY_DELETE,
   ENTITY_STATE_TOGGLE,
+  CLICK_ON_SEND_TO_PEOPLE_FINDER,
 } from './constants';
 import request from 'utils/request';
 import { receiveAppError, clearAppError } from 'containers/App/actions';
@@ -24,7 +25,29 @@ import {
   deleteTagFromProfileSuccess,
   deleteEntityFromProfileSuccess,
   entityStateToggleScuess,
+  sendToPeopleFinderSuccess,
 } from './actions';
+
+export function* sendToPeopleFinder(action) {
+  const { token } = yield select(selectAuth());
+  const { url } = yield select(selectAPI());
+  const requestURL = `http://${url}/api/sendtopeoplefinder/${action.profileID}`;
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${token}`,
+    },
+  };
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(sendToPeopleFinderSuccess(respond));
+      yield put(clearAppError());
+    }
+  } catch (error) {
+    yield put(receiveAppError(error));
+  }
+}
 
 // Init ProfileList Sage (Load Profile Sage)
 
@@ -284,4 +307,5 @@ export default [
   cancelByLocationChange(CLICK_ON_ENTITY_TAG, addTagToProfile),
   cancelByLocationChange(CLICK_ON_ENTITY_DELETE, deleteEntityFromProfile),
   cancelByLocationChange(ENTITY_STATE_TOGGLE, entityStateToggle),
+  cancelByLocationChange(CLICK_ON_SEND_TO_PEOPLE_FINDER, sendToPeopleFinder),
 ];

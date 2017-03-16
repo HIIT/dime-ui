@@ -28,6 +28,7 @@ export class ProfilesTab extends React.Component { // eslint-disable-line react/
     clickOnEntityTag: React.PropTypes.func,
     clickOnEntityDelete: React.PropTypes.func,
     clickOnEntityStateToggle: React.PropTypes.func,
+    clickOnSendToPeopleFinder: React.PropTypes.func,
   }
   componentWillMount() {
     this.props.initProfilesList();
@@ -55,6 +56,7 @@ export class ProfilesTab extends React.Component { // eslint-disable-line react/
             clickOnEntityTag={this.props.clickOnEntityTag}
             clickOnEntityDelete={this.props.clickOnEntityDelete}
             clickOnEntityStateToggle={this.props.clickOnEntityStateToggle}
+            clickOnSendToPeopleFinder={this.props.clickOnSendToPeopleFinder}
           />
         </Col>
       </Row>

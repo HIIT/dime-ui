@@ -7,6 +7,7 @@
 import React from 'react';
 import { Card, CardText } from 'material-ui/Card';
 import ModeEdit from 'material-ui/svg-icons/editor/mode-edit';
+import SocialPeople from 'material-ui/svg-icons/social/people';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import ActionExitToApp from 'material-ui/svg-icons/action/exit-to-app';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -31,6 +32,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
     clickOnEntityTag: React.PropTypes.func,
     clickOnEntityDelete: React.PropTypes.func,
     clickOnEntityStateToggle: React.PropTypes.func,
+    clickOnSendToPeopleFinder: React.PropTypes.func,
   }
   handleClickOnEdit = (profile) => {
     this.props.editProfile(profile.id);
@@ -40,6 +42,9 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
   }
   handleClickOnDelete = (profile) => {
     this.props.deleteProfile(profile.id);
+  }
+  handleClickOnPeopleFinder = (profile) => {
+    this.props.clickOnSendToPeopleFinder(profile.id);
   }
   handleTagAddition = (text, profileID) => {
     this.props.addTagToProfile({ '@type': 'Tag', text }, profileID);
@@ -106,8 +111,17 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
               onClick={(mouseEvent) => { this.handleClickOnCancelEdit(profile, mouseEvent); }}
             />
           </div>
-        : null }
-      </div>
+          : null }
+        { editing ? null :
+          <div className={styles.cardHeaderPeopleFinderWrapper}>
+            <RaisedButton
+              label="Send to People Finder"
+              icon={<SocialPeople />}
+              onClick={(mouseEvent) => { this.handleClickOnPeopleFinder(profile, mouseEvent); }}
+            />
+          </div>
+        }
+        </div>
     );
   }
   renderValidatedEntitiesList = (profile, editing) =>

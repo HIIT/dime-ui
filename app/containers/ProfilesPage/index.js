@@ -22,6 +22,7 @@ import {
  clickOnEntityTag,
  clickOnEntityDelete,
  clickOnEntityStateToggle,
+ clickOnSendToPeopleFinder,
 } from './actions';
 import requiresAuth from 'containers/RequiresAuth';
 import ProfilesTab from 'components/ProfilesTab';
@@ -41,6 +42,7 @@ export class ProfilesPage extends React.Component { // eslint-disable-line react
     clickOnEntityTag: React.PropTypes.func,
     clickOnEntityDelete: React.PropTypes.func,
     clickOnEntityStateToggle: React.PropTypes.func,
+    clickOnSendToPeopleFinder: React.PropTypes.func,
   }
   render() {
     return (
@@ -58,6 +60,7 @@ export class ProfilesPage extends React.Component { // eslint-disable-line react
         clickOnEntityTag={this.props.clickOnEntityTag}
         clickOnEntityDelete={this.props.clickOnEntityDelete}
         clickOnEntityStateToggle={this.props.clickOnEntityStateToggle}
+        clickOnSendToPeopleFinder={this.props.clickOnSendToPeopleFinder}
       />
     );
   }
@@ -81,6 +84,7 @@ function mapDispatchToProps(dispatch) {
     clickOnEntityTag: bindActionCreators(clickOnEntityTag, dispatch),
     clickOnEntityDelete: bindActionCreators(clickOnEntityDelete, dispatch),
     clickOnEntityStateToggle: bindActionCreators(clickOnEntityStateToggle, dispatch),
+    clickOnSendToPeopleFinder: bindActionCreators(clickOnSendToPeopleFinder, dispatch),
   };
 }
 

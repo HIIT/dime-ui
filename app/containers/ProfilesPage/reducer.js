@@ -27,6 +27,8 @@
    DELETE_PROFILE_SUCCESS,
    ENTITY_STATE_TOGGLE,
    ENTITY_STATE_TOGGLE_SUCCESS,
+   CLICK_ON_SEND_TO_PEOPLE_FINDER,
+   SEND_TO_PEOPLE_FINDER_SUCCESS,
  } from './constants';
 
  const initialState = fromJS({
@@ -64,6 +66,11 @@
      case CANCEL_EDIT_PROFILE:
        return state
          .setIn(['data', state.get('data').findIndex((item) => item.get('id') === action.profileID), 'editing'], false);
+     case CLICK_ON_SEND_TO_PEOPLE_FINDER:
+       return state
+         .setIn(['data', state.get('data').findIndex((item) => item.get('id') === action.profileID), 'loading'], true);
+     case SEND_TO_PEOPLE_FINDER_SUCCESS:
+       return state.set('loading', false);
      case SAVE_PROFILE_NAME:
        return state
          .set('loading', true);
