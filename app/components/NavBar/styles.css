@@ -55,6 +55,13 @@
 
 .navBarSendToLeaderboardWrapper {
   position: absolute;
-  top: 56px;
+  top: 86px;
   left: 47px;
+}
+
+.navBarVersionNumberWrapper {
+  position: absolute;
+  top: 20px;
+  left: 0px;
+  width: 100px;
 }
