@@ -16,6 +16,9 @@ import {
  cancelEditProfile,
  saveProfileName,
  deleteProfile,
+ addAttributeToProfile,
+ editAttributeFromProfile,
+ deleteAttributeFromProfile,
  clickOnProfileTag,
  addTagToProfile,
  deleteTagFromProfile,
@@ -36,6 +39,9 @@ export class ProfilesPage extends React.Component { // eslint-disable-line react
     cancelEditProfile: React.PropTypes.func,
     saveProfileName: React.PropTypes.func,
     deleteProfile: React.PropTypes.func,
+    addAttributeToProfile: React.PropTypes.func,
+    editAttributeFromProfile: React.PropTypes.func,
+    deleteAttributeFromProfile: React.PropTypes.func,
     clickOnProfileTag: React.PropTypes.func,
     addTagToProfile: React.PropTypes.func,
     deleteTagFromProfile: React.PropTypes.func,
@@ -54,6 +60,9 @@ export class ProfilesPage extends React.Component { // eslint-disable-line react
         cancelEditProfile={this.props.cancelEditProfile}
         saveProfileName={this.props.saveProfileName}
         deleteProfile={this.props.deleteProfile}
+        addAttributeToProfile={this.props.addAttributeToProfile}
+        editAttributeFromProfile={this.props.editAttributeFromProfile}
+        deleteAttributeFromProfile={this.props.deleteAttributeFromProfile}
         clickOnProfileTag={this.props.clickOnProfileTag}
         addTagToProfile={this.props.addTagToProfile}
         deleteTagFromProfile={this.props.deleteTagFromProfile}
@@ -79,6 +88,9 @@ function mapDispatchToProps(dispatch) {
     saveProfileName: bindActionCreators(saveProfileName, dispatch),
     deleteProfile: bindActionCreators(deleteProfile, dispatch),
     clickOnProfileTag: bindActionCreators(clickOnProfileTag, dispatch),
+    addAttributeToProfile: bindActionCreators(addAttributeToProfile, dispatch),
+    editAttributeFromProfile: bindActionCreators(editAttributeFromProfile, dispatch),
+    deleteAttributeFromProfile: bindActionCreators(deleteAttributeFromProfile, dispatch),
     addTagToProfile: bindActionCreators(addTagToProfile, dispatch),
     deleteTagFromProfile: bindActionCreators(deleteTagFromProfile, dispatch),
     clickOnEntityTag: bindActionCreators(clickOnEntityTag, dispatch),

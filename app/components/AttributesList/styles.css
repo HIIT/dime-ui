@@ -1,0 +1,16 @@
+
+.attributesList { /* stylelint-ignore */
+  width: 400px;
+}
+
+.newAttributeContainer {
+  width: 400px;
+}
+
+.newAttributeKeyInput {
+  display: inline-block;
+}
+
+.newAttributeValueInput {
+  display: inline-block;
+}

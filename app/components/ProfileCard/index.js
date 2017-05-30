@@ -15,6 +15,7 @@ import { Row, Col } from 'react-flexbox-grid/lib/index';
 import TextField from 'material-ui/TextField';
 import { WithContext as TagsInput } from 'react-tag-input';
 import TagsList from 'components/TagsList';
+import AttributesList from 'components/AttributesList';
 import ProfileEntitiesList from 'components/ProfileEntitiesList';
 
 import styles from './styles.css';
@@ -27,6 +28,9 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
     deleteProfile: React.PropTypes.func,
     profile: React.PropTypes.object,
     clickOnProfileTag: React.PropTypes.func,
+    addAttributeToProfile: React.PropTypes.func,
+    editAttributeFromProfile: React.PropTypes.func,
+    deleteAttributeFromProfile: React.PropTypes.func,
     addTagToProfile: React.PropTypes.func,
     deleteTagFromProfile: React.PropTypes.func,
     clickOnEntityTag: React.PropTypes.func,
@@ -121,7 +125,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
             />
           </div>
         }
-        </div>
+      </div>
     );
   }
   renderValidatedEntitiesList = (profile, editing) =>
@@ -178,8 +182,9 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
         />
       : null}
     </div>
+
   renderProfileCardBody = (profile) => {
-    const { editing, tags } = profile;
+    const { editing, attributes, tags } = profile;
     return (
       <div className={styles.profileCardBodyWrapper}>
         <CardText>
@@ -187,6 +192,17 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
             <Col
               xs={2}
             >
+              <h4>Attributes</h4>
+              <AttributesList
+                profileID={profile.id}
+                attributes={attributes}
+                className={styles.profileAttributes}
+                editing={editing}
+                deleteAttributeFromProfile={this.props.deleteAttributeFromProfile}
+                editAttributeFromProfile={this.props.editAttributeFromProfile}
+                addAttributeToProfile={this.props.addAttributeToProfile}
+              />
+
               <h4>Tags</h4>
               { editing ?
                 <TagsInput

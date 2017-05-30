@@ -4,6 +4,9 @@ import {
   CREATE_PROFILE,
   DELETE_PROFILE,
   SAVE_PROFILE_NAME,
+  ADD_ATTRIBUTE_TO_PROFILE,
+  EDIT_ATTRIBUTE_TO_PROFILE,
+  DELETE_ATTRIBUTE_FROM_PROFILE,
   ADD_TAG_TO_PROFILE,
   CLICK_ON_ENTITY_TAG,
   DELETE_TAG_FROM_PROFILE,
@@ -21,6 +24,10 @@ import {
   deleteProfileSuccess,
   createProfileSuccess,
   saveProfileNameSuccess,
+  addAttributeToProfileSuccess,
+  editAttributeFromProfileSuccess,
+  editAttributeFromProfileError,
+  deleteAttributeFromProfileSuccess,
   addTagToProfileSuccess,
   deleteTagFromProfileSuccess,
   deleteEntityFromProfileSuccess,
@@ -178,6 +185,83 @@ export function* deleteProfile(action) {
   }
 }
 
+// Add Attribute to Profile Saga
+export function* addAttributeToProfile(action) {
+  const { token } = yield select(selectAuth());
+  const { url } = yield select(selectAPI());
+  const requestURL = `http://${url}/api/profiles/${action.profileID}/attributes`;
+  const obj = {};
+  obj[action.attributeKey] = action.attributeValue;
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(obj),
+  };
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(addAttributeToProfileSuccess(respond, action.profileID));
+      yield put(clearAppError());
+    }
+  } catch (error) {
+    yield put(receiveAppError(error));
+  }
+}
+
+// Edit Attribute from Profile Saga
+export function* editAttributeFromProfile(action) {
+  const { token } = yield select(selectAuth());
+  const { url } = yield select(selectAPI());
+  const requestURL = `http://${url}/api/profiles/${action.profileID}/attributes`;
+  const obj = {};
+  obj[action.attributeKey] = action.attributeValue;
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${token}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(obj),
+  };
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(editAttributeFromProfileSuccess(respond, action.profileID));
+      yield put(clearAppError());
+    }
+  } catch (error) {
+    yield put(editAttributeFromProfileError(error));
+  }
+}
+
+// Delete Attribute from Profile Saga
+export function* deleteAttributeFromProfile(action) {
+  const { token } = yield select(selectAuth());
+  const { url } = yield select(selectAPI());
+  const requestURL = `http://${url}/api/profiles/${action.profileID}/attributes/${action.attributeKey}`;
+  const options = {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Basic ${token}`,
+    },
+  };
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(deleteAttributeFromProfileSuccess(respond, action.attributeKey, action.profileID));
+      yield put(clearAppError());
+    }
+  } catch (error) {
+    yield put(receiveAppError(error));
+  }
+}
+
+
+// Add Tag to Profile Saga
+
 export function* addTagToProfile(action) {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
@@ -268,6 +352,7 @@ export function* entityStateToggle(action) {
       Authorization: `Basic ${token}`,
     },
   };
+
   const afterEntitytype = returnNewEntityType(action.entityType);
   const addEntityBackToProfileRequestURL = `http://${url}/api/profiles/${profileID}/${afterEntitytype.toLowerCase()}`;
   const addEntityBackToProfileOptions = {
@@ -302,6 +387,10 @@ export default [
   cancelByLocationChange(DELETE_PROFILE, deleteProfile),
   cancelByLocationChange(CREATE_PROFILE, createProfile),
   cancelByLocationChangeWithThrottle(SAVE_PROFILE_NAME, saveProfileName, 2000),
+  cancelByLocationChange(ADD_ATTRIBUTE_TO_PROFILE, addAttributeToProfile),
+  // cancelByLocationChangeWithThrottle(EDIT_ATTRIBUTE_TO_PROFILE, editAttributeFromProfile, 2000),
+  cancelByLocationChange(EDIT_ATTRIBUTE_TO_PROFILE, editAttributeFromProfile),
+  cancelByLocationChange(DELETE_ATTRIBUTE_FROM_PROFILE, deleteAttributeFromProfile),
   cancelByLocationChange(ADD_TAG_TO_PROFILE, addTagToProfile),
   cancelByLocationChange(DELETE_TAG_FROM_PROFILE, deleteTagFromProfile),
   cancelByLocationChange(CLICK_ON_ENTITY_TAG, addTagToProfile),

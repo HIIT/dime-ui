@@ -17,6 +17,13 @@
    CANCEL_EDIT_PROFILE,
    SAVE_PROFILE_NAME,
    SAVE_PROFILE_NAME_SUCCESS,
+   ADD_ATTRIBUTE_TO_PROFILE,
+   ADD_ATTRIBUTE_TO_PROFILE_SUCCESS,
+   EDIT_ATTRIBUTE_TO_PROFILE,
+   EDIT_ATTRIBUTE_TO_PROFILE_SUCCESS,
+   // EDIT_ATTRIBUTE_TO_PROFILE_ERROR,
+   DELETE_ATTRIBUTE_FROM_PROFILE,
+   DELETE_ATTRIBUTE_FROM_PROFILE_SUCCESS,
    ADD_TAG_TO_PROFILE,
    ADD_TAG_TO_PROFILE_SUCCESS,
    DELETE_TAG_FROM_PROFILE,
@@ -80,6 +87,35 @@
          .setIn(['data', profileIndex, 'name'], action.name)
          .set('loading', false);
      }
+
+     case ADD_ATTRIBUTE_TO_PROFILE:
+       return state.set('loading', true);
+     case ADD_ATTRIBUTE_TO_PROFILE_SUCCESS: {
+       const profileIndex = state.get('data').findIndex((item) => item.get('id') === action.profileID);
+       return state
+         .setIn(['data', profileIndex, 'attributes'], fromJS(action.respond))
+         .set('loading', false);
+     }
+
+     case EDIT_ATTRIBUTE_TO_PROFILE:
+       return state.set('loading', true);
+     case EDIT_ATTRIBUTE_TO_PROFILE_SUCCESS: {
+       const profileIndex = state.get('data').findIndex((item) => item.get('id') === action.profileID);
+       return state
+         .setIn(['data', profileIndex, 'attributes'], fromJS(action.respond))
+         .set('loading', false);
+     }
+    // case EDIT_ATTRIBUTE_TO_PROFILE_ERROR:
+
+     case DELETE_ATTRIBUTE_FROM_PROFILE:
+       return state.set('loading', true);
+     case DELETE_ATTRIBUTE_FROM_PROFILE_SUCCESS: {
+       const profileIndex = state.get('data').findIndex((item) => item.get('id') === action.profileID);
+       return state
+         .deleteIn(['data', profileIndex, 'attributes', action.attributeKey])
+         .set('loading', false);
+     }
+
      case ADD_TAG_TO_PROFILE:
        return state.set('loading', true);
      case ADD_TAG_TO_PROFILE_SUCCESS: {
@@ -116,6 +152,7 @@
        return state
          .set('loading', false)
          .deleteIn(['data', state.get('data').findIndex((item) => item.get('id') === action.profileID)]);
+
      case ENTITY_STATE_TOGGLE:
        return state
          .set('loading', true);

@@ -54,10 +54,10 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
                 DiMe
               </span>
             </div>
-            </Link>
-            <div className={styles.navBarVersionNumberWrapper}>
-              <VersionNumber value={this.props.versionNumber} getVersionNumber={this.props.getVersionNumber} />
-            </div>
+          </Link>
+          <div className={styles.navBarVersionNumberWrapper}>
+            <VersionNumber value={this.props.versionNumber} getVersionNumber={this.props.getVersionNumber} />
+          </div>
           { this.props.pathName === '/signin' ? null :
             <div className={styles.navBarMenuWrapper}>
               <DropDownMenu value={this.props.pathName} onChange={this.handleChange}>

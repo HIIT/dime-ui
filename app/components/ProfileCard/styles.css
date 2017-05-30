@@ -37,6 +37,39 @@
   margin-top: 20px;
 }
 
+.profileAttributes {
+  font-size: 11px;
+  font-weight: 100;
+  margin: 5px 5px 0 0;
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(0, 0, 0, 0.085);
+  color: rgba(0, 0, 0, 0.55);
+  padding: 1px 4px 2px;
+}
+
+.profileAttributes:hover {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  color: rgba(0, 0, 0, 0.75);
+}
+
+.profileAttributesEditing {
+  position: relative;
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 100;
+  font-family: 'Roboto Mono', monospace;
+  border-radius: 3px;
+  padding: 1px 4px 2px;
+  margin: 5px 5px 0 0;
+  color: rgba(0, 0, 0, 0.55);
+  background-color: rgba(255, 255, 255, 1);
+  border: 1px solid rgba(0, 0, 0, 0.085);
+}
+
+.profileAttributesEditing:hover {
+  z-index: 100000000;
+}
+
 .profileTags {
   font-size: 11px;
   font-weight: 100;

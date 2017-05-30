@@ -21,8 +21,11 @@ export class ProfilesTab extends React.Component { // eslint-disable-line react/
     editProfile: React.PropTypes.func,
     cancelEditProfile: React.PropTypes.func,
     saveProfileName: React.PropTypes.func,
+    editAttributeFromProfile: React.PropTypes.func,
     deleteProfile: React.PropTypes.func,
     clickOnProfileTag: React.PropTypes.func,
+    addAttributeToProfile: React.PropTypes.func,
+    deleteAttributeFromProfile: React.PropTypes.func,
     addTagToProfile: React.PropTypes.func,
     deleteTagFromProfile: React.PropTypes.func,
     clickOnEntityTag: React.PropTypes.func,
@@ -51,6 +54,9 @@ export class ProfilesTab extends React.Component { // eslint-disable-line react/
             deleteProfile={this.props.deleteProfile}
             profile={profile}
             clickOnProfileTag={this.props.clickOnProfileTag}
+            addAttributeToProfile={this.props.addAttributeToProfile}
+            editAttributeFromProfile={this.props.editAttributeFromProfile}
+            deleteAttributeFromProfile={this.props.deleteAttributeFromProfile}
             addTagToProfile={this.props.addTagToProfile}
             deleteTagFromProfile={this.props.deleteTagFromProfile}
             clickOnEntityTag={this.props.clickOnEntityTag}

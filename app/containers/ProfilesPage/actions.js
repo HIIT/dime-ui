@@ -15,6 +15,13 @@ import {
  SAVE_PROFILE_NAME_SUCCESS,
  DELETE_PROFILE,
  DELETE_PROFILE_SUCCESS,
+ ADD_ATTRIBUTE_TO_PROFILE,
+ ADD_ATTRIBUTE_TO_PROFILE_SUCCESS,
+ EDIT_ATTRIBUTE_TO_PROFILE,
+ EDIT_ATTRIBUTE_TO_PROFILE_SUCCESS,
+ EDIT_ATTRIBUTE_TO_PROFILE_ERROR,
+ DELETE_ATTRIBUTE_FROM_PROFILE,
+ DELETE_ATTRIBUTE_FROM_PROFILE_SUCCESS,
  CLICK_ON_PROFILE_TAG,
  ADD_TAG_TO_PROFILE,
  ADD_TAG_TO_PROFILE_SUCCESS,
@@ -135,6 +142,69 @@ export function deleteProfileSuccess(respond, profileID) {
   return {
     type: DELETE_PROFILE_SUCCESS,
     respond,
+    profileID,
+  };
+}
+
+/*
+* Click On Profile Attribute
+*/
+
+export function addAttributeToProfile(attributeKey, attributeValue, profileID) {
+  return {
+    type: ADD_ATTRIBUTE_TO_PROFILE,
+    attributeKey,
+    attributeValue,
+    profileID,
+  };
+}
+
+export function addAttributeToProfileSuccess(respond, profileID) {
+  return {
+    type: ADD_ATTRIBUTE_TO_PROFILE_SUCCESS,
+    respond,
+    profileID,
+  };
+}
+
+export function editAttributeFromProfile(attributeKey, attributeValue, profileID) {
+  return {
+    type: EDIT_ATTRIBUTE_TO_PROFILE,
+    attributeKey,
+    attributeValue,
+    profileID,
+  };
+}
+
+export function editAttributeFromProfileSuccess(respond, profileID) {
+  return {
+    type: EDIT_ATTRIBUTE_TO_PROFILE_SUCCESS,
+    respond,
+    profileID,
+  };
+}
+
+export function editAttributeFromProfileError(respond, profileID) {
+  return {
+    type: EDIT_ATTRIBUTE_TO_PROFILE_ERROR,
+    respond,
+    profileID,
+  };
+}
+
+export function deleteAttributeFromProfile(attributeKey, profileID) {
+  return {
+    type: DELETE_ATTRIBUTE_FROM_PROFILE,
+    attributeKey,
+    profileID,
+  };
+}
+
+export function deleteAttributeFromProfileSuccess(respond, attributeKey, profileID) {
+  return {
+    type: DELETE_ATTRIBUTE_FROM_PROFILE_SUCCESS,
+    respond,
+    attributeKey,
     profileID,
   };
 }
