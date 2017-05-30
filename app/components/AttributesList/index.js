@@ -9,7 +9,6 @@ import TextField from 'material-ui/TextField';
 import AutoComplete from 'material-ui/AutoComplete';
 import AttributesListItem from 'components/AttributesListItem';
 
-import 'bootstrap/dist/css/bootstrap.css';
 import styles from './styles.css';
 
 const listOfAttributeKeys = [
