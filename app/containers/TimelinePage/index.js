@@ -63,7 +63,20 @@ export class TimelinePage extends React.Component { // eslint-disable-line react
       }
       return false;
     });
+    const activityEvents = events.filter((event) => {
+      if (event['@type'] === 'ActivityEvent') {
+        return true;
+      }
+      return false;
+    });
     const rawDataMarginTop = '-8';
+    const activityColors = {
+        'Re:Know': '#67ff67',
+        'Admin': '#e3ff67',
+        'Focus area': '#ff6767',
+        'Misc': '#ff67ff',
+    };
+
     return (
       <div className={styles.timelineContainer}>
         <div className={styles.timeline}>
@@ -162,6 +175,16 @@ export class TimelinePage extends React.Component { // eslint-disable-line react
                 }
               }
               return null;
+            })}
+            {activityEvents.map((event, index) => {
+                const startTime = getTimeInMins(new Date(event.start)) / 14.4;
+                const endTime = getTimeInMins(new Date(event.end)) / 14.4;
+                const duration = endTime - startTime;
+                return (
+                        <div className={styles.activity} style={{ left: `${startTime}%`, width: `${duration}%`, 'background-color': `${activityColors[event.activity]}` }}>
+                        <div className={styles.activityText}>{event.activity}</div>
+                        </div>
+                );
             })}
             {timeStamps.map((time, index) => <div className={styles.timeStamp} key={`time ${index}`} style={{ left: `${(100 / 24) * index}%` }}><br /><br />{time}</div>)}
           </div>

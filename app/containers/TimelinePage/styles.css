@@ -37,6 +37,28 @@
   border-radius: 0;
 }
 
+.activity {
+  position: absolute;
+  height: 30px;
+  min-width: 5px;
+  background: rgba(1, 0, 0, 0.15);
+  border-radius: 5px;
+}
+
+.activityText {
+  display: block;
+  font-size: 0.85vw;
+  font-family: 'Roboto Mono', monospace;
+  font-weight: 100;
+  position: relative;
+  transform: rotate(-90.0deg);
+  transform-origin: left center;
+  padding-top: 5px;
+  padding-left: 20px;
+  white-space: nowrap;
+}
+
+
 .stepsValue {
   display: block;
   font-family: 'Roboto Mono', monospace;
