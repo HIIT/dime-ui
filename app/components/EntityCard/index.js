@@ -309,7 +309,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
         className={styles.entityWrapper}
       >
         <Col xsOffset={0} xs={1} smOffset={2} sm={2} >
-          {this.renderTime(entity.timeCreated)}
+          {this.renderTime(entity.start)}
         </Col>
         <Col xsOffset={1} xs={8} smOffset={0} sm={6} >
           <Card

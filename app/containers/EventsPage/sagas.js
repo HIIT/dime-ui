@@ -21,9 +21,9 @@ import {
 export function* getEvents(action) {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  let requestURL = `http://${url}/api/data/events?includePlainTextContent=1&limit=24&page=0`;
+  let requestURL = `http://${url}/api/data/events?orderBy=start&desc=true&includePlainTextContent=1&limit=24&page=0`;
   if (action.nextPageNumber) {
-    requestURL = `http://${url}/api/data/events?includePlainTextContent=1&limit=24&page=${action.nextPageNumber}`;
+    requestURL = `http://${url}/api/data/events?orderBy=start&desc=true&includePlainTextContent=1&limit=24&page=${action.nextPageNumber}`;
   }
   const options = {
     method: 'GET',
