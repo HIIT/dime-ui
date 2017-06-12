@@ -190,7 +190,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
         <CardText>
           <Row>
             <Col
-              xs={2}
+              xs={4}
             >
               <h4>Attributes</h4>
               <AttributesList
@@ -227,7 +227,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
               }
             </Col>
             <Col
-              xs={2}
+              xs={4}
             >
               {this.renderSuggestedEntitiesList(profile, editing)}
             </Col>
