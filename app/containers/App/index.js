@@ -27,6 +27,7 @@ import {
   selectEventsPageLoading,
   selectProfilesPageLoading,
   selectTimelinePageLoading,
+  selectLinkContractsPageLoading,
   selectSignInPageLoading,
   selectAppError,
 } from './selectors';
@@ -45,6 +46,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     eventsPageLoading: React.PropTypes.bool,
     profilesPageLoading: React.PropTypes.bool,
     timelinePageLoading: React.PropTypes.bool,
+    linkContractsPageLoading: React.PropTypes.bool,
     signInPageLoading: React.PropTypes.bool,
     appError: React.PropTypes.object,
     clearCredentials: React.PropTypes.func,
@@ -56,7 +58,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     this.props.clearCredentials();
   }
   render() {
-    const { documentsPageLoading, appLoading, eventsPageLoading, profilesPageLoading, timelinePageLoading, signInPageLoading } = this.props;
+    const { documentsPageLoading, appLoading, eventsPageLoading, profilesPageLoading, timelinePageLoading, linkContractsPageLoading, signInPageLoading } = this.props;
     const { appError } = this.props;
     const hasError = !(Object.keys(appError).length === 0 && appError.constructor === Object);
     return (
@@ -73,7 +75,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
             getVersionNumber={this.props.getVersionNumber}
           />
           <div style={{ opacity: 0.65 }}>
-            <ProgressBar intervalTime={40} autoIncrement percent={(appLoading || documentsPageLoading || eventsPageLoading || profilesPageLoading || timelinePageLoading || signInPageLoading) === true ? 30 : 100} />
+            <ProgressBar intervalTime={40} autoIncrement percent={(appLoading || documentsPageLoading || eventsPageLoading || profilesPageLoading || timelinePageLoading || linkContractsPageLoading || signInPageLoading) === true ? 30 : 100} />
           </div>
           {React.Children.toArray(this.props.children)}
           {appError.response ?
@@ -106,6 +108,7 @@ const mapStateToProps = createStructuredSelector({
   eventsPageLoading: selectEventsPageLoading(),
   profilesPageLoading: selectProfilesPageLoading(),
   timelinePageLoading: selectTimelinePageLoading(),
+  linkContractsPageLoading: selectLinkContractsPageLoading(),
   signInPageLoading: selectSignInPageLoading(),
   appError: selectAppError(),
   versionNumber: selectVersionNumber(),

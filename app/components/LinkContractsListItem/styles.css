@@ -1,0 +1,14 @@
+.linkContractsListItem { /* stylelint-ignore */
+}
+
+span.fromToTitle {
+  color: red;
+}
+
+span.fromToName {
+  color: blue;
+}
+
+span.fromToDid {
+  color: green;
+}

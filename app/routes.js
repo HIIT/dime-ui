@@ -174,6 +174,26 @@ export default function createRoutes(store) {
         previousPath = nextState.location.pathname;
       },
     }, {
+      path: '/linkcontracts',
+      name: 'linkContractsPage',
+      getComponent(nextState, cb) {
+        const importModules = Promise.all([
+          System.import('containers/LinkContractsPage/reducer'),
+          System.import('containers/LinkContractsPage/sagas'),
+          System.import('containers/LinkContractsPage'),
+        ]);
+
+        const renderRoute = loadModule(cb);
+
+        importModules.then(([reducer, sagas, component]) => {
+          injectReducer('linkContractsPage', reducer.default);
+          injectSagas(sagas.default);
+          renderRoute(component);
+        });
+
+        importModules.catch(errorLoading);
+      },
+    }, {
       path: '*',
       name: 'notfound',
       getComponent(nextState, cb) {

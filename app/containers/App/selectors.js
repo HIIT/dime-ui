@@ -25,6 +25,7 @@ const selectDocumentsPageLoading = () => state => state.getIn(['documentsPage', 
 const selectEventsPageLoading = () => state => state.getIn(['eventsPage', 'loading']);
 const selectProfilesPageLoading = () => state => state.getIn(['profilesPage', 'loading']);
 const selectTimelinePageLoading = () => state => state.getIn(['timelinePage', 'loading']);
+const selectLinkContractsPageLoading = () => state => state.getIn(['linkContractsPage', 'loading']);
 const selectSignInPageLoading = () => state => state.getIn(['signInPage', 'loading']);
 
 const selectAppError = () => state => state.getIn(['app', 'error']);
@@ -41,6 +42,7 @@ export {
   selectEventsPageLoading,
   selectProfilesPageLoading,
   selectTimelinePageLoading,
+  selectLinkContractsPageLoading,
   selectSignInPageLoading,
   selectAppError,
 };

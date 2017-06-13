@@ -31,7 +31,7 @@ const initialState = fromJS({
   eventCount: 0,
 });
 
-function appReducer(state = (process.env.NODE_ENV !== 'production' ? initialState.setIn(['API', 'url'], 'localhost:8080') : initialState), action) {
+function appReducer(state = (process.env.NODE_ENV !== 'production' ? initialState.setIn(['API', 'url'], 'localhost:8082') : initialState), action) {
   switch (action.type) {
     case SAVE_CREDENTIALS:
       return state
