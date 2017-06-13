@@ -116,9 +116,10 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
             />
           </div>
           : null }
-        { editing ? null :
+        { true ? null :
           <div className={styles.cardHeaderPeopleFinderWrapper}>
             <RaisedButton
+              visible="false"
               label="Send to People Finder"
               icon={<SocialPeople />}
               onClick={(mouseEvent) => { this.handleClickOnPeopleFinder(profile, mouseEvent); }}
