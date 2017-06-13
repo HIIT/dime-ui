@@ -6,7 +6,7 @@
 
 import React from 'react';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
-import ActionAccountCircleIcon from 'react-material-icons/icons/action/account-circle';
+import ActionAccountCircleIcon from './account-circle';
 import { blue500, green500, grey200 } from 'material-ui/styles/colors';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
