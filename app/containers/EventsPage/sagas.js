@@ -10,10 +10,10 @@ import { selectAuth, selectAPI } from './selectors';
 import {
   eventsLoaded,
   searchEventLoaded,
-  deleteEventSucess,
-  toogleEventTagScuess,
+  deleteEventSuccess,
+  toggleEventTagSuccess,
   profilesLoaded,
-  addEventToProfileSucess,
+  addEventToProfileSuccess,
 } from './actions';
 
 // Init EventList Sage (Load Event Sage)
@@ -81,7 +81,7 @@ export function* deleteEvent(action) {
   try {
     const respond = yield call(request, requestURL, options);
     if (respond) {
-      yield put(deleteEventSucess(respond, action.eventID));
+      yield put(deleteEventSuccess(respond, action.eventID));
       yield put(clearAppError());
     }
   } catch (error) {
@@ -91,7 +91,7 @@ export function* deleteEvent(action) {
 
 // Click Event Tag Saga
 
-export function* toogleEventTagAutoLabel(action) {
+export function* toggleEventTagAutoLabel(action) {
   const { tag, eventID } = action;
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
@@ -125,7 +125,7 @@ export function* toogleEventTagAutoLabel(action) {
       try {
         const addTagRespond = yield call(request, addTagRequestURL, addTagRequestOptions);
         if (addTagRespond) {
-          yield put(toogleEventTagScuess(addTagRespond, tag, eventID));
+          yield put(toggleEventTagSuccess(addTagRespond, tag, eventID));
           yield put(clearAppError());
         }
       } catch (error) {
@@ -181,7 +181,7 @@ export function* addToProfile(action) {
   try {
     const addToProfieRespond = yield call(request, addToProfileRequestURL, addToProfileRequestOptions);
     if (addToProfieRespond) {
-      yield put(addEventToProfileSucess(addToProfieRespond, profileID));
+      yield put(addEventToProfileSuccess(addToProfieRespond, profileID));
       yield put(clearAppError());
     }
   } catch (error) {
@@ -195,7 +195,7 @@ export default [
   cancelByLocationChange(LOAD_MORE_EVENTS, getEvents),
   cancelByLocationChange(SEARCH_EVENTS, searchEvent),
   cancelByLocationChange(DELETE_EVENT, deleteEvent),
-  cancelByLocationChange(CLICK_EVENT_TAG, toogleEventTagAutoLabel),
+  cancelByLocationChange(CLICK_EVENT_TAG, toggleEventTagAutoLabel),
   cancelByLocationChange(LOAD_PROFILES, getProfiles),
   cancelByLocationChange(ADD_EVENT_TO_PROFILE, addToProfile),
 ];

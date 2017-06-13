@@ -21,8 +21,8 @@ const selectVersionNumber = () => state => state.getIn(['app', 'versionNumber'])
 
 const selectAppLoading = () => state => state.getIn(['app', 'loading']);
 const selectEventCount = () => state => state.getIn(['app', 'eventCount']);
-const selectDocumentsPageLoading = () => state => state.getIn(['eventsPage', 'loading']);
-const selectEventsPageLoading = () => state => state.getIn(['documentsPage', 'loading']);
+const selectDocumentsPageLoading = () => state => state.getIn(['documentsPage', 'loading']);
+const selectEventsPageLoading = () => state => state.getIn(['eventsPage', 'loading']);
 const selectProfilesPageLoading = () => state => state.getIn(['profilesPage', 'loading']);
 const selectTimelinePageLoading = () => state => state.getIn(['timelinePage', 'loading']);
 const selectSignInPageLoading = () => state => state.getIn(['signInPage', 'loading']);

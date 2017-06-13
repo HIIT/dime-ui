@@ -31,7 +31,7 @@ import {
   addTagToProfileSuccess,
   deleteTagFromProfileSuccess,
   deleteEntityFromProfileSuccess,
-  entityStateToggleScuess,
+  entityStateToggleSuccess,
   sendToPeopleFinderSuccess,
 } from './actions';
 
@@ -369,7 +369,7 @@ export function* entityStateToggle(action) {
       try {
         const addEntityBackToProfileRespond = yield call(request, addEntityBackToProfileRequestURL, addEntityBackToProfileOptions);
         if (addEntityBackToProfileRespond) {
-          yield put(entityStateToggleScuess(addEntityBackToProfileRespond, entity.id, preEntityType, afterEntitytype, profileID));
+          yield put(entityStateToggleSuccess(addEntityBackToProfileRespond, entity.id, preEntityType, afterEntitytype, profileID));
           yield put(clearAppError());
         }
       } catch (error) {

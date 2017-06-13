@@ -13,9 +13,9 @@ import {
   SEARCH_EVENTS,
   SEARCH_EVENTS_SUCCESS,
   DELETE_EVENT,
-  DELETE_EVENT_SUCESS,
+  DELETE_EVENT_SUCCESS,
   CLICK_EVENT_TAG,
-  TOOGLE_EVENT_TAG_SUCESS,
+  TOGGLE_EVENT_TAG_SUCCESS,
   LOAD_PROFILES,
   LOAD_PROFILES_SUCCESS,
   ADD_EVENT_TO_PROFILE,
@@ -51,14 +51,14 @@ function eventsPageReducer(state = initialState, action) {
     case DELETE_EVENT:
       return state
         .set('loading', true);
-    case DELETE_EVENT_SUCESS:
+    case DELETE_EVENT_SUCCESS:
       return state
         .set('loading', false)
         .deleteIn(['data', state.get('data').findIndex((item) => item.get('id') === action.eventID)]);
     case CLICK_EVENT_TAG:
       return state
         .set('loading', true);
-    case TOOGLE_EVENT_TAG_SUCESS: {
+    case TOGGLE_EVENT_TAG_SUCCESS: {
       const eventIndex = state.get('data').findIndex((item) => item.get('id') === action.respond.id);
       const newEventWithNewTags = fromJS(action.respond);
       return state

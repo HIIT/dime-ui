@@ -29,7 +29,7 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
     mouseEvent.stopPropagation();
     this.props.clickOnEntityDelete(entityID, entityType, this.props.profileID);
   }
-  handleClickOnToogle = (mouseEvent, isInputChecked, entity, entityType, profileID) => {
+  handleClickOnToggle = (mouseEvent, isInputChecked, entity, entityType, profileID) => {
     this.props.clickOnEntityStateToggle(entity, entityType, profileID);
   }
   renderEvent(entityID, event, editing) {
@@ -157,7 +157,7 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
                   />
                 }
                 defaultChecked={entityType.indexOf('suggested') === -1}
-                onCheck={(event, isInputChecked) => this.handleClickOnToogle(event, isInputChecked, entity, entityType, profileID)}
+                onCheck={(event, isInputChecked) => this.handleClickOnToggle(event, isInputChecked, entity, entityType, profileID)}
               />
             </div>
           : null }

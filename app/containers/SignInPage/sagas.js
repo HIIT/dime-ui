@@ -5,8 +5,8 @@ import { SUBMIT_SIGNIN, SUBMIT_CREATE } from './constants';
 import { saveCredentials, receiveAppError, clearAppError } from 'containers/App/actions';
 import { cancelByLocationChange } from 'containers/App/sagas';
 import {
-  signInSucess,
-  createSucess,
+  signInSuccess,
+  createSuccess,
   submitSignIn as submitSignInAction,
 } from './actions';
 import { selectAPI, selectLocationBeforeSignIn } from './selecters';
@@ -25,7 +25,7 @@ export function* submitSignIn({ username, password, rememberMe }) {
   try {
     const respond = yield call(request, requestURL, options);
     if (respond) {
-      yield put(signInSucess(respond));
+      yield put(signInSuccess(respond));
       yield put(saveCredentials(username, password, rememberMe, respond.userId));
       yield put(clearAppError());
       if (previousLocation) {
@@ -63,7 +63,7 @@ export function* submitCreate({ username, password, email, rememberMe }) {
   };
   try {
     const respond = yield call(request, requestURL, options);
-    yield put(createSucess(respond));
+    yield put(createSuccess(respond));
     yield put(submitSignInAction(username, password, rememberMe));
     yield put(clearAppError());
   } catch (error) {

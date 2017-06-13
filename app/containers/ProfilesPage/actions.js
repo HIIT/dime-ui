@@ -324,7 +324,7 @@ export function clickOnEntityStateToggle(entity, entityType, profileID) {
   };
 }
 
-export function entityStateToggleScuess(respond, entityID, preEntityType, afterEntityType, profileID) {
+export function entityStateToggleSuccess(respond, entityID, preEntityType, afterEntityType, profileID) {
   return {
     type: ENTITY_STATE_TOGGLE_SUCCESS,
     respond,

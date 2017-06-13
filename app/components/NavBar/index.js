@@ -65,6 +65,7 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
                 <MenuItem value={'/documents'} primaryText="Documents" />
                 <MenuItem value={'/profiles'} primaryText="Profiles" />
                 <MenuItem value={'/timeline'} primaryText="Timeline" />
+                <MenuItem value={'/linkcontracts'} primaryText="Link Contracts" />
               </DropDownMenu>
             </div>
           }

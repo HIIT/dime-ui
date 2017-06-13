@@ -20,7 +20,7 @@ export function submitSignIn(username, password, rememberMe) {
   };
 }
 
-export function signInSucess(respond) {
+export function signInSuccess(respond) {
   return {
     type: SIGNIN_SUCCESS,
     respond,
@@ -37,7 +37,7 @@ export function submitCreate(username, password, email, rememberMe) {
   };
 }
 
-export function createSucess(respond) {
+export function createSuccess(respond) {
   return {
     type: CREATE_SUCCESS,
     respond,

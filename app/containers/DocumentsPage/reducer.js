@@ -13,9 +13,9 @@
    SEARCH_DOCUMENTS,
    SEARCH_DOCUMENTS_SUCCESS,
    DELETE_DOCUMENT,
-   DELETE_DOCUMENT_SUCESS,
+   DELETE_DOCUMENT_SUCCESS,
    CLICK_DOCUMENT_TAG,
-   TOOGLE_DOCUMENT_TAG_SUCESS,
+   TOGGLE_DOCUMENT_TAG_SUCCESS,
    LOAD_PROFILES,
    LOAD_PROFILES_SUCCESS,
    ADD_DOCUMENT_TO_PROFILE,
@@ -51,14 +51,14 @@
      case DELETE_DOCUMENT:
        return state
          .set('loading', true);
-     case DELETE_DOCUMENT_SUCESS:
+     case DELETE_DOCUMENT_SUCCESS:
        return state
          .set('loading', false)
          .deleteIn(['data', state.get('data').findIndex((item) => item.get('id') === action.documentID)]);
      case CLICK_DOCUMENT_TAG:
        return state
          .set('loading', true);
-     case TOOGLE_DOCUMENT_TAG_SUCESS: {
+     case TOGGLE_DOCUMENT_TAG_SUCCESS: {
        const informationDocumentIndex = state.get('data').findIndex((item) => item.get('id') === action.documentID);
        const newInfoDocWithNewTags = fromJS(action.respond);
        return state

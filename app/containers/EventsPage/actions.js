@@ -18,9 +18,9 @@ import {
   SEARCH_EVENTS_SUCCESS,
   CLICK_EVENT_CARD,
   DELETE_EVENT,
-  DELETE_EVENT_SUCESS,
+  DELETE_EVENT_SUCCESS,
   CLICK_EVENT_TAG,
-  TOOGLE_EVENT_TAG_SUCESS,
+  TOGGLE_EVENT_TAG_SUCCESS,
   LOAD_PROFILES,
   LOAD_PROFILES_SUCCESS,
   ADD_EVENT_TO_PROFILE,
@@ -88,9 +88,9 @@ export function deleteEvent(eventID) {
   };
 }
 
-export function deleteEventSucess(respond, eventID) {
+export function deleteEventSuccess(respond, eventID) {
   return {
-    type: DELETE_EVENT_SUCESS,
+    type: DELETE_EVENT_SUCCESS,
     respond,
     eventID,
   };
@@ -110,9 +110,9 @@ export function clickOnEventTag(tag, eventID) {
   };
 }
 
-export function toogleEventTagScuess(respond, tag, eventID) {
+export function toggleEventTagSuccess(respond, tag, eventID) {
   return {
-    type: TOOGLE_EVENT_TAG_SUCESS,
+    type: TOGGLE_EVENT_TAG_SUCCESS,
     respond,
     tag,
     eventID,
@@ -146,7 +146,7 @@ export function addEventToProfile(event, profileID) {
   };
 }
 
-export function addEventToProfileSucess(respond, profileID) {
+export function addEventToProfileSuccess(respond, profileID) {
   return {
     type: ADD_EVENT_TO_PROFILE_SUCCESS,
     respond,
@@ -162,7 +162,7 @@ export function removeEventFromProfile(Event, profileID) {
   };
 }
 
-export function removeEventFromProfileSucess(respond, profileID) {
+export function removeEventFromProfileSuccess(respond, profileID) {
   return {
     type: REMOVE_EVENT_FROM_PROFILE_SUCCESS,
     event,

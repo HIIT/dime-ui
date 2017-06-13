@@ -11,10 +11,10 @@
  export const SEARCH_DOCUMENTS_SUCCESS = 'app/DocumentsPage/SEARCH_DOCUMENTS_SUCCESS';
  export const CLICK_DOCUMENT_CARD = 'app/DocumentsPage/CLICK_DOCUMENT_CARD';
  export const DELETE_DOCUMENT = 'app/DocumentsPage/DELETE_DOCUMENT';
- export const DELETE_DOCUMENT_SUCESS = 'app/DocumentsPage/DELETE_DOCUMENT_SUCESS';
+ export const DELETE_DOCUMENT_SUCCESS = 'app/DocumentsPage/DELETE_DOCUMENT_SUCCESS';
  export const CLICK_DOCUMENT_TAG = 'app/DocumentsPage/CLICK_DOCUMENT_TAG';
- export const REMOVE_DOCUMENT_TAG_SUCESS = 'app/DocumentsPage/REMOVE_DOCUMENT_TAG_SUCESS';
- export const TOOGLE_DOCUMENT_TAG_SUCESS = 'app/DocumentsPage/TOOGLE_DOCUMENT_TAG_SUCESS';
+ export const REMOVE_DOCUMENT_TAG_SUCCESS = 'app/DocumentsPage/REMOVE_DOCUMENT_TAG_SUCCESS';
+ export const TOGGLE_DOCUMENT_TAG_SUCCESS = 'app/DocumentsPage/TOGGLE_DOCUMENT_TAG_SUCCESS';
  export const LOAD_PROFILES = 'app/DocumentsPage/LOAD_PROFILES';
  export const LOAD_PROFILES_SUCCESS = 'app/DocumentsPage/LOAD_PROFILES_SUCCESS';
  export const ADD_DOCUMENT_TO_PROFILE = 'app/DocumentsPage/ADD_DOCCUMENT_TO_PROFILE';

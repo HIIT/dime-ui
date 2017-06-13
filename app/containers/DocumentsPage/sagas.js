@@ -10,10 +10,10 @@ import { selectAuth, selectAPI } from './selectors';
 import {
   documentsLoaded,
   searchDocumentLoaded,
-  deleteDocumentSucess,
-  toogleDocumentTagScuess,
+  deleteDocumentSuccess,
+  toggleDocumentTagSuccess,
   profilesLoaded,
-  addDocumentToProfileSucess,
+  addDocumentToProfileSuccess,
 } from './actions';
 
 // Init DocumentList Sage (Load Document Sage)
@@ -86,7 +86,7 @@ export function* deleteDocument(action) {
   try {
     const respond = yield call(request, requestURL, options);
     if (respond) {
-      yield put(deleteDocumentSucess(respond, action.documentID));
+      yield put(deleteDocumentSuccess(respond, action.documentID));
       yield put(clearAppError());
     }
   } catch (error) {
@@ -96,7 +96,7 @@ export function* deleteDocument(action) {
 
 // Click Document Tag Saga
 
-export function* toogleDocumentTagAutoLabel(action) {
+export function* toggleDocumentTagAutoLabel(action) {
   const { tag, documentID } = action;
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
@@ -130,7 +130,7 @@ export function* toogleDocumentTagAutoLabel(action) {
       try {
         const addTagRespond = yield call(request, addTagRequestURL, addTagRequestOptions);
         if (addTagRespond) {
-          yield put(toogleDocumentTagScuess(addTagRespond, tag, documentID));
+          yield put(toggleDocumentTagSuccess(addTagRespond, tag, documentID));
           yield put(clearAppError());
         }
       } catch (error) {
@@ -186,7 +186,7 @@ export function* addToProfile(action) {
   try {
     const respond = yield call(request, addToProfileRequestURL, addToProfileRequestOptions);
     if (respond) {
-      yield put(addDocumentToProfileSucess(respond, profileID));
+      yield put(addDocumentToProfileSuccess(respond, profileID));
       yield put(clearAppError());
     }
   } catch (error) {
@@ -200,7 +200,7 @@ export default [
   cancelByLocationChange(LOAD_MORE_DOCUMENTS, getDocuments),
   cancelByLocationChange(SEARCH_DOCUMENTS, searchDocument),
   cancelByLocationChange(DELETE_DOCUMENT, deleteDocument),
-  cancelByLocationChange(CLICK_DOCUMENT_TAG, toogleDocumentTagAutoLabel),
+  cancelByLocationChange(CLICK_DOCUMENT_TAG, toggleDocumentTagAutoLabel),
   cancelByLocationChange(LOAD_PROFILES, getProfiles),
   cancelByLocationChange(ADD_DOCUMENT_TO_PROFILE, addToProfile),
 ];
