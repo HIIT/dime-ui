@@ -3,26 +3,6 @@
  * LinkContractsPage actions
  *
  */
-/*
- import {
-   LOAD_LINKCONTRACTS,
-   LOAD_LINKCONTRACTS_SUCCESS,
- } from './constants';
-
- export function loadLinkContracts() {
-   return {
-     type: LOAD_LINKCONTRACTS,
-   };
- }
-
- export function LinkContractsLoaded(linkContracts) {
-   return {
-     type: LOAD_LINKCONTRACTS_SUCCESS,
-     linkContracts,
-   };
- }*/
-
-
 import {
   LOAD_LINKCONTRACTREQUESTS,
   LOAD_LINKCONTRACTREQUESTS_SUCCESS,
@@ -55,33 +35,32 @@ export function loadLinkContractRequestsLoaded(linkContractRequests) {
   };
 }
 
-export function acceptLinkContractRequest(fromDid, toAddress) {
+export function acceptLinkContractRequest(fromAddress) {
   return {
     type: ACCEPT_LINKCONTRACT_REQUEST,
-    fromDid,
-    toAddress,
+    fromAddress,
   };
 }
 
-export function acceptLinkContractRequestLoaded(response) {
+export function acceptLinkContractRequestLoaded(fromAddress, linkContracts) {
   return {
     type: ACCEPT_LINKCONTRACT_REQUEST_SUCCESS,
-    response,
+    fromAddress,
+    linkContracts,
   };
 }
 
-export function declineLinkContractRequest(fromDid, toAddress) {
+export function declineLinkContractRequest(fromAddress) {
   return {
     type: DECLINE_LINKCONTRACT_REQUEST,
-    fromDid,
-    toAddress,
+    fromAddress,
   };
 }
 
-export function declineLinkContractRequestLoaded(response) {
+export function declineLinkContractRequestLoaded(fromAddress) {
   return {
     type: DECLINE_LINKCONTRACT_REQUEST_SUCCESS,
-    response,
+    fromAddress,
   };
 }
 
@@ -108,18 +87,17 @@ export function searchLinkContracts(keyword) {
   };
 }
 
-export function deleteLinkContract(fromDid, toAddress) {
+export function deleteLinkContract(address) {
   return {
     type: DELETE_LINKCONTRACT,
-    fromDid,
-    toAddress,
+    address,
   };
 }
 
-export function deleteLinkContractLoaded(response) {
+export function deleteLinkContractLoaded(address) {
   return {
     type: DELETE_LINKCONTRACT_SUCCESS,
-    response,
+    address,
   };
 }
 

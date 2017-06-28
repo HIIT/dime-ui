@@ -37,12 +37,14 @@ class LinkContractsList extends React.Component { // eslint-disable-line react/p
     const linkContractNodes = Object.keys(linkContracts).map((key) => (
       <LinkContractsListItem
         key={key}
+        id={linkContracts[key].id}
         type={this.props.type}
         fromDid={linkContracts[key].fromDid}
         fromName={linkContracts[key].fromName}
-        toAddress={linkContracts[key].address}
+        fromAddress={linkContracts[key].fromAddress}
         toDid={linkContracts[key].toDid}
         toName={linkContracts[key].toName}
+        toAddress={linkContracts[key].toAddress}
         data={linkContracts[key].data}
         acceptLinkRequest={acceptLinkRequest}
         declineLinkContract={declineLinkContract}
