@@ -51,13 +51,12 @@
   font-family: 'Roboto Mono', monospace;
   font-weight: 100;
   position: relative;
-  transform: rotate(-90.0deg);
+  transform: rotate(-90deg);
   transform-origin: left center;
   padding-top: 5px;
   padding-left: 20px;
   white-space: nowrap;
 }
-
 
 .stepsValue {
   display: block;
