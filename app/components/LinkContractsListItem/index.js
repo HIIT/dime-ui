@@ -25,12 +25,14 @@ const buttonStyle = {
 
 class LinkContractsListItem extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
+    id: React.PropTypes.string,
     type: React.PropTypes.string,
     fromDid: React.PropTypes.string,
     fromName: React.PropTypes.string,
-    toAddress: React.PropTypes.string,
+    fromAddress: React.PropTypes.string,
     toDid: React.PropTypes.string,
     toName: React.PropTypes.string,
+    toAddress: React.PropTypes.string,
     data: React.PropTypes.object,
     acceptLinkRequest: React.PropTypes.func,
     declineLinkContract: React.PropTypes.func,
@@ -38,7 +40,7 @@ class LinkContractsListItem extends React.Component { // eslint-disable-line rea
   }
 
   render() {
-    const { type, fromName, fromDid, toAddress, toName, toDid, data,
+    const { id, type, fromName, fromDid, fromAddress, toName, toDid, toAddress, data,
       acceptLinkRequest, declineLinkContract, deleteLinkContract } = this.props;
     const color = (type === 'request') ? green500 : blue500;
 
@@ -46,18 +48,20 @@ class LinkContractsListItem extends React.Component { // eslint-disable-line rea
       <Card>
         <CardHeader
           className={styles.linkContractsListItem}
-          title={
+          title={(fromDid ?
             <span>
               <span className="fromToTitle">From:</span>&nbsp;
               <span className="fromToName">{fromName}</span>&nbsp;
               <span className="fromToDid">{fromDid}</span>
-            </span>}
-          subtitle={
+            </span>
+          : '')}
+          subtitle={(toDid ?
             <span>
               <span className="fromToTitle">To:</span>&nbsp;
               <span className="fromToName">{toName}</span>&nbsp;
               <span className="fromToDid">{toDid}</span>
-            </span>}
+            </span>
+          : '')}
           actAsExpander
           showExpandableButton
           avatar={<ActionAccountCircleIcon color={color} style={iconStyles} />}
@@ -69,13 +73,13 @@ class LinkContractsListItem extends React.Component { // eslint-disable-line rea
                 label="Accept"
                 primary
                 style={buttonStyle}
-                onClick={() => acceptLinkRequest(fromDid, toAddress)}
+                onClick={() => acceptLinkRequest(id)}
               />
               <RaisedButton
                 label="Decline"
                 secondary
                 style={buttonStyle}
-                onClick={() => declineLinkContract(fromDid, toAddress)}
+                onClick={() => declineLinkContract(id)}
               />
             </div>
           :
@@ -84,20 +88,21 @@ class LinkContractsListItem extends React.Component { // eslint-disable-line rea
                 label="Remove"
                 secondary
                 style={buttonStyle}
-                onClick={() => deleteLinkContract(fromDid, toAddress)}
+                onClick={() => deleteLinkContract(id)}
               />
             </div>
           }
         </CardActions>
         <CardText expandable>
+          Raw data
           <TextField
-            id={`${fromDid}:${toAddress}`}
+            id={`${fromAddress}:${toAddress}`}
             hintText=""
             multiLine
-            rows={3}
-            rowsMax={5}
+            rows={5}
+            rowsMax={12}
             fullWidth
-            value={JSON.stringify(data)}
+            value={JSON.stringify(data, null, 6)}
             textareaStyle={{ backgroundColor: grey200 }}
           />
         </CardText>

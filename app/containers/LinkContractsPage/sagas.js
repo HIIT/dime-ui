@@ -14,6 +14,30 @@ import {
   loadLinkContractsLoaded,
   deleteLinkContractLoaded,
 } from './actions';
+import { fromJS } from 'immutable';
+
+// Helper function for parsing the get link contract request results
+
+function parseGetLinkContractRequests(respond) {
+  const results = [];
+  if (respond) {
+    for (let i = 0; i < respond.length; i += 1) {
+      const obj = {};
+      obj.id = respond[i].address;
+      obj.fromName = '';
+      obj.fromDid = obj.id;
+      obj.fromAddress = respond[i].address;
+      obj.toName = '';
+      obj.toDid = respond[i].to;
+      obj.toDidPlusProfile = respond[i].operationVariables['{$get}'][0];
+      obj.toAddress = obj.toDid;
+      // respond[i].toProfileId = 0; // tmp[1];
+      obj.data = fromJS(respond[i]);
+      results.push(obj);
+    }
+  }
+  return results;
+}
 
 // Load Link Contract Requests Saga
 
@@ -30,14 +54,8 @@ export function* getLinkContractRequests() { // action
   try {
     const respond = yield call(request, requestURL, options);
     if (respond) {
-      for (let i = 0; i < respond.length; i += 1) {
-        const tmp = respond[i].address.split('[$msg]@~');
-        respond[i].fromDid = respond[i].from;
-        respond[i].toDid = tmp[0];
-        respond[i].toProfileId = tmp[1];
-        respond[i].data = { info: 'No further data available' };
-      }
-      yield put(loadLinkContractRequestsLoaded(respond));
+      const results = parseGetLinkContractRequests(respond);
+      yield put(loadLinkContractRequestsLoaded(results));
       yield put(clearAppError());
     }
   } catch (error) {
@@ -50,7 +68,7 @@ export function* getLinkContractRequests() { // action
 export function* acceptLinkContractRequest(action) {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/requests/approve/${action.toAddress}`;
+  const requestURL = `http://${url}/api/requests/approve/${encodeURIComponent(action.fromAddress)}`;
   const options = {
     method: 'POST',
     headers: {
@@ -60,10 +78,19 @@ export function* acceptLinkContractRequest(action) {
   try {
     const respond = yield call(request, requestURL, options);
     if (respond) {
-      console.log(respond);
-      // yield put(getLinkContractRequests()); ??
-      // yield put(getLinkContracts()); ??
-      yield put(acceptLinkContractRequestLoaded({}));
+      const requestURL2 = `http://${url}/api/linkcontracts/view`;
+      const options2 = {
+        method: 'GET',
+        headers: {
+          Authorization: `Basic ${token}`,
+        },
+      };
+      const respond2 = yield call(request, requestURL2, options2);
+      let linkContracts = [];
+      if (respond) {
+        linkContracts = parseGetLinkContracts(respond2);
+      }
+      yield put(acceptLinkContractRequestLoaded(action.fromAddress, linkContracts));
       yield put(clearAppError());
     }
   } catch (error) {
@@ -74,7 +101,7 @@ export function* acceptLinkContractRequest(action) {
 export function* declineLinkContractRequest(action) {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/requests/delete?address=${action.toAddress}`;
+  const requestURL = `http://${url}/api/requests/delete?address=${encodeURIComponent(action.fromAddress)}`;
   const options = {
     method: 'POST',
     headers: {
@@ -84,15 +111,35 @@ export function* declineLinkContractRequest(action) {
   try {
     const respond = yield call(request, requestURL, options);
     if (respond) {
-      console.log(respond);
       // yield put(getLinkContractRequests()); ??
       // yield put(getLinkContracts()); ??
-      yield put(declineLinkContractRequestLoaded(respond));
+      yield put(declineLinkContractRequestLoaded(action.fromAddress));
       yield put(clearAppError());
     }
   } catch (error) {
     yield put(receiveAppError(error));
   }
+}
+
+// Helper function for parsing the get link contract results
+
+function parseGetLinkContracts(respond) {
+  const results = [];
+  if (respond) {
+    for (let i = 0; i < respond.length; i += 1) {
+      const obj = {};
+      obj.id = respond[i].address;
+      obj.fromName = '';
+      obj.fromDid = respond[i].requestingAuthority;
+      obj.fromAddress = respond[i].address;
+      obj.toName = '';
+      obj.toDid = respond[i].authorizingAuthority;
+      obj.toAddress = respond[i].address;
+      obj.data = fromJS(respond[i]);
+      results.push(obj);
+    }
+  }
+  return results;
 }
 
 // Load Link Contracts Saga
@@ -110,22 +157,8 @@ export function* getLinkContracts() { // action
   try {
     const respond = yield call(request, requestURL, options);
     if (respond) {
-      console.log(respond);
-      for (let i = 0; i < respond.length; i += 1) {
-        respond[i].fromDid = respond[i].requestingAuthority;
-        respond[i].toDid = respond[i].authorizingAuthority;
-        respond[i].data = { address: respond[i].address };
-
-        /* const requestURL2 = `http://${url}/api/linkcontracts/data/`;
-        const respond2 = yield call(request, requestURL2, options);
-        if (respond2) {
-          console.log('got extra data');
-          console.log(respond2);
-          respond[i].data = respond2;
-        } */
-      }
-      console.log(respond);
-      yield put(loadLinkContractsLoaded(respond));
+      const linkContracts = parseGetLinkContracts(respond);
+      yield put(loadLinkContractsLoaded(linkContracts));
       yield put(clearAppError());
     }
   } catch (error) {
@@ -136,7 +169,7 @@ export function* getLinkContracts() { // action
 export function* deleteLinkContract(action) {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/delete?address=${action.toAddress}`;
+  const requestURL = `http://${url}/api/linkcontracts/delete?address=${encodeURIComponent(action.address)}`;
   const options = {
     method: 'POST',
     headers: {
@@ -148,7 +181,7 @@ export function* deleteLinkContract(action) {
     if (respond) {
       // yield put(getLinkContractRequests()); ??
       // yield put(getLinkContracts()); ??
-      yield put(deleteLinkContractLoaded(respond));
+      yield put(deleteLinkContractLoaded(action.address));
       yield put(clearAppError());
     }
   } catch (error) {

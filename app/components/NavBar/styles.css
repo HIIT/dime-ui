@@ -41,9 +41,6 @@
   float: right;
 }
 
-/* .navBarAccountWrapper {
-} */
-
 .username {
   display: block;
   color: rgba(0, 0, 0, 0.7);
@@ -62,6 +59,6 @@
 .navBarVersionNumberWrapper {
   position: absolute;
   top: 20px;
-  left: 0px;
+  left: 0;
   width: 100px;
 }
