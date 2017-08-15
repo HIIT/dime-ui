@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { selectLinkContractRequests, selectLinkContracts, selectProfiles } from './selectors';
 import {
-  loadLinkContractRequests, acceptLinkContractRequest, declineLinkContractRequest,
+  loadLinkContractRequests, sendLinkContractRequest, acceptLinkContractRequest, declineLinkContractRequest,
   loadLinkContracts, searchLinkContracts, deleteLinkContract, loadProfiles,
 } from './actions';
 import requiresAuth from 'containers/RequiresAuth';
@@ -24,6 +24,7 @@ export class LinkContractsPage extends React.Component { // eslint-disable-line 
   static propTypes = {
     linkContractRequests: React.PropTypes.array,
     loadLinkContractRequests: React.PropTypes.func,
+    sendLinkContractRequest: React.PropTypes.func,
     acceptLinkContractRequest: React.PropTypes.func,
     declineLinkContractRequest: React.PropTypes.func,
 
@@ -67,15 +68,27 @@ export class LinkContractsPage extends React.Component { // eslint-disable-line 
     return obj;
   }
 
-  handleChange = (event) => {
+  handleSearchBoxChange = (event) => {
     this.setState({
       value: event.target.value,
     });
   };
 
-  handleKeyDown = (event) => {
+  handleSearchBoxKeyDown = (event) => {
     if (event.key === 'Enter') {
       this.props.searchLinkContracts(this.state.value);
+    }
+  }
+
+  handleSendLinkContractRequestChange = (event) => {
+    this.setState({
+      value: event.target.value,
+    });
+  };
+
+  handleSendLinkContractRequestKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      this.props.sendLinkContractRequest(this.state.value);
     }
   }
 
@@ -88,8 +101,26 @@ export class LinkContractsPage extends React.Component { // eslint-disable-line 
           <TextField
             hintText={hint}
             floatingLabelText={floatedHint}
-            onKeyDown={this.handleKeyDown}
-            onChange={this.handleChange}
+            onKeyDown={this.handleSearchBoxKeyDown}
+            onChange={this.handleSearchBoxChange}
+            fullWidth
+          />
+        </Col>
+      </Row>
+    );
+  }
+
+  renderSendLinkContractRequest = () => {
+    const hint = 'did';
+    const floatedHint = 'Send link contract request';
+    return (
+      <Row>
+        <Col xsOffset={2} xs={10} smOffset={4} sm={8} >
+          <TextField
+            hintText={hint}
+            floatingLabelText={floatedHint}
+            onKeyDown={this.handleSendLinkContractRequestKeyDown}
+            onChange={this.handleSendLinkContractRequestChange}
             fullWidth
           />
         </Col>
@@ -112,6 +143,7 @@ export class LinkContractsPage extends React.Component { // eslint-disable-line 
       <div className={styles.linkContractsPage}>
         <Grid>
           {this.renderSearchBox()}
+          {this.renderSendLinkContractRequest()}
           <Row>
             <Col xsOffset={2} xs={10} smOffset={4} sm={8} >
               <h2>Requests</h2>
@@ -149,6 +181,7 @@ const mapStateToProps = createStructuredSelector({
 function mapDispatchToProps(dispatch) {
   return {
     loadLinkContractRequests: bindActionCreators(loadLinkContractRequests, dispatch),
+    sendLinkContractRequest: bindActionCreators(sendLinkContractRequest, dispatch),
     acceptLinkContractRequest: bindActionCreators(acceptLinkContractRequest, dispatch),
     declineLinkContractRequest: bindActionCreators(declineLinkContractRequest, dispatch),
     loadLinkContracts: bindActionCreators(loadLinkContracts, dispatch),

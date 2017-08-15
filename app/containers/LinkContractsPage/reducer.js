@@ -8,6 +8,8 @@ import { fromJS } from 'immutable';
 import {
   LOAD_LINKCONTRACTREQUESTS,
   LOAD_LINKCONTRACTREQUESTS_SUCCESS,
+  SEND_LINKCONTRACT_REQUEST,
+  SEND_LINKCONTRACT_REQUEST_SUCCESS,
   ACCEPT_LINKCONTRACT_REQUEST,
   ACCEPT_LINKCONTRACT_REQUEST_SUCCESS,
   DECLINE_LINKCONTRACT_REQUEST,
@@ -36,6 +38,14 @@ function linkContractsPageReducer(state = initialState, action) {
       return state
         .set('linkContractRequests', fromJS(action.linkContractRequests))
         .set('loading', false);
+
+    case SEND_LINKCONTRACT_REQUEST:
+      return state
+        .set('loading', true);
+    case SEND_LINKCONTRACT_REQUEST_SUCCESS: {
+      return state
+        .set('loading', false);
+    }
 
     case ACCEPT_LINKCONTRACT_REQUEST:
       return state

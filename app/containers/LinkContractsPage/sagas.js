@@ -1,6 +1,6 @@
 import { call, put, select } from 'redux-saga/effects';
 import {
-  LOAD_LINKCONTRACTREQUESTS, ACCEPT_LINKCONTRACT_REQUEST, DECLINE_LINKCONTRACT_REQUEST,
+  LOAD_LINKCONTRACTREQUESTS, SEND_LINKCONTRACT_REQUEST, ACCEPT_LINKCONTRACT_REQUEST, DECLINE_LINKCONTRACT_REQUEST,
   LOAD_LINKCONTRACTS, DELETE_LINKCONTRACT,
  } from './constants';
 import request from 'utils/request';
@@ -9,6 +9,7 @@ import { cancelByLocationChange } from 'containers/App/sagas';
 import { selectAuth, selectAPI } from './selectors';
 import {
   loadLinkContractRequestsLoaded,
+  sendLinkContractRequestLoaded,
   acceptLinkContractRequestLoaded,
   declineLinkContractRequestLoaded,
   loadLinkContractsLoaded,
@@ -63,7 +64,30 @@ export function* getLinkContractRequests() { // action
   }
 }
 
-// Accept Link Contract Requests Saga
+// Send Link Contract Request Saga
+
+export function* sendLinkContractRequest(action) {
+  const { token } = yield select(selectAuth());
+  const { url } = yield select(selectAPI());
+  const requestURL = `http://${url}/api/requests/send/${encodeURIComponent(action.toAddress)}`;
+  const options = {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${token}`,
+    },
+  };
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      yield put(sendLinkContractRequestLoaded(action.toAddress));
+      yield put(clearAppError());
+    }
+  } catch (error) {
+    yield put(receiveAppError(error));
+  }
+}
+
+// Accept Link Contract Request Saga
 
 export function* acceptLinkContractRequest(action) {
   const { token } = yield select(selectAuth());
@@ -192,6 +216,7 @@ export function* deleteLinkContract(action) {
 // All sagas to be loaded
 export default [
   cancelByLocationChange(LOAD_LINKCONTRACTREQUESTS, getLinkContractRequests),
+  cancelByLocationChange(SEND_LINKCONTRACT_REQUEST, sendLinkContractRequest),
   cancelByLocationChange(ACCEPT_LINKCONTRACT_REQUEST, acceptLinkContractRequest),
   cancelByLocationChange(DECLINE_LINKCONTRACT_REQUEST, declineLinkContractRequest),
   cancelByLocationChange(LOAD_LINKCONTRACTS, getLinkContracts),

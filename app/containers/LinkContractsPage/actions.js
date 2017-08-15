@@ -6,6 +6,8 @@
 import {
   LOAD_LINKCONTRACTREQUESTS,
   LOAD_LINKCONTRACTREQUESTS_SUCCESS,
+  SEND_LINKCONTRACT_REQUEST,
+  SEND_LINKCONTRACT_REQUEST_SUCCESS,
   ACCEPT_LINKCONTRACT_REQUEST,
   ACCEPT_LINKCONTRACT_REQUEST_SUCCESS,
   DECLINE_LINKCONTRACT_REQUEST,
@@ -32,6 +34,20 @@ export function loadLinkContractRequestsLoaded(linkContractRequests) {
   return {
     type: LOAD_LINKCONTRACTREQUESTS_SUCCESS,
     linkContractRequests,
+  };
+}
+
+export function sendLinkContractRequest(toAddress) {
+  return {
+    type: SEND_LINKCONTRACT_REQUEST,
+    toAddress,
+  };
+}
+
+export function sendLinkContractRequestLoaded(toAddress) {
+  return {
+    type: SEND_LINKCONTRACT_REQUEST_SUCCESS,
+    toAddress,
   };
 }
 
