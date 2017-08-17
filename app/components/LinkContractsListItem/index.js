@@ -65,7 +65,7 @@ class LinkContractsListItem extends React.Component { // eslint-disable-line rea
               <span className={`${styles.fromToDid}`}>{fromDid}</span>
             </span>
           : '')}
-          subtitle={(fromDid ?
+          subtitle={(tags ?
             <span>
               <span className={`${styles.fromToTitle}`}>tags:</span>&nbsp;
               <span className={`${styles.fromTagsList}`}>{this.listTags(tags)}</span>
