@@ -79,7 +79,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
     if (entity.targettedResource || entity.plainTextContent) {
       const plainTextContent = entity.targettedResource ? get(entity, 'targettedResource.plainTextContent') : entity.plainTextContent;
       return (
-        <p className={styles.abstractP}>{plainTextContent.substring(0, 300)}</p>
+        <p className={`${styles.abstractP}`}>{plainTextContent.substring(0, 300)}</p>
       );
     }
     return null;
@@ -91,9 +91,9 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
       <a
         href={entity.targettedResource ? get(entity, 'targettedResource.uri') : entity.uri}
         target="_blank"
-        className={styles.entityTitleLink}
+        className={`${styles.entityTitleLink}`}
       >
-        <span className={styles.entityTitle}>
+        <span className={`${styles.entityTitle}`}>
           {title || type.substring(type.indexOf('#') + 1, type.length || entity['@type'])}
         </span>
       </a>
@@ -104,7 +104,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
       title={this.renderTitle(entity)}
     >
       <div
-        className={styles.cardHeaderInfoWrapper}
+        className={`${styles.cardHeaderInfoWrapper}`}
       >
         {entity.type ?
           <span>
@@ -118,7 +118,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
         : null }
       </div>
       <div
-        className={styles.cardHeaderDeleteWrapper}
+        className={`${styles.cardHeaderDeleteWrapper}`}
       >
         <ActionDelete
           color={grey300}
@@ -157,22 +157,22 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
       </Tab>
     </Tabs>
   renderEntityCardBody = (entity) =>
-    <div className={styles.entityBodyWrapper} >
+    <div className={`${styles.entityBodyWrapper}`} >
       <CardText
         expandable
       >
         {this.renderTagsList(entity)}
         {this.rednerAbstract(entity)}
-        {this.state.json_view_expanded ? null : <span className={styles.fullJSONButton} onClick={this.handleClickOnShowJSON} >Full JSON</span> }
+        {this.state.json_view_expanded ? null : <span className={`${styles.fullJSONButton}`} onClick={this.handleClickOnShowJSON} >Full JSON</span> }
         {this.state.json_view_expanded ? this.renderJSONViewer(entity) : null}
       </CardText>
     </div>
   renderEntityCardExpandReduce = () => {
     if (this.state.entity_details_expanded) {
       return (
-        <div className={styles.clearfix}>
+        <div className={`${styles.clearfix}`}>
           <div
-            className={styles.entityCardReducenWrapper}
+            className={`${styles.entityCardReducenWrapper}`}
             onClick={this.handleReduce}
           >
             <EpandedLess
@@ -187,9 +187,9 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
   renderEntityCardExpandButton = () => {
     if (!this.state.entity_details_expanded) {
       return (
-        <div className={styles.clearfix}>
+        <div className={`${styles.clearfix}`}>
           <div
-            className={styles.entityCardExpandWrapper}
+            className={`${styles.entityCardExpandWrapper}`}
             onClick={this.handleExpand}
             style={{ cursor: 'pointer' }}
           >
@@ -205,7 +205,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
   renderType(type) {
     return (
       <a
-        className={styles.entityType}
+        className={`${styles.entityType}`}
         href={`${type}`}
       >
         {type.substring(type.indexOf('#') + 1, type.length)}
@@ -215,7 +215,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
   renderActor(actor) {
     return (
       <span
-        className={styles.entityActor}
+        className={`${styles.entityActor}`}
       >
         {actor}
       </span>
@@ -228,11 +228,11 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
     }
     return (
       <div
-        className={styles.entityTimeWrapper}
+        className={`${styles.entityTimeWrapper}`}
       >
-        <div className={styles.entityTime} >{timeObject.toLocaleTimeString()} </div>
-        <div className={styles.entityDay}>{dayOfWeekAsString(timeObject.getDay())} </div>
-        <div className={styles.entityDate}>{timeObject.toLocaleDateString()}</div>
+        <div className={`${styles.entityTime}`} >{timeObject.toLocaleTimeString()} </div>
+        <div className={`${styles.entityDay}`}>{dayOfWeekAsString(timeObject.getDay())} </div>
+        <div className={`${styles.entityDate}`}>{timeObject.toLocaleDateString()}</div>
       </div>
     );
   }
@@ -244,25 +244,25 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
     const autoTags = entity.tags.filter((tag) => tag.auto);
     return (
       <div
-        className={styles.entityTagsListWrapper}
+        className={`${styles.entityTagsListWrapper}`}
       >
         <TagsList
           entityID={entity.id}
           tags={autoTags}
           clickOnTag={this.props.clickOnEntityTag}
-          className={styles.autoTag}
+          className={`${styles.autoTag}`}
         />
         <TagsList
           entityID={entity.id}
           tags={notAutoTags}
           clickOnTag={this.props.clickOnEntityTag}
-          className={styles.notAutoTag}
+          className={`${styles.notAutoTag}`}
         />
       </div>
     );
   }
   renderAddToProfile = (entity) =>
-    <div className={styles.addToProfileWrapper}>
+    <div className={`${styles.addToProfileWrapper}`}>
       { this.state.profile_list_expanded ? null :
         <FloatingActionButton
           zDepth={0}
@@ -280,11 +280,11 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
           style={{ display: 'inline-block' }}
         >
           <ul
-            className={styles.profileListUL}
+            className={`${styles.profileListUL}`}
           >
             {this.props.profiles.map((profile) =>
               <li
-                className={styles.profileListLI}
+                className={`${styles.profileListLI}`}
                 key={profile.id}
                 onTouchTap={(mouseEvent) => this.handleAddToProfile(entity, profile.id, mouseEvent)}
               >
@@ -292,7 +292,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
               </li>)
             }
             <li
-              className={styles.profileListLICancel}
+              className={`${styles.profileListLICancel}`}
               onTouchTap={(mouseEvent) => this.handleClickCancelAdd(mouseEvent)}
             >
               Cancel
@@ -306,7 +306,7 @@ export class EntityCard extends React.Component { // eslint-disable-line react/p
     return (
       <Row
         key={entity.id}
-        className={styles.entityWrapper}
+        className={`${styles.entityWrapper}`}
       >
         <Col xsOffset={0} xs={1} smOffset={2} sm={2} >
           {this.renderTime(entity.start == null ? entity.timeCreated : entity.start)}

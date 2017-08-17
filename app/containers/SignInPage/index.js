@@ -89,7 +89,7 @@ export class SignInPage extends React.Component { // eslint-disable-line react/p
   }
   render() {
     return (
-      <Grid className={styles.signInFormWrapper}>
+      <Grid className={`${styles.signInFormWrapper}`}>
         <Row>
           <Col xsOffset={2} xs={8} smOffset={3} sm={6} >
             <TextField
@@ -123,7 +123,7 @@ export class SignInPage extends React.Component { // eslint-disable-line react/p
               style={{ marginTop: '20px' }}
               onCheck={this.handleRememberMeChecked}
             />
-            <div className={styles.signInActionWrapper}>
+            <div className={`${styles.signInActionWrapper}`}>
               <RaisedButton
                 primary
                 label="Sign In"

@@ -70,9 +70,9 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
   renderProfileCardHeader = (profile) => {
     const { editing, name } = profile;
     return (
-      <div className={styles.cardHeader}>
+      <div className={`${styles.cardHeader}`}>
         <div
-          className={styles.cardHeaderTitleWrapper}
+          className={`${styles.cardHeaderTitleWrapper}`}
         >
           <TextField
             defaultValue={name}
@@ -84,7 +84,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
           />
         </div>
         <div
-          className={styles.cardHeaderDeleteWrapper}
+          className={`${styles.cardHeaderDeleteWrapper}`}
         >
           <RaisedButton
             label="DELETE"
@@ -95,7 +95,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
         </div>
         { editing ? null :
           <div
-            className={styles.cardHeaderEditWrapper}
+            className={`${styles.cardHeaderEditWrapper}`}
           >
             <RaisedButton
               label="EDIT"
@@ -107,7 +107,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
         }
         { editing ?
           <div
-            className={styles.cardHeaderCancelWrapper}
+            className={`${styles.cardHeaderCancelWrapper}`}
           >
             <RaisedButton
               label="EXIT"
@@ -117,7 +117,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
           </div>
           : null }
         { editing ? null :
-          <div className={styles.cardHeaderPeopleFinderWrapper}>
+          <div className={`${styles.cardHeaderPeopleFinderWrapper}`}>
             <RaisedButton
               label="Send to People Finder"
               icon={<SocialPeople />}
@@ -129,7 +129,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
     );
   }
   renderValidatedEntitiesList = (profile, editing) =>
-    <div className={styles.validatedEntitiesWrapper}>
+    <div className={`${styles.validatedEntitiesWrapper}`}>
       { profile.validatedInformationElements.length > 0 ?
         <ProfileEntitiesList
           listTitle="Validated Documents"
@@ -156,7 +156,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
       : null}
     </div>
   renderSuggestedEntitiesList = (profile, editing) =>
-    <div className={styles.suggestedEntitiesWrapper}>
+    <div className={`${styles.suggestedEntitiesWrapper}`}>
       { profile.suggestedInformationElements.length > 0 ?
         <ProfileEntitiesList
           listTitle="Suggested Documents"
@@ -186,7 +186,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
   renderProfileCardBody = (profile) => {
     const { editing, attributes, tags } = profile;
     return (
-      <div className={styles.profileCardBodyWrapper}>
+      <div className={`${styles.profileCardBodyWrapper}`}>
         <CardText>
           <Row>
             <Col
@@ -196,7 +196,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
               <AttributesList
                 profileID={profile.id}
                 attributes={attributes}
-                className={styles.profileAttributes}
+                className={`${styles.profileAttributes}`}
                 editing={editing}
                 deleteAttributeFromProfile={this.props.deleteAttributeFromProfile}
                 editAttributeFromProfile={this.props.editAttributeFromProfile}
@@ -222,7 +222,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
                   entityID={profile.id}
                   tags={profile.tags}
                   clickOnTag={this.props.clickOnProfileTag}
-                  className={styles.profileTags}
+                  className={`${styles.profileTags}`}
                 />
               }
             </Col>

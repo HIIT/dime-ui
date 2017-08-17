@@ -35,7 +35,7 @@ init a component -> compoent call API -> use respond data to mutates application
 5. To play safe, we should remind [React to do type-checking](https://facebook.github.io/react/docs/typechecking-with-proptypes.html) by ``value: React.PropTypes.number`` in both two components and the ``App`` container.
 6. Go back to ``VersionNumber`` component and replace the ``render()`` with following code:
 ```
-<div className={styles.value}>
+<div className={`${styles.value}`}>
   <span>{this.props.value}</span>
 </div>
 ```

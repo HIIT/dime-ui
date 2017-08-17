@@ -32,10 +32,10 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
   }
   render() {
     return (
-      <div className={styles.navBar}>
-        <div className={styles.navBarLeftWrapper}>
+      <div className={`${styles.navBar}`}>
+        <div className={`${styles.navBarLeftWrapper}`}>
           { this.props.pathName === '/signin' ? null :
-            <div className={styles.navBarSendToLeaderboardWrapper}>
+            <div className={`${styles.navBarSendToLeaderboardWrapper}`}>
               <IconButton
                 tooltip={this.props.eventCount === 0 ? 'Send to Leaderboard' : `${this.props.eventCount} Counts`}
                 onClick={this.props.clickOnSendToLeaderboard}
@@ -47,19 +47,19 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
             </div>
           }
           <Link to="/">
-            <div className={styles.navBarLogoWrapper}>
+            <div className={`${styles.navBarLogoWrapper}`}>
               <span
-                className={styles.navBarLogo}
+                className={`${styles.navBarLogo}`}
               >
                 DiMe
               </span>
             </div>
           </Link>
-          <div className={styles.navBarVersionNumberWrapper}>
+          <div className={`${styles.navBarVersionNumberWrapper}`}>
             <VersionNumber value={this.props.versionNumber} getVersionNumber={this.props.getVersionNumber} />
           </div>
           { this.props.pathName === '/signin' ? null :
-            <div className={styles.navBarMenuWrapper}>
+            <div className={`${styles.navBarMenuWrapper}`}>
               <DropDownMenu value={this.props.pathName} onChange={this.handleChange}>
                 <MenuItem value={'/events'} primaryText="Events" />
                 <MenuItem value={'/documents'} primaryText="Documents" />
@@ -71,9 +71,9 @@ class NavBar extends React.Component { // eslint-disable-line react/prefer-state
           }
         </div>
         { this.props.pathName === '/signin' ? null :
-          <div className={styles.navBarRightWrapper}>
-            <div className={styles.username}><span>{this.props.auth.username}</span></div>
-            <div className={styles.navBarAccountWrapper}>
+          <div className={`${styles.navBarRightWrapper}`}>
+            <div className={`${styles.username}`}><span>{this.props.auth.username}</span></div>
+            <div className={`${styles.navBarAccountWrapper}`}>
               <IconButton
                 tooltip="Log Out"
                 onClick={this.props.clickOnAccountIcon}

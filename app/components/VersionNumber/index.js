@@ -18,7 +18,7 @@ class VersionNumber extends React.Component { // eslint-disable-line react/prefe
   }
   render() {
     return (
-      <div className={styles.versionNumber}>
+      <div className={`${styles.versionNumber}`}>
         <span>{this.props.value.substring(0, this.props.value.lastIndexOf('-'))}</span>
       </div>
     );

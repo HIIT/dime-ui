@@ -49,7 +49,7 @@ export class TimelinePage extends React.Component { // eslint-disable-line react
       const tags = event.targettedResource.tags;
       return (
         <div>
-          {tags.map((tag) => <span className={styles.pointText} key={tag.id}> { tag.text } </span>)}
+          {tags.map((tag) => <span className={`${styles.pointText}`} key={tag.id}> { tag.text } </span>)}
         </div>
       );
     }
@@ -78,9 +78,9 @@ export class TimelinePage extends React.Component { // eslint-disable-line react
     };
 
     return (
-      <div className={styles.timelineContainer}>
-        <div className={styles.timeline}>
-          <div className={styles.timePointsWrapper}>
+      <div className={`${styles.timelineContainer}`}>
+        <div className={`${styles.timeline}`}>
+          <div className={`${styles.timePointsWrapper}`}>
             {events.map((event) => {
               const time = new Date(event.start);
               const timeInMinute = getTimeInMins(time);
@@ -88,7 +88,7 @@ export class TimelinePage extends React.Component { // eslint-disable-line react
               if (event.activityType === 'steps') {
                 return (
                   <div
-                    className={styles.period}
+                    className={`${styles.period}`}
                     key={event.id}
                     style={{
                       left: `${timeInPercent}%`,
@@ -104,7 +104,7 @@ export class TimelinePage extends React.Component { // eslint-disable-line react
               if (event.activityType === 'heart') {
                 return (
                   <div
-                    className={styles.period}
+                    className={`${styles.period}`}
                     key={event.id}
                     style={{
                       left: `${timeInPercent}%`,
@@ -119,7 +119,7 @@ export class TimelinePage extends React.Component { // eslint-disable-line react
               }
               return (
                 <div
-                  className={styles.point}
+                  className={`${styles.point}`}
                   key={event.id}
                   style={{
                     left: `${timeInPercent}%`,
@@ -152,7 +152,7 @@ export class TimelinePage extends React.Component { // eslint-disable-line react
                 if (walkStartStopEvent.activityType === 'walkstartstop' && walkStartStopEvent.timeCreated > 1472731258847) {
                   return (
                     <div
-                      className={styles.period}
+                      className={`${styles.period}`}
                       key={walkStartStopEvent.id}
                       style={{
                         background: `${mostUsed.length > 0 ? 'rgba(0, 255, 205, 1)' : 'rgba(0, 255, 205, 0.2)'}`,
@@ -163,12 +163,12 @@ export class TimelinePage extends React.Component { // eslint-disable-line react
                       }}
                     >
                       <div
-                        className={styles.workingKeywordWrapper}
+                        className={`${`${styles.workingKeywordWrapper}`}`}
                         style={{
                           width: `${walkingDuration}%`,
                         }}
                       >
-                        {mostUsed.map((word, wIndex) => <span className={styles.workingKeyword} key={`word ${wIndex}`}>{word} </span>)}
+                        {mostUsed.map((word, wIndex) => <span className={`${styles.workingKeyword}`} key={`word ${wIndex}`}>{word} </span>)}
                       </div>
                     </div>
                   );
@@ -181,12 +181,12 @@ export class TimelinePage extends React.Component { // eslint-disable-line react
               const endTime = getTimeInMins(new Date(event.end)) / 14.4;
               const duration = endTime - startTime;
               return (
-                <div className={styles.activity} style={{ left: `${startTime}%`, width: `${duration}%`, 'background-color': `${activityColors[event.activity]}` }}>
-                  <div className={styles.activityText}>{event.activity}</div>
+                <div className={`${styles.activity}`} style={{ left: `${startTime}%`, width: `${duration}%`, 'background-color': `${activityColors[event.activity]}` }}>
+                  <div className={`${styles.activityText}`}>{event.activity}</div>
                 </div>
               );
             })}
-            {timeStamps.map((time, index) => <div className={styles.timeStamp} key={`time ${index}`} style={{ left: `${(100 / 24) * index}%` }}><br /><br />{time}</div>)}
+            {timeStamps.map((time, index) => <div className={`${styles.timeStamp}`} key={`time ${index}`} style={{ left: `${(100 / 24) * index}%` }}><br /><br />{time}</div>)}
           </div>
         </div>
       </div>

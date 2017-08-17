@@ -140,7 +140,7 @@ export class LinkContractsPage extends React.Component { // eslint-disable-line 
     } */
 
     return (
-      <div className={styles.linkContractsPage}>
+      <div className={`${styles.linkContractsPage}`}>
         <Grid>
           {this.renderSearchBox()}
           {this.renderSendLinkContractRequest()}

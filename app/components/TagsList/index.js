@@ -39,7 +39,7 @@ class TagsList extends React.Component { // eslint-disable-line react/prefer-sta
       return null;
     });
     return (
-      <div className={styles.tagsList}>
+      <div className={`${styles.tagsList}`}>
         {tagNodes}
       </div>
     );

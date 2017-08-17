@@ -36,12 +36,12 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
     const type = get(event, 'type', '');
     return (
       <div
-        className={styles.entityWrapper}
+        className={`${styles.entityWrapper}`}
       >
-        <div className={styles.profileNameWrapper}>
+        <div className={`${styles.profileNameWrapper}`}>
           {get(event, 'title') || type.substring(type.indexOf('#') + 1, type.length || event['@type'])}
         </div>
-        <div className={styles.cardHeaderInfoWrapper} >
+        <div className={`${styles.cardHeaderInfoWrapper}`} >
           <span>
             {this.renderType(type)} {this.renderActor(get(event, 'actor', ''))} <br />
             {this.renderTime(get(event, 'timeCreated', ''))}
@@ -53,7 +53,7 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
             profileID={this.props.profileID}
             tags={get(event, 'targettedResource.tags')}
             clickOnTag={this.props.clickOnEntityTag}
-            className={styles.entityTags}
+            className={`${styles.entityTags}`}
           />
         : null}
       </div>
@@ -63,12 +63,12 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
     const type = get(informationElement, 'type', '');
     return (
       <div
-        className={styles.entityWrapper}
+        className={`${styles.entityWrapper}`}
       >
-        <div className={styles.profileNameWrapper} >
+        <div className={`${styles.profileNameWrapper}`} >
           {get(informationElement, 'title') || type.substring(type.indexOf('#') + 1, type.length || informationElement['@type'])}
         </div>
-        <div className={styles.cardHeaderInfoWrapper} >
+        <div className={`${styles.cardHeaderInfoWrapper}`} >
           <span>
             {this.renderType(type)} {this.renderActor(get(informationElement, 'actor'))} <br />
             {this.renderTime(get(informationElement, 'timeCreated'))}
@@ -80,7 +80,7 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
             profileID={this.props.profileID}
             tags={get(informationElement, 'tags')}
             clickOnTag={this.props.clickOnEntityTag}
-            className={styles.entityTags}
+            className={`${styles.entityTags}`}
           />
         : null}
       </div>
@@ -88,7 +88,7 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
   }
   renderType(type) {
     return (
-      <span className={styles.entityTypeKey}>
+      <span className={`${styles.entityTypeKey}`}>
         {type.substring(type.indexOf('#') + 1, type.length)}
       </span>
     );
@@ -98,7 +98,7 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
       <span>
         { actor > 0 ?
           <span
-            className={styles.entityActor}
+            className={`${styles.entityActor}`}
           >
             Actor {actor}
           </span>
@@ -110,7 +110,7 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
     const timeObject = new Date(time);
     return (
       <span
-        className={styles.entityTime}
+        className={`${styles.entityTime}`}
       >
         {timeObject.toUTCString()}
       </span>
@@ -123,7 +123,7 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
         <Paper
           key={entity.id}
           rounded={false}
-          className={styles.profileEntityCardWrapper}
+          className={`${styles.profileEntityCardWrapper}`}
         >
           {entity.informationElement ?
             this.renderDocument(entity.id, entity.informationElement, editing)
@@ -132,7 +132,7 @@ class ProfileEntityCard extends React.Component { // eslint-disable-line react/p
             this.renderEvent(entity.id, entity.event, editing)
           : null}
           { editing && entityType.indexOf('suggested') === -1 ?
-            <div className={styles.deleteButtonWrapper}>
+            <div className={`${styles.deleteButtonWrapper}`}>
               <ActionDelete
                 color={grey300}
                 hoverColor={red400}

@@ -63,7 +63,7 @@ class App extends React.Component { // eslint-disable-line react/prefer-stateles
     const hasError = !(Object.keys(appError).length === 0 && appError.constructor === Object);
     return (
       <MuiThemeProvider>
-        <div className={styles.container}>
+        <div className={`${styles.container}`}>
           <NavBar
             changeRoute={this.props.changeRoute}
             auth={this.props.auth}

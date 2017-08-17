@@ -19,7 +19,7 @@ export default class NotFound extends React.Component { // eslint-disable-line r
   render() {
     return (
       <div
-        className={styles.notFoundWrapper}
+        className={`${styles.notFoundWrapper}`}
       >
         <h1>
           <FormattedMessage {...messages.header} />

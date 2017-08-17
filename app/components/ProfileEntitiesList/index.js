@@ -25,7 +25,7 @@ class ProfileEntitiesList extends React.Component { // eslint-disable-line react
     return (
       <div>
         <h4>{listTitle}</h4>
-        <ul className={styles.entitiesUL}>
+        <ul className={`${styles.entitiesUL}`}>
           {entities.map((entity) =>
             <ProfileEntityCard
               key={entity.id}

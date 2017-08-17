@@ -89,10 +89,10 @@ export class EntitiesList extends React.Component { // eslint-disable-line react
       <Grid>
         {this.renderSearchBox()}
         <div
-          className={styles.entitiesListOutterWrapper}
+          className={`${styles.entitiesListOutterWrapper}`}
         >
           <div
-            className={styles.entitiesListInnerWrapper}
+            className={`${styles.entitiesListInnerWrapper}`}
             onScroll={this.handleScroll}
           >
             <ReactList

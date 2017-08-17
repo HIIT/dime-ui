@@ -44,7 +44,7 @@ export class ProfilesTab extends React.Component { // eslint-disable-line react/
     return (
       <Row
         key={id}
-        className={styles.profileWrapper}
+        className={`${styles.profileWrapper}`}
       >
         <Col xs={12}>
           <ProfileCard
@@ -69,7 +69,7 @@ export class ProfilesTab extends React.Component { // eslint-disable-line react/
     );
   }
   renderCreateNewProfilePanel = () =>
-    <div className={styles.createButtonWrapper}>
+    <div className={`${styles.createButtonWrapper}`}>
       <div style={{ position: 'relative', left: '60%' }} >
         <RaisedButton
           labelPosition="after"
@@ -82,7 +82,7 @@ export class ProfilesTab extends React.Component { // eslint-disable-line react/
     </div>
   render() {
     return (
-      <div className={styles.profileEditorWrapper}>
+      <div className={`${styles.profileEditorWrapper}`}>
         <Grid>
           <Row>
             <Col
