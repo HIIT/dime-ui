@@ -1,14 +1,40 @@
 .linkContractsListItem { /* stylelint-ignore */
 }
 
-span.fromToTitle {
-  color: red;
+.fromToTitle { /* stylelint-ignore */
 }
 
-span.fromToName {
-  color: blue;
+.fromToName { /* stylelint-ignore */
 }
 
-span.fromToDid {
-  color: green;
+.fromToDid {
+  color: #777;
+  position: relative;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 300;
+  font-family: 'Roboto Mono', monospace;
+  cursor: pointer;
+  border: solid 1px #ccc;
+  border-radius: 3px;
+  padding: 1px 4px 2px;
+  margin: 0 5px 5px 0;
+}
+
+.fromTagsList { /* stylelint-ignore */
+}
+
+.tagItem {
+  color: #777;
+  position: relative;
+  display: inline-block;
+  font-size: 12px;
+  font-weight: 300;
+  font-family: 'Roboto Mono', monospace;
+  cursor: pointer;
+  border: solid 1px #ccc;
+  border-radius: 3px;
+  padding: 1px 4px 2px;
+  margin: 0 5px 5px 0;
+  user-select: none;
 }

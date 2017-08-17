@@ -26,12 +26,17 @@ function parseGetLinkContractRequests(respond) {
       const obj = {};
       obj.id = respond[i].address;
       obj.fromName = '';
-      obj.fromDid = obj.id;
+      obj.fromDid = respond[i].from;
       obj.fromAddress = respond[i].address;
       obj.toName = '';
       obj.toDid = respond[i].to;
       obj.toDidPlusProfile = respond[i].operationVariables['{$get}'][0];
       obj.toAddress = obj.toDid;
+      obj.tags = [];
+      const tagKeys = Object.keys(respond[i].publicData.data);
+      for (const key of tagKeys) {
+        obj.tags.push(respond[i].publicData.data[key]);
+      }
       // respond[i].toProfileId = 0; // tmp[1];
       obj.data = fromJS(respond[i]);
       results.push(obj);
@@ -55,7 +60,19 @@ export function* getLinkContractRequests() { // action
   try {
     const respond = yield call(request, requestURL, options);
     if (respond) {
+      for (let i = 0; i < respond.length; i += 1) {
+        const requestURL2 = `http://${url}/api/linkcontracts/publicdata/${respond[i].from}`;
+        const options2 = {
+          method: 'GET',
+          headers: {
+            Authorization: `Basic ${token}`,
+          },
+        };
+        const respond2 = yield call(request, requestURL2, options2);
+        respond[i].publicData = respond2;
+      }
       const results = parseGetLinkContractRequests(respond);
+
       yield put(loadLinkContractRequestsLoaded(results));
       yield put(clearAppError());
     }

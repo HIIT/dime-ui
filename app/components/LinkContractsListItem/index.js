@@ -6,8 +6,8 @@
 
 import React from 'react';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
-import ActionAccountCircleIcon from './account-circle';
-import { blue500, green500, grey200 } from 'material-ui/styles/colors';
+import ActionSpeakerNotesIcon from './speaker-notes';
+import { blue500, grey400, grey200 } from 'material-ui/styles/colors';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 
@@ -30,41 +30,50 @@ class LinkContractsListItem extends React.Component { // eslint-disable-line rea
     fromDid: React.PropTypes.string,
     fromName: React.PropTypes.string,
     fromAddress: React.PropTypes.string,
-    toDid: React.PropTypes.string,
-    toName: React.PropTypes.string,
     toAddress: React.PropTypes.string,
+    tags: React.PropTypes.array,
     data: React.PropTypes.object,
     acceptLinkRequest: React.PropTypes.func,
     declineLinkContract: React.PropTypes.func,
     deleteLinkContract: React.PropTypes.func,
   }
 
+  listTags = (tags) => {
+    const tagList = tags.map((tag) =>
+      <span className={`${styles.tagItem}`}>{tag}</span>
+    );
+    return (
+      <span>
+        {tagList}
+      </span>
+    );
+  }
+
   render() {
-    const { id, type, fromName, fromDid, fromAddress, toName, toDid, toAddress, data,
+    const { id, type, fromName, fromDid, fromAddress, toAddress, tags, data,
       acceptLinkRequest, declineLinkContract, deleteLinkContract } = this.props;
-    const color = (type === 'request') ? green500 : blue500;
+    const color = (type === 'request') ? grey400 : blue500;
 
     return (
       <Card>
         <CardHeader
-          className={styles.linkContractsListItem}
-          title={(fromDid ?
+          className={`${styles.linkContractsListItem}`}
+          title={(fromAddress ?
             <span>
-              <span className="fromToTitle">From:</span>&nbsp;
-              <span className="fromToName">{fromName}</span>&nbsp;
-              <span className="fromToDid">{fromDid}</span>
+              <span className={`${styles.fromToTitle}`}>From:</span>&nbsp;
+              <span className={`${styles.fromToName}`}>{fromName}</span>&nbsp;
+              <span className={`${styles.fromToDid}`}>{fromDid}</span>
             </span>
           : '')}
-          subtitle={(toDid ?
+          subtitle={(fromDid ?
             <span>
-              <span className="fromToTitle">To:</span>&nbsp;
-              <span className="fromToName">{toName}</span>&nbsp;
-              <span className="fromToDid">{toDid}</span>
+              <span className={`${styles.fromToTitle}`}>tags:</span>&nbsp;
+              <span className={`${styles.fromTagsList}`}>{this.listTags(tags)}</span>
             </span>
           : '')}
           actAsExpander
           showExpandableButton
-          avatar={<ActionAccountCircleIcon color={color} style={iconStyles} />}
+          avatar={<ActionSpeakerNotesIcon color={color} style={iconStyles} />}
         />
         <CardActions>
           {type === 'request' ?
