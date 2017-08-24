@@ -37,6 +37,8 @@ import {
  ENTITY_STATE_TOGGLE_SUCCESS,
  CLICK_ON_SEND_TO_PEOPLE_FINDER,
  SEND_TO_PEOPLE_FINDER_SUCCESS,
+ CLICK_ON_REGISTER_DID,
+ REGISTER_DID_SUCCESS,
 } from './constants';
 
 export function loadProfiles() {
@@ -100,6 +102,20 @@ export function clickOnSendToPeopleFinder(profileID) {
 export function sendToPeopleFinderSuccess(profileID) {
   return {
     type: SEND_TO_PEOPLE_FINDER_SUCCESS,
+    profileID,
+  };
+}
+
+export function clickOnRegisterDID(profileID) {
+  return {
+    type: CLICK_ON_REGISTER_DID,
+    profileID,
+  };
+}
+
+export function registerDIDSuccess(profileID) {
+  return {
+    type: REGISTER_DID_SUCCESS,
     profileID,
   };
 }

@@ -8,6 +8,7 @@ import React from 'react';
 import { Card, CardText } from 'material-ui/Card';
 import ModeEdit from 'material-ui/svg-icons/editor/mode-edit';
 import SocialPeople from 'material-ui/svg-icons/social/people';
+import ActionReceipt from 'material-ui/svg-icons/action/receipt';
 import ActionDelete from 'material-ui/svg-icons/action/delete';
 import ActionExitToApp from 'material-ui/svg-icons/action/exit-to-app';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -37,6 +38,7 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
     clickOnEntityDelete: React.PropTypes.func,
     clickOnEntityStateToggle: React.PropTypes.func,
     clickOnSendToPeopleFinder: React.PropTypes.func,
+    clickOnRegisterDID: React.PropTypes.func,
   }
   handleClickOnEdit = (profile) => {
     this.props.editProfile(profile.id);
@@ -49,6 +51,9 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
   }
   handleClickOnPeopleFinder = (profile) => {
     this.props.clickOnSendToPeopleFinder(profile.id);
+  }
+  handleClickOnRegisterDID = (profile) => {
+    this.props.clickOnRegisterDID(profile.id);
   }
   handleTagAddition = (text, profileID) => {
     this.props.addTagToProfile({ '@type': 'Tag', text }, profileID);
@@ -116,6 +121,15 @@ export class ProfileCard extends React.Component { // eslint-disable-line react/
             />
           </div>
           : null }
+        { editing ? null :
+          <div className={`${styles.cardHeaderRegisterDIDWrapper}`}>
+            <RaisedButton
+              label="Register to Sovrin"
+              icon={<ActionReceipt />}
+              onClick={(mouseEvent) => { this.handleClickOnRegisterDID(profile, mouseEvent); }}
+            />
+          </div>
+        }
         { editing ? null :
           <div className={`${styles.cardHeaderPeopleFinderWrapper}`}>
             <RaisedButton

@@ -13,6 +13,7 @@ import {
   CLICK_ON_ENTITY_DELETE,
   ENTITY_STATE_TOGGLE,
   CLICK_ON_SEND_TO_PEOPLE_FINDER,
+  CLICK_ON_REGISTER_DID,
 } from './constants';
 import request from 'utils/request';
 import { receiveAppError, clearAppError } from 'containers/App/actions';
@@ -33,6 +34,7 @@ import {
   deleteEntityFromProfileSuccess,
   entityStateToggleSuccess,
   sendToPeopleFinderSuccess,
+  registerDIDSuccess,
 } from './actions';
 
 export function* sendToPeopleFinder(action) {
@@ -49,6 +51,28 @@ export function* sendToPeopleFinder(action) {
     const respond = yield call(request, requestURL, options);
     if (respond) {
       yield put(sendToPeopleFinderSuccess(respond));
+      yield put(clearAppError());
+    }
+  } catch (error) {
+    yield put(receiveAppError(error));
+  }
+}
+
+export function* registerDID(action) {
+  const { token } = yield select(selectAuth());
+  const { url } = yield select(selectAPI());
+  const requestURL = `http://${url}/api/sendtotrustanchor/${action.profileID}`;
+  const options = {
+    method: 'GET',
+    headers: {
+      Authorization: `Basic ${token}`,
+    },
+  };
+  try {
+    const respond = yield call(request, requestURL, options);
+    if (respond) {
+      window.open(respond.registerURL);
+      yield put(registerDIDSuccess(respond));
       yield put(clearAppError());
     }
   } catch (error) {
@@ -397,4 +421,5 @@ export default [
   cancelByLocationChange(CLICK_ON_ENTITY_DELETE, deleteEntityFromProfile),
   cancelByLocationChange(ENTITY_STATE_TOGGLE, entityStateToggle),
   cancelByLocationChange(CLICK_ON_SEND_TO_PEOPLE_FINDER, sendToPeopleFinder),
+  cancelByLocationChange(CLICK_ON_REGISTER_DID, registerDID),
 ];

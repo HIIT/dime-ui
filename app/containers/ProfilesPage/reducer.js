@@ -36,6 +36,8 @@
    ENTITY_STATE_TOGGLE_SUCCESS,
    CLICK_ON_SEND_TO_PEOPLE_FINDER,
    SEND_TO_PEOPLE_FINDER_SUCCESS,
+   CLICK_ON_REGISTER_DID,
+   REGISTER_DID_SUCCESS,
  } from './constants';
 
  const initialState = fromJS({
@@ -77,6 +79,11 @@
        return state
          .setIn(['data', state.get('data').findIndex((item) => item.get('id') === action.profileID), 'loading'], true);
      case SEND_TO_PEOPLE_FINDER_SUCCESS:
+       return state.set('loading', false);
+     case CLICK_ON_REGISTER_DID:
+       return state
+         .setIn(['data', state.get('data').findIndex((item) => item.get('id') === action.profileID), 'loading'], true);
+     case REGISTER_DID_SUCCESS:
        return state.set('loading', false);
      case SAVE_PROFILE_NAME:
        return state
