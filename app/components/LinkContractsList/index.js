@@ -45,6 +45,7 @@ class LinkContractsList extends React.Component { // eslint-disable-line react/p
         toDid={linkContracts[key].toDid}
         toName={linkContracts[key].toName}
         toAddress={linkContracts[key].toAddress}
+        direction={linkContracts[key].direction}
         tags={linkContracts[key].tags}
         data={linkContracts[key].data}
         acceptLinkRequest={acceptLinkRequest}

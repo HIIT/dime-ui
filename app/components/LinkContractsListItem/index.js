@@ -31,6 +31,7 @@ class LinkContractsListItem extends React.Component { // eslint-disable-line rea
     fromName: React.PropTypes.string,
     fromAddress: React.PropTypes.string,
     toAddress: React.PropTypes.string,
+    direction: React.PropTypes.string,
     tags: React.PropTypes.array,
     data: React.PropTypes.object,
     acceptLinkRequest: React.PropTypes.func,
@@ -50,31 +51,78 @@ class LinkContractsListItem extends React.Component { // eslint-disable-line rea
   }
 
   render() {
-    const { id, type, fromName, fromDid, fromAddress, toAddress, tags, data,
+    const { id, type, fromName, fromDid, fromAddress, toAddress, direction, tags, data,
       acceptLinkRequest, declineLinkContract, deleteLinkContract } = this.props;
     const color = (type === 'request') ? grey400 : blue500;
 
     return (
       <Card>
-        <CardHeader
-          className={`${styles.linkContractsListItem}`}
-          title={(fromAddress ?
-            <span>
-              <span className={`${styles.fromToTitle}`}>From:</span>&nbsp;
-              <span className={`${styles.fromToName}`}>{fromName}</span>&nbsp;
-              <span className={`${styles.fromToDid}`}>{fromDid}</span>
-            </span>
-          : '')}
-          subtitle={(tags ?
-            <span>
-              <span className={`${styles.fromToTitle}`}>tags:</span>&nbsp;
-              <span className={`${styles.fromTagsList}`}>{this.listTags(tags)}</span>
-            </span>
-          : '')}
-          actAsExpander
-          showExpandableButton
-          avatar={<ActionSpeakerNotesIcon color={color} style={iconStyles} />}
-        />
+        {direction === 'incoming' ?
+          <CardHeader
+            className={`${styles.linkContractsListItem}`}
+            title={(fromAddress ?
+              <span>
+                <span className={`${styles.fromToName}`}>{fromName}</span>
+                <span className={`${styles.fromToDid}`}>{fromDid}</span>&nbsp;
+                <span className={`${styles.fromToTitle}`}>shared profile to you</span>
+              </span>
+            : '')}
+            subtitle={(tags ?
+              <span>
+                <span className={`${styles.fromToTitle}`}>tags:</span>&nbsp;
+                <span className={`${styles.fromTagsList}`}>{this.listTags(tags)}</span>
+              </span>
+            : '')}
+            actAsExpander
+            showExpandableButton
+            avatar={<ActionSpeakerNotesIcon color={color} style={iconStyles} />}
+          />
+          : ''
+        }
+        {direction === 'outgoing' ?
+          <CardHeader
+            className={`${styles.linkContractsListItem}`}
+            title={(fromAddress ?
+              <span>
+                <span className={`${styles.fromToTitle}`}>You shared profile to</span>&nbsp;
+                <span className={`${styles.fromToName}`}>{fromName}</span>&nbsp;
+                <span className={`${styles.fromToDid}`}>{fromDid}</span>
+              </span>
+            : '')}
+            subtitle={(tags ?
+              <span>
+                <span className={`${styles.fromToTitle}`}>tags:</span>&nbsp;
+                <span className={`${styles.fromTagsList}`}>{this.listTags(tags)}</span>
+              </span>
+            : '')}
+            actAsExpander
+            showExpandableButton
+            avatar={<ActionSpeakerNotesIcon color={color} style={iconStyles} />}
+          />
+          : ''
+        }
+        {direction === 'dual' ?
+          <CardHeader
+            className={`${styles.linkContractsListItem}`}
+            title={(fromAddress ?
+              <span>
+                <span className={`${styles.fromToTitle}`}>DUAL From:</span>&nbsp;
+                <span className={`${styles.fromToName}`}>{fromName}</span>&nbsp;
+                <span className={`${styles.fromToDid}`}>{fromDid}</span>
+              </span>
+            : '')}
+            subtitle={(tags ?
+              <span>
+                <span className={`${styles.fromToTitle}`}>tags:</span>&nbsp;
+                <span className={`${styles.fromTagsList}`}>{this.listTags(tags)}</span>
+              </span>
+            : '')}
+            actAsExpander
+            showExpandableButton
+            avatar={<ActionSpeakerNotesIcon color={color} style={iconStyles} />}
+          />
+          : ''
+        }
         <CardActions>
           {type === 'request' ?
             <div>

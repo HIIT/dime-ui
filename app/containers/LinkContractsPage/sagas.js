@@ -176,6 +176,7 @@ function parseGetLinkContracts(respond) {
       obj.toName = '';
       obj.toDid = respond[i].authorizingAuthority;
       obj.toAddress = respond[i].address;
+      obj.direction = respond[i].direction;
       obj.data = fromJS(respond[i]);
       results.push(obj);
     }
@@ -198,6 +199,22 @@ export function* getLinkContracts() { // action
   try {
     const respond = yield call(request, requestURL, options);
     if (respond) {
+      for (let i = 0; i < respond.length; i += 1) {
+        let sourceDid = '';
+        if (respond[i].direction === 'incoming') {
+          sourceDid = respond[i].authorizingAuthority;
+          const requestURL2 = `http://${url}/api/linkcontracts/data/${sourceDid}`;
+          const options2 = {
+            method: 'GET',
+            headers: {
+              Authorization: `Basic ${token}`,
+            },
+          };
+          const respond2 = yield call(request, requestURL2, options2);
+          respond[i].privateData = respond2;
+        }
+      }
+
       const linkContracts = parseGetLinkContracts(respond);
       yield put(loadLinkContractsLoaded(linkContracts));
       yield put(clearAppError());
