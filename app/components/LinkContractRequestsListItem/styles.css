@@ -1,14 +1,7 @@
-.linkContractsListItem { /* stylelint-ignore */
+.linkContractRequestsListItem { /* stylelint-ignore */
 }
 
-.title { /* stylelint-ignore */
-}
-
-.subtitle {
-  padding-top: 0.5em;
-}
-
-.name {
+.name { /* stylelint-ignore */
   color: #777;
   position: relative;
   display: inline-block;
@@ -23,34 +16,6 @@
 }
 
 .did {
-  color: #777;
-  position: relative;
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 300;
-  font-family: 'Roboto Mono', monospace;
-  cursor: pointer;
-  border: solid 1px #CCC;
-  border-radius: 3px;
-  padding: 1px 4px 2px;
-  margin: 0 5px 5px 0;
-}
-
-.username {
-  color: #777;
-  position: relative;
-  display: inline-block;
-  font-size: 12px;
-  font-weight: 300;
-  font-family: 'Roboto Mono', monospace;
-  cursor: pointer;
-  border: solid 1px #CCC;
-  border-radius: 3px;
-  padding: 1px 4px 2px;
-  margin: 0 5px 5px 0;
-}
-
-.email {
   color: #777;
   position: relative;
   display: inline-block;
@@ -79,29 +44,7 @@
   border-radius: 3px;
   padding: 1px 4px 2px;
   margin: 0 5px 5px 0;
-}
-
-.attributesList { /* stylelint-ignore */
-}
-
-.attributeItem {
-  color: #777;
-  position: relative;
-  font-size: 12px;
-  font-weight: 300;
-  font-family: 'Roboto Mono', monospace;
-  cursor: pointer;
-  border: solid 1px #CCC;
-  border-radius: 3px;
-  padding: 1px 4px 2px;
-  margin: 0 5px 5px 0;
-}
-
-.attributeItemKey {
-  color: #2196F3;
-}
-
-.attributeItemValue { /* stylelint-ignore */
+  user-select: none;
 }
 
 .jsonCode {

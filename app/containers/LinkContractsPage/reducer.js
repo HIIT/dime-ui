@@ -51,7 +51,7 @@ function linkContractsPageReducer(state = initialState, action) {
       return state
         .set('loading', true);
     case ACCEPT_LINKCONTRACT_REQUEST_SUCCESS: {
-      const itemIndex = state.get('linkContractRequests').findIndex(item => item.get('id') === action.fromAddress);
+      const itemIndex = state.get('linkContractRequests').findIndex(item => item.get('id') === action.address);
       return itemIndex > -1 ?
         state
           .deleteIn(['linkContractRequests', itemIndex])
@@ -66,7 +66,7 @@ function linkContractsPageReducer(state = initialState, action) {
       return state
         .set('loading', true);
     case DECLINE_LINKCONTRACT_REQUEST_SUCCESS: {
-      const itemIndex = state.get('linkContractRequests').findIndex(item => item.get('id') === action.fromAddress);
+      const itemIndex = state.get('linkContractRequests').findIndex(item => item.get('id') === action.address);
       return itemIndex > -1 ?
         state
           .deleteIn(['linkContractRequests', itemIndex])

@@ -7,9 +7,8 @@
 import React from 'react';
 import { Card, CardActions, CardHeader, CardText } from 'material-ui/Card';
 import ActionSpeakerNotesIcon from './speaker-notes';
-import { blue500, grey400, grey200 } from 'material-ui/styles/colors';
+import { grey400 } from 'material-ui/styles/colors';
 import RaisedButton from 'material-ui/RaisedButton';
-import TextField from 'material-ui/TextField';
 
 import styles from './styles.css';
 
@@ -26,22 +25,21 @@ const buttonStyle = {
 class LinkContractsListItem extends React.Component { // eslint-disable-line react/prefer-stateless-function
   static propTypes = {
     id: React.PropTypes.string,
-    type: React.PropTypes.string,
-    fromDid: React.PropTypes.string,
-    fromName: React.PropTypes.string,
-    fromAddress: React.PropTypes.string,
-    toAddress: React.PropTypes.string,
+    authorizingAuthority: React.PropTypes.string,
+    requestingAuthority: React.PropTypes.string,
     direction: React.PropTypes.string,
+    name: React.PropTypes.string,
+    username: React.PropTypes.string,
+    email: React.PropTypes.string,
+    attributes: React.PropTypes.object,
     tags: React.PropTypes.array,
     data: React.PropTypes.object,
-    acceptLinkRequest: React.PropTypes.func,
-    declineLinkContract: React.PropTypes.func,
     deleteLinkContract: React.PropTypes.func,
   }
 
   listTags = (tags) => {
     const tagList = tags.map((tag) =>
-      <span className={`${styles.tagItem}`}>{tag}</span>
+      <span key={`${tag}`} className={`${styles.tagItem}`}>{tag}</span>
     );
     return (
       <span>
@@ -50,29 +48,61 @@ class LinkContractsListItem extends React.Component { // eslint-disable-line rea
     );
   }
 
+  listAttributes = (attrs) => {
+    const attrList = Object.keys(attrs).map((key) =>
+      <div key={`${key}:${attrs[key]}`} className={`${styles.attributeItem}`}>
+        <span className={`${styles.attributeItemKey}`}>{key}</span>:&nbsp;
+        <span className={`${styles.attributeItemValue}`}>{attrs[key]}</span>
+      </div>
+    );
+    return (
+      <div>
+        {attrList}
+      </div>
+    );
+  }
+
   render() {
-    const { id, type, fromName, fromDid, fromAddress, toAddress, direction, tags, data,
-      acceptLinkRequest, declineLinkContract, deleteLinkContract } = this.props;
-    const color = (type === 'request') ? grey400 : blue500;
+    const { id, authorizingAuthority, requestingAuthority, direction,
+      name, username, email, attributes, tags, data, deleteLinkContract } = this.props;
+    const color = grey400;
+    const dataJsonString = JSON.stringify(data, null, 2);
 
     return (
-      <Card>
-        {direction === 'incoming' ?
+      <Card id={`${authorizingAuthority}:${requestingAuthority}`}>
+        ({direction === 'incoming' ?
           <CardHeader
             className={`${styles.linkContractsListItem}`}
-            title={(fromAddress ?
+            style={{ paddingBottom: 0 }}
+            title={(authorizingAuthority ?
               <span>
-                <span className={`${styles.fromToName}`}>{fromName}</span>
-                <span className={`${styles.fromToDid}`}>{fromDid}</span>&nbsp;
-                <span className={`${styles.fromToTitle}`}>shared profile to you</span>
+                <span className={`${styles.did}`}>{authorizingAuthority}</span>&nbsp;
+                <span className={`${styles.title}`}>shared profile to you</span>
               </span>
             : '')}
-            subtitle={(tags ?
-              <span>
-                <span className={`${styles.fromToTitle}`}>tags:</span>&nbsp;
-                <span className={`${styles.fromTagsList}`}>{this.listTags(tags)}</span>
-              </span>
-            : '')}
+            subtitle={
+              <div className={`${styles.subtitle}`}>
+                <div>
+                  {(name ?
+                    <span>
+                      <span className={`${styles.title}`}>name:</span>&nbsp;
+                      <span className={`${styles.email}`}>{name}</span>&nbsp;
+                    </span>
+                  : '')}
+                  {(email ?
+                    <span>
+                      <span className={`${styles.title}`}>e-mail:</span>&nbsp;
+                      <span className={`${styles.email}`}>{email}</span>&nbsp;
+                    </span>
+                  : '')}
+                  {(username ?
+                    <span>
+                      <span className={`${styles.title}`}>username:</span>&nbsp;
+                      <span className={`${styles.username}`}>{username}</span>
+                    </span>
+                  : '')}
+                </div>
+              </div>}
             actAsExpander
             showExpandableButton
             avatar={<ActionSpeakerNotesIcon color={color} style={iconStyles} />}
@@ -82,17 +112,17 @@ class LinkContractsListItem extends React.Component { // eslint-disable-line rea
         {direction === 'outgoing' ?
           <CardHeader
             className={`${styles.linkContractsListItem}`}
-            title={(fromAddress ?
+            style={{ paddingBottom: 0 }}
+            title={(requestingAuthority ?
               <span>
-                <span className={`${styles.fromToTitle}`}>You shared profile to</span>&nbsp;
-                <span className={`${styles.fromToName}`}>{fromName}</span>&nbsp;
-                <span className={`${styles.fromToDid}`}>{fromDid}</span>
+                <span className={`${styles.title}`}>You shared profile to</span>&nbsp;
+                <span className={`${styles.did}`}>{requestingAuthority}</span>
               </span>
             : '')}
             subtitle={(tags ?
               <span>
-                <span className={`${styles.fromToTitle}`}>tags:</span>&nbsp;
-                <span className={`${styles.fromTagsList}`}>{this.listTags(tags)}</span>
+                <span className={`${styles.title}`}>tags:</span>&nbsp;
+                <span className={`${styles.tagsList}`}>{this.listTags(tags)}</span>
               </span>
             : '')}
             actAsExpander
@@ -101,68 +131,44 @@ class LinkContractsListItem extends React.Component { // eslint-disable-line rea
           />
           : ''
         }
-        {direction === 'dual' ?
-          <CardHeader
-            className={`${styles.linkContractsListItem}`}
-            title={(fromAddress ?
-              <span>
-                <span className={`${styles.fromToTitle}`}>DUAL From:</span>&nbsp;
-                <span className={`${styles.fromToName}`}>{fromName}</span>&nbsp;
-                <span className={`${styles.fromToDid}`}>{fromDid}</span>
-              </span>
-            : '')}
-            subtitle={(tags ?
-              <span>
-                <span className={`${styles.fromToTitle}`}>tags:</span>&nbsp;
-                <span className={`${styles.fromTagsList}`}>{this.listTags(tags)}</span>
-              </span>
-            : '')}
-            actAsExpander
-            showExpandableButton
-            avatar={<ActionSpeakerNotesIcon color={color} style={iconStyles} />}
-          />
-          : ''
-        }
-        <CardActions>
-          {type === 'request' ?
+        <CardText expandable style={{ paddingBottom: 0 }}>
+          {(attributes ?
             <div>
-              <RaisedButton
-                label="Accept"
-                primary
-                style={buttonStyle}
-                onClick={() => acceptLinkRequest(id)}
-              />
-              <RaisedButton
-                label="Decline"
-                secondary
-                style={buttonStyle}
-                onClick={() => declineLinkContract(id)}
-              />
+              <div>
+                <span className={`${styles.title}`}>Attributes</span>&nbsp;
+                <div className={`${styles.attributesList}`}>{this.listAttributes(attributes)}</div>
+              </div>
+              <div>&nbsp;</div>
             </div>
-          :
+          : '')}
+
+          {(tags ?
             <div>
-              <RaisedButton
-                label="Remove"
-                secondary
-                style={buttonStyle}
-                onClick={() => deleteLinkContract(id)}
-              />
+              <div>
+                <span className={`${styles.title}`}>Tags</span>&nbsp;
+                <div className={`${styles.tagsList}`}>{this.listTags(tags)}</div>
+              </div>
+              <div>&nbsp;</div>
             </div>
-          }
-        </CardActions>
-        <CardText expandable>
-          Raw data
-          <TextField
-            id={`${fromAddress}:${toAddress}`}
-            hintText=""
-            multiLine
-            rows={5}
-            rowsMax={12}
-            fullWidth
-            value={JSON.stringify(data, null, 6)}
-            textareaStyle={{ backgroundColor: grey200 }}
-          />
+          : '')}
+
+          <div>
+            <div>Raw data</div>
+            <code className={`${styles.jsonCode}`}>
+              {dataJsonString}
+            </code>
+          </div>
         </CardText>
+        <CardActions>
+          <div>
+            <RaisedButton
+              label="Remove"
+              secondary
+              style={buttonStyle}
+              onClick={() => deleteLinkContract(id)}
+            />
+          </div>
+        </CardActions>
       </Card>
     );
   }

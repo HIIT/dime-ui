@@ -25,13 +25,10 @@ function parseGetLinkContractRequests(respond) {
     for (let i = 0; i < respond.length; i += 1) {
       const obj = {};
       obj.id = respond[i].address;
-      obj.fromName = '';
-      obj.fromDid = respond[i].from;
-      obj.fromAddress = respond[i].address;
-      obj.toName = '';
-      obj.toDid = respond[i].to;
-      obj.toDidPlusProfile = respond[i].operationVariables['{$get}'][0];
-      obj.toAddress = obj.toDid;
+      obj.from = respond[i].from;
+      obj.address = respond[i].address;
+      obj.to = respond[i].to;
+      obj.toPlusProfile = respond[i].operationVariables['{$get}'][0];
       obj.tags = [];
       const tagKeys = Object.keys(respond[i].publicData.data);
       for (const key of tagKeys) {
@@ -86,7 +83,7 @@ export function* getLinkContractRequests() { // action
 export function* sendLinkContractRequest(action) {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/requests/send/${encodeURIComponent(action.toAddress)}`;
+  const requestURL = `http://${url}/api/requests/send/${encodeURIComponent(action.address)}`;
   const options = {
     method: 'POST',
     headers: {
@@ -96,7 +93,7 @@ export function* sendLinkContractRequest(action) {
   try {
     const respond = yield call(request, requestURL, options);
     if (respond) {
-      yield put(sendLinkContractRequestLoaded(action.toAddress));
+      yield put(sendLinkContractRequestLoaded(action.address));
       yield put(clearAppError());
     }
   } catch (error) {
@@ -109,7 +106,7 @@ export function* sendLinkContractRequest(action) {
 export function* acceptLinkContractRequest(action) {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/requests/approve/${encodeURIComponent(action.fromAddress)}`;
+  const requestURL = `http://${url}/api/requests/approve/${encodeURIComponent(action.address)}`;
   const options = {
     method: 'POST',
     headers: {
@@ -131,7 +128,7 @@ export function* acceptLinkContractRequest(action) {
       if (respond) {
         linkContracts = parseGetLinkContracts(respond2);
       }
-      yield put(acceptLinkContractRequestLoaded(action.fromAddress, linkContracts));
+      yield put(acceptLinkContractRequestLoaded(action.address, linkContracts));
       yield put(clearAppError());
     }
   } catch (error) {
@@ -142,7 +139,7 @@ export function* acceptLinkContractRequest(action) {
 export function* declineLinkContractRequest(action) {
   const { token } = yield select(selectAuth());
   const { url } = yield select(selectAPI());
-  const requestURL = `http://${url}/api/requests/delete?address=${encodeURIComponent(action.fromAddress)}`;
+  const requestURL = `http://${url}/api/requests/delete?address=${encodeURIComponent(action.address)}`;
   const options = {
     method: 'POST',
     headers: {
@@ -154,7 +151,7 @@ export function* declineLinkContractRequest(action) {
     if (respond) {
       // yield put(getLinkContractRequests()); ??
       // yield put(getLinkContracts()); ??
-      yield put(declineLinkContractRequestLoaded(action.fromAddress));
+      yield put(declineLinkContractRequestLoaded(action.address));
       yield put(clearAppError());
     }
   } catch (error) {
@@ -170,14 +167,46 @@ function parseGetLinkContracts(respond) {
     for (let i = 0; i < respond.length; i += 1) {
       const obj = {};
       obj.id = respond[i].address;
-      obj.fromName = '';
-      obj.fromDid = respond[i].requestingAuthority;
-      obj.fromAddress = respond[i].address;
-      obj.toName = '';
-      obj.toDid = respond[i].authorizingAuthority;
-      obj.toAddress = respond[i].address;
+      obj.requestingAuthority = respond[i].requestingAuthority;
+      obj.address = respond[i].address;
+      obj.authorizingAuthority = respond[i].authorizingAuthority;
       obj.direction = respond[i].direction;
       obj.data = fromJS(respond[i]);
+
+      // Add information from private data if available
+      if (respond[i].privateData !== undefined) {
+        // Username
+        if (respond[i].privateData['#dime<#username>'] != null) {
+          obj.username = respond[i].privateData['#dime<#username>'];
+        }
+
+        // Email
+        if (respond[i].privateData['#dime<#email>'] != null) {
+          obj.email = respond[i].privateData['#dime<#email>'];
+        }
+
+        // Name
+        if (respond[i].privateData['#dime#profile<#Name>'] != null) {
+          obj.name = respond[i].privateData['#dime#profile<#Name>'];
+        }
+
+        // Tags & Attributes
+        obj.tags = [];
+        obj.attributes = {};
+        const tagKeyBase = '#dime#profile[<#tag>]';
+        const attributeKeyBase = '#dime#profile<#';
+        const keys = Object.keys(respond[i].privateData);
+        for (let j = 0; j < keys.length; j += 1) {
+          const key = keys[j];
+          if (key.startsWith(tagKeyBase)) {
+            obj.tags.push(respond[i].privateData[key]);
+          } else if (key.startsWith(attributeKeyBase)) {
+            const cleanedKey = key.substring(attributeKeyBase.length, key.length - 1);
+            obj.attributes[cleanedKey] = respond[i].privateData[key];
+          }
+        }
+      }
+
       results.push(obj);
     }
   }
@@ -211,7 +240,10 @@ export function* getLinkContracts() { // action
             },
           };
           const respond2 = yield call(request, requestURL2, options2);
-          respond[i].privateData = respond2;
+          respond[i].privateData = {};
+          if (respond2 && respond2.data) {
+            respond[i].privateData = respond2.data;
+          }
         }
       }
 

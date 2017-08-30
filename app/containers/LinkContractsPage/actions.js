@@ -37,46 +37,46 @@ export function loadLinkContractRequestsLoaded(linkContractRequests) {
   };
 }
 
-export function sendLinkContractRequest(toAddress) {
+export function sendLinkContractRequest(address) {
   return {
     type: SEND_LINKCONTRACT_REQUEST,
-    toAddress,
+    address,
   };
 }
 
-export function sendLinkContractRequestLoaded(toAddress) {
+export function sendLinkContractRequestLoaded(address) {
   return {
     type: SEND_LINKCONTRACT_REQUEST_SUCCESS,
-    toAddress,
+    address,
   };
 }
 
-export function acceptLinkContractRequest(fromAddress) {
+export function acceptLinkContractRequest(address) {
   return {
     type: ACCEPT_LINKCONTRACT_REQUEST,
-    fromAddress,
+    address,
   };
 }
 
-export function acceptLinkContractRequestLoaded(fromAddress, linkContracts) {
+export function acceptLinkContractRequestLoaded(address, linkContracts) {
   return {
     type: ACCEPT_LINKCONTRACT_REQUEST_SUCCESS,
-    fromAddress,
+    address,
     linkContracts,
   };
 }
 
-export function declineLinkContractRequest(fromAddress) {
+export function declineLinkContractRequest(address) {
   return {
     type: DECLINE_LINKCONTRACT_REQUEST,
-    fromAddress,
+    address,
   };
 }
 
-export function declineLinkContractRequestLoaded(fromAddress) {
+export function declineLinkContractRequestLoaded(address) {
   return {
     type: DECLINE_LINKCONTRACT_REQUEST_SUCCESS,
-    fromAddress,
+    address,
   };
 }
 

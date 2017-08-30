@@ -14,6 +14,7 @@ import {
   loadLinkContracts, searchLinkContracts, deleteLinkContract, loadProfiles,
 } from './actions';
 import requiresAuth from 'containers/RequiresAuth';
+import LinkContractRequestsList from 'components/LinkContractRequestsList';
 import LinkContractsList from 'components/LinkContractsList';
 import { Grid, Row, Col } from 'react-flexbox-grid/lib/index';
 import TextField from 'material-ui/TextField';
@@ -41,54 +42,38 @@ export class LinkContractsPage extends React.Component { // eslint-disable-line 
     super();
 
     this.state = {
-      value: '',
+      searchBoxValue: '',
+      linkContractRequestValue: '',
     };
-  }
-
-  foo = () => {
-
-  }
-
-  makeDummy = (entryType) => {
-    const obj = {
-      type: entryType,
-      fromDid: '=!:did:sov:V1e68J8fmvdsjPvSdRSqoC',
-      fromName: 'Marcus',
-      toDid: '=!:did:sov:NVJWBwL3ft3Sk7GKiNTcje',
-      toName: 'Max',
-      data: {
-        '#dime#work[<#tag>]<@~1>': 'astrophysics',
-        '#dime#work[<#tag>]<@~0>': 'astronomy',
-        '#dime<#email>': 'bob@dime.com',
-        '#dime<#role>': 'USER',
-        '#dime#work<#did>': '=!:did:sov:XQRLb4UUokjjGf7HGG9BC4',
-        '#dime<#username>': 'dimebob',
-      },
-    };
-    return obj;
   }
 
   handleSearchBoxChange = (event) => {
     this.setState({
-      value: event.target.value,
+      searchBoxValue: event.target.value,
     });
   };
 
   handleSearchBoxKeyDown = (event) => {
     if (event.key === 'Enter') {
-      this.props.searchLinkContracts(this.state.value);
+      this.props.searchLinkContracts(this.state.searchBoxValue);
+      this.setState({
+        searchBoxValue: '',
+      });
     }
   }
 
   handleSendLinkContractRequestChange = (event) => {
     this.setState({
-      value: event.target.value,
+      linkContractRequestValue: event.target.value,
     });
   };
 
   handleSendLinkContractRequestKeyDown = (event) => {
     if (event.key === 'Enter') {
-      this.props.sendLinkContractRequest(this.state.value);
+      this.props.sendLinkContractRequest(this.state.linkContractRequestValue);
+      this.setState({
+        linkContractRequestValue: '',
+      });
     }
   }
 
@@ -104,6 +89,7 @@ export class LinkContractsPage extends React.Component { // eslint-disable-line 
             onKeyDown={this.handleSearchBoxKeyDown}
             onChange={this.handleSearchBoxChange}
             fullWidth
+            value={this.state.searchBoxValue}
           />
         </Col>
       </Row>
@@ -122,6 +108,7 @@ export class LinkContractsPage extends React.Component { // eslint-disable-line 
             onKeyDown={this.handleSendLinkContractRequestKeyDown}
             onChange={this.handleSendLinkContractRequestChange}
             fullWidth
+            value={this.state.linkContractRequestValue}
           />
         </Col>
       </Row>
@@ -129,36 +116,23 @@ export class LinkContractsPage extends React.Component { // eslint-disable-line 
   }
 
   render() {
-    /* const requests = [];
-    for (let i = 0; i < 3; i += 1) {
-      requests.push(this.makeDummy('request'));
-    }
-
-    const contracts = [];
-    for (let i = 0; i < 3; i += 1) {
-      contracts.push(this.makeDummy('contract'));
-    } */
-
     return (
       <div className={`${styles.linkContractsPage}`}>
         <Grid>
-          {this.renderSearchBox()}
           {this.renderSendLinkContractRequest()}
           <Row>
             <Col xsOffset={2} xs={10} smOffset={4} sm={8} >
               <h2>Requests</h2>
-              <LinkContractsList
-                type="request"
+              <LinkContractRequestsList
                 initEntitiesList={this.props.loadLinkContractRequests}
-                linkContracts={this.props.linkContractRequests}
+                linkContractRequests={this.props.linkContractRequests}
                 search={this.foo}
-                acceptLinkRequest={this.props.acceptLinkContractRequest}
-                declineLinkContract={this.props.declineLinkContractRequest}
+                acceptLinkContractRequest={this.props.acceptLinkContractRequest}
+                declineLinkContractRequest={this.props.declineLinkContractRequest}
               />
 
               <h2>Link Contracts</h2>
               <LinkContractsList
-                type="contract"
                 initEntitiesList={this.props.loadLinkContracts}
                 linkContracts={this.props.linkContracts}
                 search={this.foo}

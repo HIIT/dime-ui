@@ -14,10 +14,7 @@ class LinkContractsList extends React.Component { // eslint-disable-line react/p
   static propTypes = {
     initEntitiesList: React.PropTypes.func,
     linkContracts: React.PropTypes.array,
-    acceptLinkRequest: React.PropTypes.func,
-    declineLinkContract: React.PropTypes.func,
     deleteLinkContract: React.PropTypes.func,
-    type: React.PropTypes.string,
   }
 
   constructor() {
@@ -32,27 +29,24 @@ class LinkContractsList extends React.Component { // eslint-disable-line react/p
   }
 
   render() {
-    const { linkContracts, acceptLinkRequest, declineLinkContract, deleteLinkContract } = this.props;
+    const { linkContracts, deleteLinkContract } = this.props;
 
-    const linkContractNodes = Object.keys(linkContracts).map((key) => (
+    const linkContractNodes = (linkContracts !== undefined ? Object.keys(linkContracts).map((key) => (
       <LinkContractsListItem
         key={key}
         id={linkContracts[key].id}
-        type={this.props.type}
-        fromDid={linkContracts[key].fromDid}
-        fromName={linkContracts[key].fromName}
-        fromAddress={linkContracts[key].fromAddress}
-        toDid={linkContracts[key].toDid}
-        toName={linkContracts[key].toName}
-        toAddress={linkContracts[key].toAddress}
+        authorizingAuthority={linkContracts[key].authorizingAuthority}
+        requestingAuthority={linkContracts[key].requestingAuthority}
         direction={linkContracts[key].direction}
+        name={linkContracts[key].name}
+        username={linkContracts[key].username}
+        email={linkContracts[key].email}
+        attributes={linkContracts[key].attributes}
         tags={linkContracts[key].tags}
         data={linkContracts[key].data}
-        acceptLinkRequest={acceptLinkRequest}
-        declineLinkContract={declineLinkContract}
         deleteLinkContract={deleteLinkContract}
       />
-      ));
+      )) : []);
 
     return (
       <div
