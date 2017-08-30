@@ -239,10 +239,14 @@ export function* getLinkContracts() { // action
               Authorization: `Basic ${token}`,
             },
           };
-          const respond2 = yield call(request, requestURL2, options2);
-          respond[i].privateData = {};
-          if (respond2 && respond2.data) {
-            respond[i].privateData = respond2.data;
+          try {
+            const respond2 = yield call(request, requestURL2, options2);
+            respond[i].privateData = {};
+            if (respond2 && respond2.data) {
+              respond[i].privateData = respond2.data;
+            }
+          } catch (error) {
+            respond[i].privateData = { error: 'Failed to load private data from the server.', debug: error };
           }
         }
       }
