@@ -30,6 +30,7 @@ function parseGetLinkContractRequests(respond) {
       obj.to = respond[i].to;
       obj.toPlusProfile = respond[i].operationVariables['{$get}'][0];
       obj.tags = [];
+      obj.direction = 'incoming'; // TODO: get this information from the server
       const tagKeys = Object.keys(respond[i].publicData.data);
       for (const key of tagKeys) {
         obj.tags.push(respond[i].publicData.data[key]);
